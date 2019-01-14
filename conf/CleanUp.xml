@@ -1,0 +1,10 @@
+<project >
+    
+    <target name="clean" description="clean up">
+        <delete dir="${basedir}" />
+    </target>
+              	
+    <!-- Default, run this -->
+    <target name="main" depends="clean" />
+	
+</project>

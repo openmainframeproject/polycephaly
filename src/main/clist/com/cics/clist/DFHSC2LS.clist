@@ -1,0 +1,53 @@
+# <copyright
+#     notice="cics-lm-source-program"
+#     pids="5655-Y04"
+#     years="2008,2015"
+#     crc="2517914970" >
+#
+#
+#     Licensed Materials - Property of IBM
+#
+#     5655-Y04
+#
+#     (C) Copyright IBM Corp. 2008, 2015 All Rights Reserved.
+#
+#     US Government Users Restricted Rights - Use, duplication or
+#     disclosure restricted by GSA ADP Schedule Contract with
+#     IBM Corp.
+#
+#     @{[**]copyright.years=2008, 2015}
+#
+#
+#     </copyright>
+
+# Script to invoke the DFHSC2LS java program
+#
+# Usage: DFHSC2LS java_dir_frag uss_dir_frag input_file service_overrides path_prefix
+#
+
+export PATH=/usr/lpp/${1#*,}/bin:$PATH
+
+cd $5/usr/lpp/cicsts/$2/lib/wsdl/
+
+export CLASSPATH=$4
+export CLASSPATH=$CLASSPATH:xsd.jar
+export CLASSPATH=$CLASSPATH:xsd.resources.jar
+export CLASSPATH=$CLASSPATH:common.jar
+export CLASSPATH=$CLASSPATH:common.resources.jar
+export CLASSPATH=$CLASSPATH:ecore.change.jar
+export CLASSPATH=$CLASSPATH:ecore.jar
+export CLASSPATH=$CLASSPATH:wsdl4j.jar
+export CLASSPATH=$CLASSPATH:XmlSchema.jar
+export CLASSPATH=$CLASSPATH:woden.jar
+export CLASSPATH=$CLASSPATH:dfjwsdl.jar
+export CLASSPATH=$CLASSPATH:com.ibm.cics.schema.util.jar
+export CLASSPATH=$CLASSPATH:../com.ibm.cics.domains.jar
+export CLASSPATH=$CLASSPATH:../bundle/dfjbundle.jar
+export CLASSPATH=$CLASSPATH:../pipeline/jettison-1.3.3.jar
+
+echo CLASSPATH: $CLASSPATH
+echo PATH: $PATH
+java -version
+echo "Note: Java version 1.7 or higher is required. A JCL REGION size of 300M or higher is required."
+
+java -Xms1024m -Xmx1024M -Xshareclasses:name=cicsAssistants_%G,nonfatal,groupAccess com.ibm.cics.wsdl.ws2ls.sc2ls $3.in
