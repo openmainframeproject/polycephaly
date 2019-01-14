@@ -6,7 +6,7 @@ Requires;
     - After downloading and installing IBM Aqua for Eclipse, add library "IBM JZOS Toolkit Library'
     - That should resolve any missing com.ibm.jzos.** classes
 - Add Groovy libraries
-- Add IBM DBB libaries
+- Add IBM DBB libaries, to developer and run, these routines require IBM DBB APIs.  
 
 ToDo:
 - Add documentation
