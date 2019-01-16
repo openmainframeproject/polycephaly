@@ -115,7 +115,7 @@ class ZosAppBuild {
 			repositoryClient.saveLogicalFiles(properties.collection, logicalFiles);
 			println(repositoryClient.getLastStatus())
 		}
-		
+		def totalNumLines = 0
 		def processCounter = 0
 		if (buildList.size() == 0)
 			println("** No files in build list.  Nothing to build.")
@@ -139,13 +139,23 @@ class ZosAppBuild {
 			def lnkEdit = new LinkEdit()
 			def mfs = new MFSGenUtility()
 			def sdf = new SDFGenUtility()
+			def lines = null
+			def numLines = 0
+			def buildFile
+			def tempFile
 			
 			println("** Invoking build scripts according to build order: ${buildOrder[1..-1].join(', ')}")
 			buildOrder.each { script ->
 		    	// Use the ScriptMappings class to get the files mapped to the build script
 				def buildFiles = ScriptMappings.getMappedList(script, buildList) 
 				buildFiles.each { file ->
-					def buildFile = "${properties.'src.zOS.dir'}/$file"
+					buildFile = "${properties.'src.zOS.dir'}/$file"
+					numLines = 0 
+					tempFile = new File(buildFile)
+					lines = tempFile.readLines()
+					numLines = lines.size()
+					totalNumLines = totalNumLines + numLines
+					
 					switch (script) {
 						case "Assembler":
 							asm.run([buildFile] as String[])
@@ -190,6 +200,7 @@ class ZosAppBuild {
 			}
 		}
 
+		println("total number of lines = $totalNumLines")
 		// generate build report
 		def (File jsonFile, File htmlFile) = tools.generateBuildReport()
 		

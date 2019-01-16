@@ -15,6 +15,7 @@ class LinkEdit {
 		
 		// receive passed arguments
 		def file = args[0]
+		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
@@ -32,7 +33,7 @@ class LinkEdit {
 		/********************************************************************************
 		 *  Building the LinkEdit step
 		 ********************************************************************************/
-		def lkedcntl = properties.getFileProperty("LKEDCNTL", file)
+		def lkedcntl = properties.getFileProperty("LKEDCNTL", fileName)
 		def lkedMember
 		if (lkedcntl != null) {
 			lkedMember = CopyToPDS.createMemberName(lkedcntl)
@@ -42,7 +43,7 @@ class LinkEdit {
 		
 		// define the MVSExec command to link edit the program
 		// create the appropriate compile parm list
-		def linkOpts = properties.getFileProperty("LinkOpts", file)
+		def linkOpts = properties.getFileProperty("LinkOpts", fileName)
 		if (linkOpts == null) {
 			linkOpts = properties.DefaultLinkEditOpts
 		}

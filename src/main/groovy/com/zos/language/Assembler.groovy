@@ -54,6 +54,7 @@ class Assembler {
 		
 		// receive passed arguments
 		def file = args[0]
+		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
@@ -79,7 +80,7 @@ class Assembler {
 		def logicalFile = resolver.getLogicalFile()
 		
 		// Process Assembler routine
-		def assemblerParms = properties.getFileProperty("AssemblerOpts", file)
+		def assemblerParms = properties.getFileProperty("AssemblerOpts", fileName)
 		if (assemblerParms == null) {
 			assemblerParms = properties.DefaultAssemblerCompileOpts
 		}
@@ -117,8 +118,8 @@ class Assembler {
 		assemble.copy(new CopyToHFS().ddName("SYSPRINT").file(logFile).hfsEncoding(properties.logEncoding).append(true))
 	
 		// define the MVSExec command to link edit the program
-		def linkOpts = properties.getFileProperty("LinkOpts", file)
-		def lkedcntl = properties.getFileProperty("LKEDCNTL", file)
+		def linkOpts = properties.getFileProperty("LinkOpts", fileName)
+		def lkedcntl = properties.getFileProperty("LKEDCNTL", fileName)
 		if (linkOpts == null) {
 			linkOpts = properties.DefaultLinkEditOpts
 		}

@@ -14,6 +14,7 @@ class CobolCompile {
 	public void run(args) {
 		
 		def file = args[0]
+		def fileName = new File(file).getName().toString()
 		//* Building src/main/zOS/com/zos/cobol/App1/k164baco.cbl using com.zos.groovy.utilities.CobolCompile.groovy script
 		 println("* Building $file using ${this.class.getName()}.groovy script")
 		
@@ -34,7 +35,8 @@ class CobolCompile {
 		def member = CopyToPDS.createMemberName(file)
 		def logFile = new File("${properties.workDir}/${member}.log")
 		def xpedParms
-		def xpedCheck = properties.getFileProperty("Xpediter", file)
+		def xpedCheck = properties.getFileProperty("Xpediter", fileName)
+		//println("Xpediter check = $xpedCheck for file = $fileName")
 		if (xpedCheck != null) {
 			xpedParms = properties.DefaultXpediterCompileOpts
 			AddXpediter = true
@@ -56,8 +58,8 @@ class CobolCompile {
 		
 		// determine Compiler Options and Library version
 
-		def compileV4Parms = properties.getFileProperty("Cobolv4Opts", file)
-		def compileV6Parms = properties.getFileProperty("Cobolv6Opts", file)
+		def compileV4Parms = properties.getFileProperty("Cobolv4Opts", fileName)
+		def compileV6Parms = properties.getFileProperty("Cobolv6Opts", fileName)
 		if (compileV4Parms != null) {
 			compileParms = compileV4Parms
 			compilerLibrary = properties.SIGYCOMPV4
@@ -205,7 +207,7 @@ class CobolCompile {
 		/********************************************************************************
 		 *  Building the LinkEdit step
 		 ********************************************************************************/
-		def lkedcntl = properties.getFileProperty("LKEDCNTL", file)
+		def lkedcntl = properties.getFileProperty("LKEDCNTL", fileName)
 		def lkedMember
 		if (lkedcntl != null) {
 			lkedMember = CopyToPDS.createMemberName(lkedcntl)
@@ -215,7 +217,7 @@ class CobolCompile {
 		
 		// define the MVSExec command to link edit the program
 		// create the appropriate compile parm list
-		def linkOpts = properties.getFileProperty("LinkOpts", file)
+		def linkOpts = properties.getFileProperty("LinkOpts", fileName)
 		if (linkOpts == null) {
 			linkOpts = properties.DefaultLinkEditOpts
 		}

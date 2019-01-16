@@ -17,6 +17,7 @@ class BMSProcessing {
 		
 		// receive passed arguments
 		def file = args[0] 
+		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
@@ -39,7 +40,7 @@ class BMSProcessing {
 		 *  Building the Copybook Generation step
 		 ********************************************************************************/
 		// Process Assembler routine
-		def bmsParms = properties.getFileProperty("BMSOpts", file)
+		def bmsParms = properties.getFileProperty("BMSOpts", fileName)
 		if (bmsParms == null) {
 			bmsParms = properties.DefaultBMScopybookGenOpts
 		}
@@ -71,7 +72,7 @@ class BMSProcessing {
 		 *  Building the Assemble step
 		 ********************************************************************************/
 		// Process Assembler routine
-		def assemblerParms = properties.getFileProperty("AssemblerOpts", file)
+		def assemblerParms = properties.getFileProperty("AssemblerOpts", fileName)
 		if (assemblerParms == null) {
 			assemblerParms = properties.DefaultAssemblerCompileOpts
 		}
@@ -105,14 +106,14 @@ class BMSProcessing {
 		/********************************************************************************
 		 *  Building the LinkEdit step
 		 ********************************************************************************/
-		def lkedcntl = properties.getFileProperty("LKEDCNTL", file)
+		def lkedcntl = properties.getFileProperty("LKEDCNTL", fileName)
 		def lkedMember
 		if (lkedcntl != null) {
 			lkedMember = CopyToPDS.createMemberName(lkedcntl)
 			//println("with $fileName - copying ${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl to ${properties.linkPDS}($lkedMember)")
 			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl")).dataset(properties.linkPDS).member(lkedMember).execute()
 		}
-		def linkOpts = properties.getFileProperty("LinkOpts", file)
+		def linkOpts = properties.getFileProperty("LinkOpts", fileName)
 		if (linkOpts == null) {
 			linkOpts = properties.DefaultLinkEditOpts
 		}
