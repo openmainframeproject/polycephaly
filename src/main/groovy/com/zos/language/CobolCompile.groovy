@@ -3,7 +3,7 @@ package com.zos.language
 import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
 import com.ibm.dbb.build.*
-import com.wsfg.zos.groovy.utilities.*
+import com.zos.groovy.utilities.*
 
 class CobolCompile {
 
@@ -14,7 +14,7 @@ class CobolCompile {
 	public void run(args) {
 		
 		def file = args[0]
-		//* Building src/main/zOS/com/wsfg/cobol/App1/k164baco.cbl using com.wsfg.zos.groovy.utilities.CobolCompile.groovy script
+		//* Building src/main/zOS/com/zos/cobol/App1/k164baco.cbl using com.zos.groovy.utilities.CobolCompile.groovy script
 		 println("* Building $file using ${this.class.getName()}.groovy script")
 		
 		def AddXpediter = false
@@ -298,7 +298,7 @@ class CobolCompile {
 		*/
 		 
 		def propsWrite = null;
-		def prefix = "${properties.workDir}/${properties.'src.zOS.dir'}/${properties.'wsfg.parmlib'}"
+		def prefix = "${properties.workDir}/${properties.'src.zOS.dir'}/${properties.'zos.parmlib'}"
 		def prefixDir = new File(prefix)
 		if (!prefixDir.exists()) {
 			prefixDir.mkdirs()

@@ -3,7 +3,6 @@ package com.jenkins.zos.file;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-
 import com.ibm.jzos.FileFactory;
 
 /**

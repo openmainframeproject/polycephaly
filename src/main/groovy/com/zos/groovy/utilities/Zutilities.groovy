@@ -48,7 +48,7 @@ class Zutilities {
 		if (args[2] != null) {
 			prefix = args[2]
 		} else {
-			prefix = "${properties.workDir}/${properties.'src.zOS.dir'}/${properties.'wsfg.parmlib'}"
+			prefix = "${properties.workDir}/${properties.'src.zOS.dir'}/${properties.'zos.parmlib'}"
 		}
 		
 		if (args[3] != null) {
@@ -110,7 +110,7 @@ class Zutilities {
 		 */
 			// copy program to PDS
 			//println("Copying ${properties.workDir}/$file to $asmPDS($member)")
-			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}/${properties.'wsfg.parmlib'}/$dumpfile.${properties.parmSuffix}")).dataset(properties.parmlibPDS).member(member).execute()
+			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}/${properties.'zos.parmlib'}/$dumpfile.${properties.parmSuffix}")).dataset(properties.parmlibPDS).member(member).execute()
 	
 			// define the MVSExec command to compile the BMS map
 			def dssdump = new MVSExec().file(file).pgm(properties.adrdssuProgram)
@@ -133,7 +133,7 @@ class Zutilities {
 		 */
 			// copy program to PDS
 			//println("Copying ${properties.workDir}/$file to $asmPDS($member)")
-			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}/${properties.'wsfg.parmlib'}/$restfile.${properties.parmSuffix}")).dataset(properties.parmlibPDS).member(member).execute()
+			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}/${properties.'zos.parmlib'}/$restfile.${properties.parmSuffix}")).dataset(properties.parmlibPDS).member(member).execute()
 			
 			// define the MVSExec command to compile the BMS map
 			def dssrest = new MVSExec().file(restfile).pgm(properties.adrdssuProgram)

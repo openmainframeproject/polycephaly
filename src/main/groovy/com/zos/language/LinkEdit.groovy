@@ -3,7 +3,7 @@ package com.zos.language
 import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
 import com.ibm.dbb.build.*
-import com.wsfg.zos.groovy.utilities.*
+import com.zos.groovy.utilities.*
 
 class LinkEdit {
 

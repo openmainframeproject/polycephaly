@@ -18,7 +18,7 @@ class CicsApiBuild {
 	}
 	
 	/**
-	 * @param args[0] = file = src/main/zOS/com/wsfg/cicsapi/masterDiversion.cicsapi
+	 * @param args[0] = file = src/main/zOS/com/zos/cicsapi/masterDiversion.cicsapi
 	 * 
 	 * property files used
 	 * 		properties.workDir
@@ -62,7 +62,7 @@ class CicsApiBuild {
 	public void run(args) {
 		
 		def file = args[0]
-		// cicsBuildFile = src/main/zOS/com/wsfg/cicsapi/masterDiversion.cicsapi
+		// cicsBuildFile = src/main/zOS/com/zos/cicsapi/masterDiversion.cicsapi
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		// define local properties
 		def properties = BuildProperties.getInstance()
@@ -81,7 +81,7 @@ class CicsApiBuild {
 	}
 	
 	/**
-	 * @param args[0] = file = src/main/zOS/com/wsfg/cicsapi/masterDiversion.cicsapi
+	 * @param args[0] = file = src/main/zOS/com/zos/cicsapi/masterDiversion.cicsapi
 	 * 		ToDo: Move configuration params into property file
 	 * 		creates input files and calls executeJsonBuild
 	 * 		adds missing configuration params
@@ -224,7 +224,7 @@ class CicsApiBuild {
 	}
 	
 	/**
-	 * @param args[0] = file = src/main/zOS/com/wsfg/cicsapi/masterDiversion.cicsapi
+	 * @param args[0] = file = src/main/zOS/com/zos/cicsapi/masterDiversion.cicsapi
 	 * 
 	 * 		execute CICS Cobol to JSON script
 	 * 			Format &PATHPREF/usr/lpp/cicsts/&USSDIR/lib/wsdl/DFHSC2LS &JAVADIR &USSDIR &TMPDIR./&TMPFILE. &SERVICE &PATHPREF $3.in'

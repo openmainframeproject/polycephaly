@@ -3,7 +3,7 @@ package com.zos.language
 import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
 import com.ibm.dbb.build.*
-import com.wsfg.zos.groovy.utilities.*
+import com.zos.groovy.utilities.*
 
 class Compile {
 
@@ -17,7 +17,7 @@ class Compile {
 		// receive passed arguments
 		def file = args[0]
 		println("* Building $file using ${this.class.getName()}.groovy script")
-		//* Building src/main/zOS/com/wsfg/cobol/App1/k164baco.cbl using com.wsfg.zos.groovy.utilities.Compile.groovy script
+		//* Building src/main/zOS/com/zos/cobol/App1/k164baco.cbl using com.zos.groovy.utilities.Compile.groovy script
 		
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
 		// define local properties
