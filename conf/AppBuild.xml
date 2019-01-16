@@ -27,19 +27,13 @@
         </fileset>
     </path>
 	
-    <taskdef name="zJenkins" classpathref="classpath.zJenkins" classname="com.wsfg.zos.groovy.utilities.ZantBuild"/>
-	
-    <target name="compile.zOSApps" description="Compile Groovy source">
-        <zJenkins message="Hello World! My tasks works!" />
-    </target>
-    
     <target name="init">
         <tstamp />
         <mkdir dir="${bin.dir}" />
         <mkdir dir="${dist.dir}" />
     </target>
 
-    <target name="compile" depends="compile.zOSApps" description="Compile Java source">
+    <target name="compile" depends="init" description="Compile Java source">
         <javac includeantruntime="false" 
                 srcdir="${src.java.dir}" 
                 destdir="${bin.dir}" >

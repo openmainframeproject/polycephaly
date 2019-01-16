@@ -7,7 +7,7 @@ import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
 import com.ibm.dbb.build.*
 import org.junit.After
-import com.wsfg.zos.groovy.utilities.*
+import com.zos.groovy.utilities.*
 
 /**
  * @author gedgingt
@@ -15,7 +15,7 @@ import com.wsfg.zos.groovy.utilities.*
  * Date: 2018/11/07
  * 
  * Example file = args[0]
- * src/main/zOS/com/wsfg/cobol/App1/k164bacd.dual
+ * src/main/zOS/com/zos/cobol/App1/k164bacd.dual
  * 
  * Rules:
  * 		For Online 
@@ -24,8 +24,8 @@ import com.wsfg.zos.groovy.utilities.*
  *		For Batch
  *			- k164bacb
  *			- remove all the % in column 7
- *		k164baco save to /com/wsfg/cobol/App1/k164baco.cbl
- *		k164bacb save to /com/wsfg/cobol/App1/k164bacb.cbl
+ *		k164baco save to /com/zos/cobol/App1/k164baco.cbl
+ *		k164bacb save to /com/zos/cobol/App1/k164bacb.cbl
   *
  *  	- input file
  *  		properties.DualCompileDeleteLineBuildOnline 
@@ -51,11 +51,11 @@ class DualCompiles {
 		// receive passed arguments
 		def file = args[0]
 		println("* Building $file using ${this.class.getName()}.groovy script")
-		//* Building src/main/zOS/com/wsfg/cobol/App1/k164bacd.dual using com.wsfg.zos.groovy.utilities.DualCompiles.groovy script
+		//* Building src/main/zOS/com/zos/cobol/App1/k164bacd.dual using com.zos.groovy.utilities.DualCompiles.groovy script
 
-		//* 	src/main/zOS/com/wsfg/cobol/App1/k164bacd.dual
-		//*	to  src/main/zOS/com/wsfg/cobol/App1/k164baco.cbl
-		//*	to	src/main/zOS/com/wsfg/cobol/App1/k164bacb.cbl
+		//* 	src/main/zOS/com/zos/cobol/App1/k164bacd.dual
+		//*	to  src/main/zOS/com/zos/cobol/App1/k164baco.cbl
+		//*	to	src/main/zOS/com/zos/cobol/App1/k164bacb.cbl
 		
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
 		

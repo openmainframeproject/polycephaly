@@ -20,7 +20,7 @@ class CicsWsBuild {
 	}
 
 	/**
-	* @param args[0] = file = src/main/zOS/com/wsfg/cicsapi/masterDiversion.cicsapi
+	* @param args[0] = file = src/main/zOS/com/zos/cicsapi/masterDiversion.cicsapi
 	*
 	* property files used
 	* 		properties.workDir
@@ -62,7 +62,7 @@ class CicsWsBuild {
 		def properties = BuildProperties.getInstance()
 		
 		//println("cicsBuildFile = $file")
-		// cicsBuildFile = src/main/zOS/com/wsfg/cicsws/helloworld.cicsws
+		// cicsBuildFile = src/main/zOS/com/zos/cicsws/helloworld.cicsws
 		
 		properties.load(new File("${properties.workDir}/$file"),properties.Encoding)
 		properties.cicsBuildFile = file
