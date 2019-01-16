@@ -16,6 +16,7 @@ class MFSGenUtility {
 
 		// receive passed arguments
 		def file = args[0]
+		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
 		GroovyObject tools = (GroovyObject) Tools.newInstance()

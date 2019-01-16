@@ -16,6 +16,7 @@ class Compile {
 		
 		// receive passed arguments
 		def file = args[0]
+		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		//* Building src/main/zOS/com/zos/cobol/App1/k164baco.cbl using com.zos.groovy.utilities.Compile.groovy script
 		
@@ -45,7 +46,7 @@ class Compile {
 		
 		// create the appropriate compile parm list
 		
-		def compileParms = properties.getFileProperty("compileOpts", file)
+		def compileParms = properties.getFileProperty("compileOpts", fileName)
 		if (compileParms == null) {
 			compileParms = properties.DefaultCobolCompileOpts
 		}

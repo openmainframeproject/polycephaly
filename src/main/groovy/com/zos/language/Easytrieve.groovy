@@ -20,6 +20,7 @@ class Easytrieve {
 		
 		// receive passed arguments
 		def file = args[0]
+		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
@@ -42,7 +43,7 @@ class Easytrieve {
 		/**---------------------------
 		 *	Run Extrieve Compile
 		 */
-		def easytrieveParms = properties.getFileProperty("easytrieveOpts", file)
+		def easytrieveParms = properties.getFileProperty("easytrieveOpts", fileName)
 		if (easytrieveParms == null) {
 			easytrieveParms = properties.DefaultEasytrieveOpts
 		}
@@ -71,7 +72,7 @@ class Easytrieve {
 		/**---------------------------
 		 *  Run the LinkEdit Step
 		 */
-		def lkedcntl = properties.getFileProperty("LKEDCNTL", file)
+		def lkedcntl = properties.getFileProperty("LKEDCNTL", fileName)
 		def lkedMember
 		if (lkedcntl != null) {
 			lkedMember = CopyToPDS.createMemberName(lkedcntl)
@@ -79,7 +80,7 @@ class Easytrieve {
 			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl")).dataset(properties.linkPDS).member(lkedMember).execute()
 		}
 		
-		def linkOpts = properties.getFileProperty("LinkOpts", file)
+		def linkOpts = properties.getFileProperty("LinkOpts", fileName)
 		if (linkOpts == null) {
 			linkOpts = properties.DefaultLinkEditOpts
 		}
