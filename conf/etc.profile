@@ -101,9 +101,6 @@ JAVA_HOME=/usr/lpp/java/J8.0_64
 export JAVA_HOME
 TOOLS_HOME=/usr/lpp/tools
 export TOOLS_HOME
-WSFG_HOME=/usr/lpp/tools/wsfg
-export WSFG_HOME
-
 # ======================================================================
 #                     PATH environment variable
 #                     -------------------------
@@ -140,7 +137,6 @@ LIBPATH=$LIBPATH:$TOOLS_HOME/lib
 LIBPATH=$LIBPATH:$TOOLS_HOME/lib/perl5/5.24.0/os390/CORE
 LIBPATH=$LIBPATH:$DBB_HOME/lib
 LIBPATH=$LIBPATH:$GROOVY_HOME/lib
-LIBPATH=$LIBPATH:$WSFG_HOME/lib
 export LIBPATH
 
 # ===========================================
@@ -148,7 +144,6 @@ CLASSPATH=$JAVA_HOME/lib
 CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/ext
 CLASSPATH=$CLASSPATH:$DBB_HOME/lib
 CLASSPATH=$CLASSPATH:$GROOVY_HOME/lib
-CLASSPATH=$CLASSPATH:$WSFG_HOME/lib
 #
 export CLASSPATH
 # ======================================================================
@@ -321,7 +316,6 @@ export _BPX_SHAREAS=YES
  export GIT_SHELL=$TOOLS_HOME/bin/bash
  export GIT_EXEC_PATH=$TOOLS_HOME/libexec/git-core
  export GIT_TEMPLATE_DIR=$TOOLS_HOME/share/git-core/templates
-#git config --global core.editor vim
 
 # ######################################################################
 #       perl environment variables
