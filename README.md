@@ -8,6 +8,8 @@ Requires;
 - Add Groovy libraries
 - Add IBM DBB libaries, to developer and run, these routines require IBM DBB APIs.  
 
+See Wiki for more information, including installation, migration and customization 
+
 ToDo:
 - Add documentation
 - Complete SDFGenUtility, only one step setup
