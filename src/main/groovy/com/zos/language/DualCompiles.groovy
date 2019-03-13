@@ -128,12 +128,12 @@ class DualCompiles {
 		member = CopyToPDS.createMemberName(onlineFileName)
 		def logFile = new File("${properties.workDir}/${member}.log}")
 		def rc = cCompile.run([onlineFileName] as String[])
-		tools.updateBuildResult(file:"$member", rc:0, maxRC:0, log:logFile)
+		//tools.updateBuildResult(file:"$member", rc:0, maxRC:0, log:logFile)
 		
 		member = CopyToPDS.createMemberName(batchFileName)
 		logFile = new File("${properties.workDir}/${member}.log")
 		rc = cCompile.run([batchFileName] as String[])
-		tools.updateBuildResult(file:"$member", rc:0, maxRC:0, log:logFile)
+		//tools.updateBuildResult(file:"$member", rc:0, maxRC:0, log:logFile)
 		
 	}
 }

@@ -1,7 +1,5 @@
 package com.zos.groovy.utilities
 
-import com.zos.cics.groovy.utilities.CicsApiBuild
-import com.zos.cics.groovy.utilities.CicsWsBuild
 import com.ibm.dbb.build.*
 import com.ibm.dbb.build.report.*
 import com.ibm.dbb.repository.*
@@ -24,7 +22,7 @@ class ZosResBuild {
 	static main(args) {
 		
 	}
-	public boolean runBuild(args) {
+	public boolean execute(args) {
 
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
 		def startTime = new Date()

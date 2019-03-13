@@ -162,11 +162,11 @@ class Assembler {
 		
 		def rc = assemble.execute()
 		//println(" ran Assembly completed RC = $rc ")
-		tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		if (rc <= 4) {
 			rc = linkedit.execute()
 			//println(" running LinkEdit completed RC = $rc ")
-			tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+			//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		}
 		job.stop()
 	}

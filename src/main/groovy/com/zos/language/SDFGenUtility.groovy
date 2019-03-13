@@ -63,7 +63,7 @@ class SDFGenUtility {
 		
 		def rc = sdf2.execute()
 		//println(" ran Assembly completed RC = $rc ")
-		tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		
 		job.stop()
 	}

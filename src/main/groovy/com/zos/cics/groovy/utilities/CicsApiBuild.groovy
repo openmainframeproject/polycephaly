@@ -268,7 +268,7 @@ class CicsApiBuild {
 			rc = runShell.executeShell("sh ${properties.cicsDir}/${properties.json2cobol} $parm1 $parm2 $parm3")
 			
 			// update build result
-			tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+			//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 			
 		}
 		catch(Exception ec) {

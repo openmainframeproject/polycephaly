@@ -131,7 +131,7 @@ class Compile {
 		def rc = compile.execute()
 		
 		// update build result
-		tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		
 	}
 

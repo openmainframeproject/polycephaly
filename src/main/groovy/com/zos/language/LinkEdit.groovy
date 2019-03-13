@@ -64,7 +64,7 @@ class LinkEdit {
 		def rc = linkedit.execute()
 		
 		// update build result
-		tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
+		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
 		
 	}
 

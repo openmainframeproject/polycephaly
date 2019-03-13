@@ -76,7 +76,7 @@ class MFSGenUtility {
 		def rc = new MVSJob().executable(mfsPhase1).executable(mfsPhase2).maxRC(8).execute()
 		
 		// update build result
-		tools.updateBuildResult(file:"$file", rc:rc, maxRC:8, log:logFile)
+		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:8, log:logFile)
 
 	}
 
