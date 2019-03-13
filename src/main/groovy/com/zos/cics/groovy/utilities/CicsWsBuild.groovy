@@ -20,7 +20,7 @@ class CicsWsBuild {
 	}
 
 	/**
-	* @param args[0] = file = src/main/zOS/com/zos/cicsapi/masterDiversion.cicsapi
+	* @param args[0] = file = src/main/zOS/com/zos/cicsws/masterDiversion.cicsws
 	*
 	* property files used
 	* 		properties.workDir
@@ -214,7 +214,7 @@ class CicsWsBuild {
 			rc = runShell.executeShell("sh ${properties.cicsDir}/${properties.soap2cobol} $parm1 $parm2 $parm3")
 			
 			// update build result
-			tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+			//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 			
 		}
 		catch(Exception ec) {

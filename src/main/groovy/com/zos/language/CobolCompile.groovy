@@ -266,12 +266,12 @@ class CobolCompile {
 		
 		def rc = compile.execute()
 		//println(" ran Cobol Compile completed RC = $rc ")
-		tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		if (rc <= 4) {
 			//println(" running LinkEdit ")
 			rc = linkedit.execute()
 			//println(" running LinkEdit completed RC = $rc ")
-			tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+			//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		}
 		job.stop()
 		

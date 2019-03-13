@@ -31,7 +31,7 @@ class Copybook {
 	def rc = new CopyToPDS().file(new File("${properties.workDir}/$file")).dataset(properties.copybookPDS).member(member).execute()
 	
 	// update build result
-	tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
+	//tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
 	}
 	
 }

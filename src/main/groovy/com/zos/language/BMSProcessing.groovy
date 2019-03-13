@@ -172,7 +172,7 @@ class BMSProcessing {
 		//def rc = new MVSJob().executable(copybookGen).executable(assemble).executable(linkedit).maxRC(0).execute()
 		
 		// update build result
-		tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
+		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
 	}
 
 }
