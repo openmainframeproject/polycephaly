@@ -9,7 +9,7 @@
     myConnectType = 7 = HWI_IMAGE_GROUP                                     
 */                                                                          
 myConnectType = 1                                                           
-myConnectTypeValue  = 'IBM390PS.P00D5AF7' /* 17-char CPC name */            
+myConnectTypeValue  = 'IBM390PS.P00XXXXX' /* 17-char CPC name */            
                                                                             
 address bcpii                                                               
         "hwiconn Retcode myInConnectToken myOutConnectToken myConnectType   
