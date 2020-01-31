@@ -29,3 +29,5 @@ ToDo:
 - Add documentation
 - Complete SDFGenUtility, only one step setup
 - JCLCheck fails because the Java environment is not authorized. Need to switch to a different method
+
+SPDX-License-Identifier: CC-BY-4.0
