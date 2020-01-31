@@ -4,6 +4,14 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import com.ibm.jzos.FileFactory;
+/**
+* @author gedgingt
+* @version v4.0.0
+* Date 12/24/2018
+*
+* SPDX-License-Identifier: Apache-2.0 
+* SPDX-License-Identifier: CC-BY-4.0
+*/ 
 
 /**
  * Sample program that uses the FileFactory class to copy a text file or dataset.
