@@ -6,8 +6,7 @@ class Zconstants {
      * <br />
      * Contants used by zJenkins
      *
-     * SPDX-License-Identifier: Apache-2.0 
-     * SPDX-License-Identifier: CC-BY-4.0
+     * SPDX-License-Identifier: Apache-2.0
      *
      * @param n/a
      * @see n/a
