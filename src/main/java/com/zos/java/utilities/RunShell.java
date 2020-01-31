@@ -5,7 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
-
+/**
+* @author gedgingt
+* @version v4.0.0
+* Date 12/24/2018
+*
+* SPDX-License-Identifier: Apache-2.0 
+* SPDX-License-Identifier: CC-BY-4.0
+*/
 public class RunShell {
 	
 	public static int executeShell(String shellCmd) {
