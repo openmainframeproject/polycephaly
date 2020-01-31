@@ -11,7 +11,6 @@ import java.nio.file.Path;
 * Date 12/24/2018
 *
 * SPDX-License-Identifier: Apache-2.0 
-* SPDX-License-Identifier: CC-BY-4.0
 */
 public class RunShell {
 	
