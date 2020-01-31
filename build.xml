@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
 <project name="zJenkins" default="main" basedir=".">
     
     <property name="zJenkinsProjectName" value="zJenkins"></property>
