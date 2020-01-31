@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.zos.language
 
 import com.ibm.dbb.repository.*
@@ -8,11 +5,16 @@ import com.ibm.dbb.dependency.*
 import com.ibm.dbb.build.*
 import org.junit.After
 import com.zos.groovy.utilities.*
-
 /**
- * @author gedgingt
- * 
- * Date: 2018/11/07
+* @author gedgingt
+* @version v4.0.0
+* Date 12/24/2018
+*
+* SPDX-License-Identifier: Apache-2.0 
+* SPDX-License-Identifier: CC-BY-4.0
+*/
+	
+/**
  * 
  * Example file = args[0]
  * src/main/zOS/com/zos/cobol/App1/k164bacd.dual
