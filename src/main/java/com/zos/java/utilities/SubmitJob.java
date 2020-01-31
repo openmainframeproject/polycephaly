@@ -8,9 +8,13 @@ import com.ibm.jzos.FileFactory;
 import com.ibm.jzos.MvsJobSubmitter;
 
 /**
- * @author gedgingt
- *
- */
+* @author gedgingt
+* @version v4.0.0
+* Date 12/24/2018
+*
+* SPDX-License-Identifier: Apache-2.0 
+* SPDX-License-Identifier: CC-BY-4.0
+*/
 public class SubmitJob {
 
 	public static void sub(String[] args) throws IOException {
