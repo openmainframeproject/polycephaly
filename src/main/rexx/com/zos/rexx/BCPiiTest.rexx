@@ -9,7 +9,6 @@
     myConnectType = 7 = HWI_IMAGE_GROUP      
     
     SPDX-License-Identifier: Apache-2.0 
-    SPDX-License-Identifier: CC-BY-4.0
 */                                                                          
 myConnectType = 1                                                           
 myConnectTypeValue  = 'IBM390PS.P00XXXXX' /* 17-char CPC name */            
