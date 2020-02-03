@@ -1,4 +1,4 @@
-# zJenkins
+# Polycephaly 
 Groovy code to build z/OS source code files with Jenkins and Git
 
 Requires;
