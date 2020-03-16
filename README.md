@@ -1,6 +1,10 @@
-# Polycephaly 
-Groovy code to build z/OS source code files with Jenkins and Git
+![](https://github.com/openmainframeproject/artwork/blob/master/projects/polycephaly/polycephaly-color.svg)
+![GitHub](https://img.shields.io/github/license/openmainframeproject/polycephaly)
 
+# Polycephaly 
+This project can be used to build z/OS application using Jenkins and Git, with DBB, from any IDE.
+
+## Installation
 Requires;
 - IBM JZOS Toolkit Library, which can be downloaded from IBM Developer https://developer.ibm.com/mainframe/products/downloads/
     - After downloading and installing IBM Aqua for Eclipse
@@ -18,16 +22,12 @@ Requires;
 - Add Apache commons-cli-2.0.jar
 - Add jre.1.8.0_191
 
+## Contributing
+Anyone can contribute to the Polycephaly project - learn more at [CONTRIBUTING.md](CONTRIBUTING.md)
 
+## Governance
+Polycephaly is a project hosted by the [Open Mainframe Project](https://openmainframeproject.org). This project has established it's own processes for managing day-to-day processes in the project at [GOVERNANCE.md](GOVERNANCE.md).
 
-    
+## Reporting Issues
+To report a problem, you can open an [issue](https://github.com/openmainframeproject/polycephaly/issues) in repository against a specific workflow. If the issue is senstive in nature or a security related issue, please do not report in the issue tracker but instead email polycephaly-private@lists.openmainframeproject.org.
 
-
-See Wiki for more information, including installation, migration and customization 
-
-ToDo:
-- Add documentation
-- Complete SDFGenUtility, only one step setup
-- JCLCheck fails because the Java environment is not authorized. Need to switch to a different method
-
-SPDX-License-Identifier: CC-BY-4.0
