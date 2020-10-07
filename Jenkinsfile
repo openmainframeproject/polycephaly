@@ -23,5 +23,9 @@ node ('zOS') {
  	
 // Unable to convert a build step referring to "hudson.plugins.groovy.Groovy". Please verify and convert manually if required. 
 	}
+	stage('PrintENV') {
+        sh 'printenv'
+        echo "conf_dir = ${conf_dir}" 
+   }
 }
 }
