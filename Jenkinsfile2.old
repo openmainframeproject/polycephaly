@@ -14,6 +14,13 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
+		
+        stage('Maven_Build') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
+        
         stage("Build") {
             options {
                 timeout(time: 1, unit: "MINUTES")
