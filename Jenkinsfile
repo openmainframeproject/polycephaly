@@ -5,7 +5,7 @@ pipeline {
     	JavaHome = '/usr/lpp/java/J8.0_64'
     	zJenkinsProjectName = 'zJenkins'
     	ZosBuild = 'com.zos.groovy.utilities.ZosBuild'
-    	3rdparty_dir = '/usr/lpp/tools/lib'
+    	Other_dir = '/usr/lpp/tools/lib'
     	ddb_dir = '/usr/lpp/IBM/dbb/lib'
     	dbb_groovy_dir = ' /usr/lpp/IBM/dbb/groovy-2.4.12/lib'
     	conf_dir = '${basedir}/conf'
