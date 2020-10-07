@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    options {
+        timestamps()
+        ansiColor("xterm")
+    }
+
+    stages {
+    	stage("CheckOut")  {
+    		checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]]) 
+		}
+        stage("Build") {
+            options {
+                timeout(time: 1, unit: "MINUTES")
+            }
+            steps {
+                sh 'printf "\\e[31mSome code compilation here...\\e[0m\\n"'
+            }
+        }
+
+        stage("Test") {
+            options {
+                timeout(time: 2, unit: "MINUTES")
+            }
+            steps {
+                sh 'printf "\\e[31mSome tests execution here...\\e[0m\\n"'
+            }
+        }
+    }
+}
