@@ -1,5 +1,4 @@
 pipeline {
-timestamps {
 
 	environment {
     	USE_JDK = 'true'
@@ -12,21 +11,21 @@ timestamps {
     	conf_dir = '${basedir}/conf'
     
   	}
-
-node ('zOS') { 
-
-	stage ('Polycephaly - Checkout') {
- 	 checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]]) 
-	}
-	stage ('Polycephaly - Build') {
-	} 	
-
-    stage('PrintENV') {
-      steps {
-        sh 'printenv'
-        echo "conf_dir = ${conf_dir}" 
-      }
-    }
-}
-}   
+	timestamps {
+		node ('zOS') { 
+		
+			stage ('Polycephaly - Checkout') {
+		 	 checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]]) 
+			}
+			stage ('Polycephaly - Build') {
+			} 	
+		
+		    stage('PrintENV') {
+		      steps {
+		        sh 'printenv'
+		        echo "conf_dir = ${conf_dir}" 
+		      }
+		    }
+		}
+	}   
 }
