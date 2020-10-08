@@ -13,7 +13,7 @@ pipeline {
         DBBdir					= '/usr/lpp/IBM/dbb/lib'
         DBBGroovyDir			= '/usr/lpp/IBM/dbb/groovy-2.4.12/lib'
         confdir					= "${basedir}/conf"
-        srcfile 				= "${confdir}/GlobalAnt.properties"
+        props = readProperties  file: "${confdir}/Global.properties"
     }
    
     stages {
@@ -25,7 +25,14 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
-		
+	   	stage("Initialize")  { 
+	   		steps {
+                sh 'mkdir dir="${bindir}" '
+                sh 'mkdir dir="${distßdir}" '
+                echo "${zJenkins.lib.dir}" 
+            }
+	 
+		}
         stage('Java_Build') {
             steps {
                 sh 'java --version'
