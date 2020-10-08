@@ -11,7 +11,7 @@ pipeline {
         OtherProductsDir	  	= '/usr/lpp/tools/lib'
         DBBdir					= '/usr/lpp/IBM/dbb/lib'
         DBBGroovyDir			= '/usr/lpp/IBM/dbb/groovy-2.4.12/lib'
-        confdir					= '${basedir}/conf'
+        confdir					= "${basedir}/conf"
         srcfile 				= "${confdir}/GlobalAnt.properties"
     }
    
