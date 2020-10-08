@@ -4,7 +4,18 @@ pipeline {
     options {
         timestamps()
     }
-
+    
+    environment {
+        PolycephalyProjectName 	= 'Polycephaly'
+        main-class-ZosBuild    	= 'com.zos.groovy.utilities.ZosBuild'
+        OtherProductsDir	  	= '/usr/lpp/tools/lib'
+        DBB-dir					= '/usr/lpp/IBM/dbb/lib'
+        DBB-Groovy-Dir			= '/usr/lpp/IBM/dbb/groovy-2.4.12/lib'
+        conf.dir				= '${basedir}/conf'
+        srcfile 				= '${conf.dir}/GlobalAnt.properties'
+    }
+   
+ß
     stages {
     	stage("CheckOut")  {
     		options {
@@ -15,9 +26,9 @@ pipeline {
     		}	 
 		}
 		
-        stage('Maven_Build') {
+        stage('Java_Build') {
             steps {
-                sh 'mvn --version'
+                sh 'java --version'
             }
         }
         
