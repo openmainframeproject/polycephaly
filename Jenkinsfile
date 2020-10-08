@@ -48,6 +48,7 @@ pipeline {
             }
             steps {
                 sh 'printf "\\e[31mSome tests execution here...\\e[0m\\n"'
+                sh 'printf env'
             }
         }
     }
