@@ -43,7 +43,7 @@ pipeline {
             }
             steps {
                 sh 'printf "\\e[31mSome code compilation here...\\e[0m\\n"'
-                echo 'env'
+                sh 'printf env'
             }
         }
 
