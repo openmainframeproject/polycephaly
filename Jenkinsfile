@@ -1,31 +1,59 @@
-// Powered by Infostretch 
+pipeline {
+    agent any
 
-timestamps {
-
-	environment {
-    	USE_JDK = 'true'
-    	JavaHome = '/usr/lpp/java/J8.0_64'
-    	zJenkinsProjectName = 'zJenkins'
-    	ZosBuild = 'com.zos.groovy.utilities.ZosBuild'
-    	Other_dir = '/usr/lpp/tools/lib'
-    	ddb_dir = '/usr/lpp/IBM/dbb/lib'
-    	dbb_groovy_dir = ' /usr/lpp/IBM/dbb/groovy-2.4.12/lib'
-    	conf_dir = '${basedir}/conf'
+    options {
+        timestamps()
+    }
     
-  	}
+    environment {
+    	basedir					= '.'
+        PolycephalyProjectName 	= 'Polycephaly'
+        mainCclassZosBuild    	= 'com.zos.groovy.utilities.ZosBuild'
+        OtherProductsDir	  	= '/usr/lpp/tools/lib'
+        DBBdir					= '/usr/lpp/IBM/dbb/lib'
+        DBBGroovyDir			= '/usr/lpp/IBM/dbb/groovy-2.4.12/lib'
+        confdir					= "${basedir}/conf"
+        srcfile 				= "${confdir}/GlobalAnt.properties"
+    }
+   
+    stages {
+    	stage("CheckOut")  {
+    		options {
+    			 timeout(time: 1, unit: "MINUTES")
+    		}
+    		steps {
+    			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
+    		}	 
+		}
+		
+        stage('Java_Build') {
+            steps {
+                sh 'java --version'
+            }
+        }
+        
+        stage("Build") {
+            options {
+                timeout(time: 1, unit: "MINUTES")
+            }
+            steps {
+                sh 'printf "\\e[31mSome code compilation here...\\e[0m\\n"'
+                echo "srchfile = ${srcfile}"
+            }
+        }
 
-node ('zOS') { 
-
-	stage ('Polycephaly - Checkout') {
- 	 checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]]) 
-	}
-	stage ('Polycephaly - Build') {
- 	
-// Unable to convert a build step referring to "hudson.plugins.groovy.Groovy". Please verify and convert manually if required. 
-	}
-	stage('PrintENV') {
-        sh 'printenv'
-        echo "conf_dir = ${conf_dir}" 
-   }
-}
+        stage("Test") {
+            options {
+                timeout(time: 2, unit: "MINUTES")
+            }
+            steps {
+                sh 'printf "\\e[31mSome tests execution here...\\e[0m\\n"'
+            }
+        }
+    }
+  	post {
+		always {
+	            	emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+       	}
+    }
 }
