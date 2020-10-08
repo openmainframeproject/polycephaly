@@ -12,7 +12,7 @@ pipeline {
         DBBdir					= '/usr/lpp/IBM/dbb/lib'
         DBBGroovyDir			= '/usr/lpp/IBM/dbb/groovy-2.4.12/lib'
         confdir					= '${basedir}/conf'
-        srcfile 				= '${confßdir}/GlobalAnt.properties'
+        srcfile 				= '${confdir}/GlobalAnt.properties'
     }
    
     stages {
