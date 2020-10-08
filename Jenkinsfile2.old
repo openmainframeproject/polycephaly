@@ -15,7 +15,6 @@ pipeline {
         srcfile 				= '${conf.dir}/GlobalAnt.properties'
     }
    
-ß
     stages {
     	stage("CheckOut")  {
     		options {
