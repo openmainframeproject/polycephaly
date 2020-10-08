@@ -27,8 +27,8 @@ pipeline {
 		}
 	   	stage("Initialize")  { 
 	   		steps {
-                sh 'mkdir dir="${bindir}" '
-                sh 'mkdir dir="${distdir}" '
+                echo 'mkdir dir="${bindir}" '
+                echo 'mkdir dir="${distdir}" '
                 echo "${zJenkins.lib.dir}" 
             }
 	 
