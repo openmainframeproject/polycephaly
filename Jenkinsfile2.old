@@ -50,5 +50,10 @@ pipeline {
                 sh 'printf "\\e[31mSome tests execution here...\\e[0m\\n"'
             }
         }
+        post {
+			always {
+            	emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+        	}
+ 	   }
     }
 }
