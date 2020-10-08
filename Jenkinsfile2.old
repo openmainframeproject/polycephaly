@@ -7,11 +7,11 @@ pipeline {
     
     environment {
         PolycephalyProjectName 	= 'Polycephaly'
-        main-class-ZosBuild    	= 'com.zos.groovy.utilities.ZosBuild'
+        mainCclassZosBuild    	= 'com.zos.groovy.utilities.ZosBuild'
         OtherProductsDir	  	= '/usr/lpp/tools/lib'
-        DBB-dir					= '/usr/lpp/IBM/dbb/lib'
-        DBB-Groovy-Dir			= '/usr/lpp/IBM/dbb/groovy-2.4.12/lib'
-        conf.dir				= '${basedir}/conf'
+        DBBdir					= '/usr/lpp/IBM/dbb/lib'
+        DBBGroovyDir			= '/usr/lpp/IBM/dbb/groovy-2.4.12/lib'
+        confdir					= '${basedir}/conf'
         srcfile 				= '${conf.dir}/GlobalAnt.properties'
     }
    
