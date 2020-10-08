@@ -1,5 +1,5 @@
 pipeline {
-    agent { node {zOS}}
+    agent { node { label {zOS}}}
 
     options {
         timestamps()
