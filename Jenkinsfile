@@ -6,14 +6,7 @@ pipeline {
     }
     
     environment {
-    	basedir					= '.'
-        PolycephalyProjectName 	= 'Polycephaly'
-        mainCclassZosBuild    	= 'com.zos.groovy.utilities.ZosBuild'
-        OtherProductsDir	  	= '/usr/lpp/tools/lib'
-        DBBdir					= '/usr/lpp/IBM/dbb/lib'
-        DBBGroovyDir			= '/usr/lpp/IBM/dbb/groovy-2.4.12/lib'
-        confdir					= "${basedir}/conf"
-        props = readProperties  file: "${confdir}/Global.properties"
+
     }
    
     stages {
@@ -30,12 +23,7 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
-	   	stage("Initialize")  { 
-	   		steps {
-                println props
-            }
-	 
-		}
+
         stage('Java_Build') {
             steps {
                 sh 'java --version'
