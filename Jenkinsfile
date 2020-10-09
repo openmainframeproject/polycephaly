@@ -17,6 +17,11 @@ pipeline {
     }
    
     stages {
+    	stage("Environment")  {
+            steps {
+                sh 'printenv'
+            }	 
+		}
     	stage("CheckOut")  {
     		options {
     			 timeout(time: 1, unit: "MINUTES")
