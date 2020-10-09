@@ -6,7 +6,7 @@ pipeline {
     }
     
     environment {
-		def poly-dir = 'opt/lpp/polycephaly/bin'
+		polydir = '/opt/lpp/polycephaly/bin'
     }
    
     stages {
