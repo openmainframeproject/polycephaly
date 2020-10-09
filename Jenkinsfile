@@ -10,7 +10,7 @@ pipeline {
     }
    
     stages {
-    	stage("Environment")  {
+    	stage("Environment-before Checkout")  {
             steps {
                 sh 'printenv'
             }	 
@@ -23,10 +23,15 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
+		stage("Environment-after Checkout")  {
+            steps {
+                sh 'printenv'
+            }	 
+		}
 
         stage('Java_Build') {
             steps {
-                sh 'java --version'
+                sh 'ls -al'
             }
         }
         
