@@ -27,13 +27,13 @@ pipeline {
 		}
 	   	stage("Initialize")  { 
 	   		steps {
-                printf props."conf.dir"
+                println props."conf.dir"
             }
 	 
 		}
         stage('Java_Build') {
             steps {
-                java --version
+                sh 'java --version'
             }
         }
         
