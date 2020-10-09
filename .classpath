@@ -27,8 +27,6 @@
 	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/dbb.groovy_1.0.9.jar"/>
 	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/dbb.html_1.0.9.jar"/>
 	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/ibmjzos.jar"/>
-	<classpathentry kind="con" path="GROOVY_DSL_SUPPORT"/>
-	<classpathentry kind="con" path="GROOVY_SUPPORT"/>
 	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/ant-1.9.4.jar"/>
 	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/ant-antlr-1.9.4.jar"/>
 	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/ant-junit-1.9.4.jar"/>
