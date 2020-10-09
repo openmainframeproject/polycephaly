@@ -27,7 +27,7 @@ pipeline {
 		}
 	   	stage("Initialize")  { 
 	   		steps {
-                println props."conf.dir"
+                println props
             }
 	 
 		}
