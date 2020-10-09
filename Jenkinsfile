@@ -27,7 +27,7 @@ pipeline {
 		}
 	   	stage("Initialize")  { 
 	   		steps {
-                echo 'zJenkins Lib Dir = "${zJenkins.lib.dir}"' 
+                println props."conf.dir"
             }
 	 
 		}
@@ -42,7 +42,6 @@ pipeline {
                 timeout(time: 1, unit: "MINUTES")
             }
             steps {
-                sh 'printf "\\e[31mSome code compilation here...\\e[0m\\n"'
                 sh 'printenv'
             }
         }
@@ -58,7 +57,7 @@ pipeline {
     }
   	post {
 		always {
-	            	emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
+	        emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
        	}
     }
 }
