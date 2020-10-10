@@ -31,7 +31,7 @@ pipeline {
 
         stage('Java_Build') {
             steps {
-                sh 'ls -al'
+                sh 'java -version'
             }
         }
         
