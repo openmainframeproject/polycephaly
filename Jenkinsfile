@@ -65,6 +65,7 @@ pipeline {
                 sh 'printf "\\e[31mSome tests execution here...\\e[0m\\n"'
             }
         }
+    }
 	post {
 	    success {
 	      slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
