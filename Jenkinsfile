@@ -1,5 +1,5 @@
 pipeline {
-    agent { node { label 'zOS01' } }
+    agent { node { label 'zOS' } }
 
     options {
         timestamps()
@@ -10,10 +10,8 @@ pipeline {
     }
    
     stages {
-    	stage("Environment-before Checkout")  {
+    	stage("Start up Email")  {
             steps {
-                sh 'printenv'
-            // send to email
 	  			emailext (
 	      			subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
 	      			body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
