@@ -10,6 +10,15 @@ pipeline {
     }
    
     stages {
+    	stage("Build started") {
+    		  // send to email
+  			emailext (
+      			subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+      			body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+        		<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+      			recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+    		)
+    	}
     	stage("Environment-before Checkout")  {
             steps {
                 sh 'printenv'
@@ -55,7 +64,6 @@ pipeline {
     }
   	post {
 		always {
-	        emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
        	}
     }
 }
