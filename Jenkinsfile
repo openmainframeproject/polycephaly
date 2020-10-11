@@ -27,7 +27,8 @@ pipeline {
 	              <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
 	            recipientProviders: [[$class: 'DevelopersRecipientProvider']]
 	          )
-	      }
+	        }
+	    }
     	stage("CheckOut")  {
     		options {
     			 timeout(time: 1, unit: "MINUTES")
