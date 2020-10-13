@@ -54,10 +54,9 @@ pipeline {
             steps {
                 echo 'Hello, JDK'
                 sh '/usr/lpp/java/J8.0_64/bin/java -version'
-                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -classpath ${dbbDir}/*.jar -sourcepath ${srcJavaDir} -d classes ${srcJavaDir}/**/*.jar'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose ${srcJavaDir}/*.jar -classpath ${dbbDir}/*.jar -sourcepath ${srcJavaDir} -d classes '
             }
         }
-        
 
         stage("Test") {
             options {
