@@ -35,6 +35,7 @@ pipeline {
             steps {
                 echo 'Hello, JDK'
                 sh '/usr/lpp/java/J8.0_64/bin/java -version'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -target 1.8 -source 1.8 -bootclasspath ../../lib/*.jar -d tmpclasses src/*/java'
             }
         }
         
