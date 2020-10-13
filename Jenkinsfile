@@ -34,11 +34,14 @@ pipeline {
     		}	 
 		}
 		
-        stage("Initialize") {
+        stage("Make Classes directory") {
             steps {
             	if (!fileExists('classes')) {
  					sh 'mkdir classes'
 				}
+			}
+        stage("Make dist directory") {
+			steps {
 				if (!fileExists('dist')) {
  					sh 'mkdir dist'
 				}
