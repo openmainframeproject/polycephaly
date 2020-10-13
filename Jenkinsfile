@@ -40,7 +40,7 @@ pipeline {
         stage('Java_Build') {
             steps {
                 echo 'Hello, JDK'
-                sh 'java -version'
+                sh '/usr/lpp/java/J8.0_64/bin/java -version'
             }
         }
         
