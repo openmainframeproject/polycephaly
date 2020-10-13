@@ -39,7 +39,8 @@ pipeline {
 
         stage('Java_Build') {
             steps {
-                sh 'ls -al'
+                echo 'Hello, JDK'
+                sh 'java -version'
             }
         }
         
