@@ -40,6 +40,7 @@ pipeline {
  					sh 'mkdir classes'
 				}
 			}
+		}
         stage("Make dist directory") {
 			steps {
 				if (!fileExists('dist')) {
