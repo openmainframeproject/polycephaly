@@ -9,18 +9,20 @@ pipeline {
 		polydir 	= '/opt/lpp/polycephaly/bin'
 		ddbDir  	= '/opt/lpp/IBM/dbb/lib'
 		srcJavaDir 	= 'src/main/java'
-		MY_FILE 	= fileExists '/tmp/myfile'
+		binDir		= fileExists 'dist'
+		distDir		= fileExists 'classes'
+		
     }
 
     stages {
         stage('conditional if exists'){
-            when { expression { MY_FILE == 'true' } }
+            when { expression { binDir == 'true' } }
             steps {
                 echo "file exists"
             }
         }
         stage('conditional if not exists'){
-            when { expression { MY_FILE == 'false' } }
+            when { expression { binDir == 'false' } }
             steps {
                 echo "file does not exist"
             }
