@@ -9,6 +9,7 @@ pipeline {
 		polydir 	= '/opt/lpp/polycephaly/bin'
 		ddbDir  	= '/opt/lpp/IBM/dbb/lib'
 		srcJavaDir 	= 'src/main/java'
+		binJavaDir	= '
     }
    
     stages {
@@ -37,7 +38,7 @@ pipeline {
             steps {
                 echo 'Hello, JDK'
                 sh '/usr/lpp/java/J8.0_64/bin/java -version'
-                sh '/usr/lpp/java/J8.0_64/bin/javac -classpath ${dbbDir}/*.jar  ./${srcJavaDir}/**/*.jar'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -classpath ${dbbDir}/*.jar -sourcepath ./${srcJavaDir}/**/*.jar -d classes'
             }
         }
         
