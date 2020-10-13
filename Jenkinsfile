@@ -9,13 +9,30 @@ pipeline {
 		polydir 	= '/opt/lpp/polycephaly/bin'
 		ddbDir  	= '/opt/lpp/IBM/dbb/lib'
 		srcJavaDir 	= 'src/main/java'
+		MY_FILE = fileExists '/tmp/myfile'
     }
-   
+
     stages {
+        stage('conditional if exists'){
+            when { expression { MY_FILE == 'true' } }
+            steps {
+                echo "file exists"
+            }
+        }
+        stage('conditional if not exists'){
+            when { expression { MY_FILE == 'false' } }
+            steps {
+                echo "file does not exist"
+            }
+        }
+    	stage('Checkout') {
+            cleanDir(env.WORKSPACE)
+            checkoutComponents(env.COMPONENTS)
+            configuration = getConfiguration('BuildConfiguration.json')
+        }
+        
 	    stage ('Start') {
 	      steps {
-
-	
 	        // send to email
 	        emailext (
 	            subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
@@ -33,22 +50,6 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
-		
-        stage("Make Classes directory") {
-            steps {
-            	if (!fileExists('classes')) {
- 					sh 'mkdir classes'
-				}
-			}
-		}
-        stage("Make dist directory") {
-			steps {
-				if (!fileExists('dist')) {
- 					sh 'mkdir dist'
-				}
-            }
-        }
-
 		
         stage('Java_Build') {
             steps {
@@ -99,3 +100,4 @@ pipeline {
 	    }
     }
 }
+  
