@@ -36,8 +36,12 @@ pipeline {
 		
         stage("Initialize") {
             steps {
-                sh 'mkdir classes'
-                sh 'mkdir dist'
+            	if ( !fileExists 'classes' ) {
+ 					sh 'mkdir classes'
+				}
+				if ( !fileExists 'dist' ) {
+ 					sh 'mkdir dist'
+				}
             }
         }
 
