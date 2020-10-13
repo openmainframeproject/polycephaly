@@ -9,7 +9,7 @@ pipeline {
 		polydir 	= '/opt/lpp/polycephaly/bin'
 		ddbDir  	= '/opt/lpp/IBM/dbb/lib'
 		srcJavaDir 	= 'src/main/java'
-		MY_FILE = fileExists '/tmp/myfile'
+		MY_FILE 	= fileExists '/tmp/myfile'
     }
 
     stages {
@@ -24,11 +24,6 @@ pipeline {
             steps {
                 echo "file does not exist"
             }
-        }
-    	stage('Checkout') {
-            cleanDir(env.WORKSPACE)
-            checkoutComponents(env.COMPONENTS)
-            configuration = getConfiguration('BuildConfiguration.json')
         }
         
 	    stage ('Start') {
