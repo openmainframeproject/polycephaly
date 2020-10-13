@@ -39,7 +39,7 @@ pipeline {
 
         stage('Java_Build') {
             steps {
-                sh 'java '
+                sh 'ls -al'
             }
         }
         
