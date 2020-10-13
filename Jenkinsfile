@@ -31,12 +31,6 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
-		stage("Environment-after Checkout")  {
-            steps {
-                sh 'printenv'
-            }	 
-		}
-
         stage('Java_Build') {
             steps {
                 echo 'Hello, JDK'
@@ -59,6 +53,13 @@ pipeline {
             }
             steps {
                 sh 'printf "\\e[31mSome tests execution here...\\e[0m\\n"'
+            }
+        stage("Deploy") {
+            options {
+                timeout(time: 2, unit: "MINUTES")
+            }
+            steps {
+                sh 'printf "\\e[31m Deploy package...\\e[0m\\n"'
             }
         }
     }
