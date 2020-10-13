@@ -15,16 +15,18 @@ pipeline {
     }
 
     stages {
-        stage('conditional if exists'){
-            when { expression { binDir == 'true' } }
-            steps {
-                echo "file exists"
-            }
-        }
         stage('conditional if not exists'){
             when { expression { binDir == 'false' } }
             steps {
-                echo "file does not exist"
+                echo "directory bin does not exist"
+                sh 'mkdir dist'
+            }
+        }
+        stage('conditional if not exists'){
+            when { expression { distDir == 'false' } }
+            steps {
+                echo "directory classes does not exist"
+                sh 'mkdir classes'
             }
         }
         
