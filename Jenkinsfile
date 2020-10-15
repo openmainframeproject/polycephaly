@@ -63,12 +63,12 @@ pipeline {
         }
         stage('Build zOSUtilities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/polycephalyzOSUtilities/*.java'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -cp conf/@classpath -d bin src/main/java/polycephalyzOSUtilities/*.java'
             }
         }
         stage('Build zOSResBuild') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d bin src/main/zOS/polycephalyzOSResBuild/*.java' 
+                sh '/usr/lpp/java/J8.0_64/bin/javac -cp conf/@classpath  -d bin src/main/zOS/polycephalyzOSResBuild/*.java' 
             }
         }
         
