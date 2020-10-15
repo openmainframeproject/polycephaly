@@ -64,7 +64,7 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                sh 'printf "\\e[31mSome tests execution here...\\e[0m\\n"'
+                sh 'printf "\\Some tests execution here...\\e[0m\\n"'
             }
         }
         stage("Deploy") {
