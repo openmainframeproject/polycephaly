@@ -56,9 +56,19 @@ pipeline {
                 sh '/usr/lpp/java/J8.0_64/bin/java -version'
             }
         }
+        stage('Build Java Options') {
+            steps {
+                sh '/usr/lpp/java/J8.0_64/bin/javac conf/@java_options conf/@java_srcfiles'
+            }
+        }
+        stage('Build Sourcepath') {
+            steps {
+                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin -sourcepath src/main/java *.java'
+            }
+        }
         stage('Build zOSFile') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin src/main/java/polycephalyzOSFile/*.java'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin -sourcepath src/main/java src/main/java/polycephalyzOSFile/*.java'
             }
         }
         stage('Build zOSUtilities') {

@@ -1,0 +1,4 @@
+-verbose 
+-cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar 
+-d bin
+-sourcepath src/main/java
