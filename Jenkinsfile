@@ -68,7 +68,7 @@ pipeline {
         }
         stage('Build zOSResBuild') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -cp usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar -d bin src/main/zOS/polycephalyzOSResBuild/*.java' 
+                sh '/usr/lpp/java/J8.0_64/bin/javac -cp usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin src/main/zOS/polycephalyzOSResBuild/*.java' 
             }
         }
         stage('Build CICS Utilities') {
