@@ -58,7 +58,7 @@ pipeline {
         }
         stage('Build Java Options') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac @javaOptions @javaSrcfiles'
+                sh 'javac @conf/javaOptions @conf/javaSrcfiles'
             }
         }
         stage('Build Sourcepath') {
