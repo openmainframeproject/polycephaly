@@ -50,15 +50,39 @@ pipeline {
     		}	 
 		}
 		
-        stage('Java_Build') {
+		stage('Java Hello and version') {
             steps {
                 echo 'Hello, JDK'
                 sh '/usr/lpp/java/J8.0_64/bin/java -version'
+            }
+        }
+        stage('Build zOSFile') {
+            steps {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/polycephalyzOSFile/*.java'
+            }
+        }
+        stage('Build zOSUtilities') {
+            steps {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/polycephalyzOSUtilities/*.java'
+            }
+        }
+        stage('Build zOSResBuild') {
+            steps {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/zOS/polycephalyzOSResBuild/*.java' 
+            }
+        }
+        stage('Build CICS Utilities') {
+            steps {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/groovy/polycephalyCICSUtilities/*.groovy' 
+            }
+        }
+        stage('Build Languages') {
+            steps {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/groovy/polycephalyLanguages/*.groovy'
+            }
+        }
+        stage('Build zOS Groovy Utilities') {
+            steps {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/groovy/polycephalyzOSGroovyUtilities/*.groovy'   
             }
         }
