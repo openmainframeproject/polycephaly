@@ -55,7 +55,7 @@ pipeline {
                 echo 'Hello, JDK'
                 sh '/usr/lpp/java/J8.0_64/bin/java -version'
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin "src/main/java/polycephalyzOSFile/*.java"'
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin "src/main/java/polycephalyzOSFile.java
+                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin "src/main/java/polycephalyzOSFile.java"'
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin "src/main/java/polycephalyzOSUtilities/*.java"'
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin "src/main/java/polycephalyzOSUtilities.java"'
             }
