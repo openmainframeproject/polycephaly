@@ -49,52 +49,20 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
-		
-		stage('Java Hello and version') {
+        stage('Build Java source') {
             steps {
-                echo 'Hello, JDK'
-                sh '/usr/lpp/java/J8.0_64/bin/java -version'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -d bin src/main/java/**/*.java'
             }
         }
-        stage('Build Java Options') {
+        stage('Build zOS source') {
             steps {
-                sh 'javac @conf/javaOptions @conf/javaSrcfiles'
-            }
-        }
-        stage('Build Sourcepath') {
-            steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin -sourcepath src/main/java *.java'
-            }
-        }
-        stage('Build zOSFile') {
-            steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin -sourcepath src/main/java src/main/java/polycephalyzOSFile/*.java'
-            }
-        }
-        stage('Build zOSUtilities') {
-            steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin src/main/java/polycephalyzOSUtilities/*.java'
-            }
-        }
-        stage('Build zOSResBuild') {
-            steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin src/main/zOS/polycephalyzOSResBuild/*.java' 
+                sh '/usr/lpp/java/J8.0_64/bin/javac  -verbose -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar  -d bin src/main/zOS/**/*.java' 
             }
         }
         
-        stage('Build CICS Utilities') {
+        stage('Build Groovy Routines') {
             steps {
-                sh '/opt/lpp/IBM/dbb/groovy-2.4.12/bin/groovyc -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin src/main/groovy/polycephalyCICSUtilities/*.groovy' 
-            }
-        }
-        stage('Build Languages') {
-            steps {
-                sh '/opt/lpp/IBM/dbb/groovy-2.4.12/bin/groovyc -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin src/main/groovy/polycephalyLanguages/*.groovy'
-            }
-        }
-        stage('Build zOS Groovy Utilities') {
-            steps {
-                sh '/opt/lpp/IBM/dbb/groovy-2.4.12/bin/groovyc -verbose -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin src/main/groovy/polycephalyzOSGroovyUtilities/*.groovy'   
+                sh '/opt/lpp/IBM/dbb/groovy-2.4.12/bin/groovyc -verbose -d bin src/main/groovy/**/*.groovy' 
             }
         }
 
