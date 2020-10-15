@@ -1,4 +1,4 @@
-package com.zos.resbuild;
+package polycephalyzOSResBuild;
 
 import java.io.File;
 import java.io.FileInputStream;

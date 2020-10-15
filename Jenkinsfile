@@ -58,7 +58,7 @@ pipeline {
         }
         stage('Build zOSFile') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/polycephalyzOSFile/*.java'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -cp conf/@classpath -d bin src/main/java/polycephalyzOSFile/*.java'
             }
         }
         stage('Build zOSUtilities') {

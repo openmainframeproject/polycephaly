@@ -1,4 +1,4 @@
-package com.zos.resbuild;
+package polycephalyzOSResBuild;
 
 public class ZosUtilities {
 	

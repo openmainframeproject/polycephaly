@@ -1,4 +1,4 @@
-package com.zos.resbuild;
+package polycephalyzOSResBuild;
 
 import java.io.BufferedReader;
 import java.io.File;
