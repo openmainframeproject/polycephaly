@@ -69,17 +69,17 @@ pipeline {
 
         stage('Build CICS Utilities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/groovy/polycephalyCICSUtilities/*.groovy' 
+                sh '/opt/lpp/IBM/dbb/groovy-2.4.12/bin/groovyc -d bin src/main/groovy/polycephalyCICSUtilities/*.groovy' 
             }
         }
         stage('Build Languages') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/groovy/polycephalyLanguages/*.groovy'
+                sh '/opt/lpp/IBM/dbb/groovy-2.4.12/bin/groovyc -d bin src/main/groovy/polycephalyLanguages/*.groovy'
             }
         }
         stage('Build zOS Groovy Utilities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/groovy/polycephalyzOSGroovyUtilities/*.groovy'   
+                sh '/opt/lpp/IBM/dbb/groovy-2.4.12/bin/groovyc -d bin src/main/groovy/polycephalyzOSGroovyUtilities/*.groovy'   
             }
         }
         stage('Build zOSResBuild') {
