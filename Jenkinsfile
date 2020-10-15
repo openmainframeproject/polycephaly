@@ -54,7 +54,8 @@ pipeline {
             steps {
                 echo 'Hello, JDK'
                 sh '/usr/lpp/java/J8.0_64/bin/java -version'
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin "src/main/java"'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin "src/main/java/com/jenkins/zos/file/*.java"'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin "src/main/java/com/zos/java/utilities/*.java"'
             }
         }
 
