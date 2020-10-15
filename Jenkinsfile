@@ -9,7 +9,7 @@ pipeline {
 		polydir 	= '/opt/lpp/polycephaly/bin'
 		ddbDir  	= '/opt/lpp/IBM/dbb/lib'
 		srcJavaDir 	= 'src/main/java'
-		binDir		= fileExists 'dist'
+		binDir		= fileExists 'bin'
 		distDir		= fileExists 'classes'
 		
     }
@@ -19,7 +19,7 @@ pipeline {
             when { expression { binDir == 'false' } }
             steps {
                 echo "directory dist does not exist"
-                sh 'mkdir dist'
+                sh 'mkdir bin'
             }
         }
         stage('if directory classes exists'){
