@@ -66,11 +66,7 @@ pipeline {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/polycephalyzOSUtilities/*.java'
             }
         }
-        stage('Build zOSResBuild') {
-            steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -cp usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin src/main/zOS/polycephalyzOSResBuild/*.java' 
-            }
-        }
+
         stage('Build CICS Utilities') {
             steps {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/groovy/polycephalyCICSUtilities/*.groovy' 
@@ -84,6 +80,11 @@ pipeline {
         stage('Build zOS Groovy Utilities') {
             steps {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/groovy/polycephalyzOSGroovyUtilities/*.groovy'   
+            }
+        }
+        stage('Build zOSResBuild') {
+            steps {
+                sh '/usr/lpp/java/J8.0_64/bin/javac -cp .:usr/lpp/java/J8.0_64/lib/*.jar:usr/lpp/java/J8.0_64/lib/ext/*.jar:/opt/lpp/IBM/dbb/lib/*.jar -d bin src/main/zOS/polycephalyzOSResBuild/*.java' 
             }
         }
 
