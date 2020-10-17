@@ -1,7 +1,5 @@
 pipeline {
-    agent { node { label 'zOS' } 
-    	load "conf/Global.Properties"
-    }
+    agent { node { label 'zOS' } }
 
     options {
         timestamps()
@@ -27,7 +25,6 @@ pipeline {
 		polycephalyJar		= "${env.binDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
-		
 
     }
 
