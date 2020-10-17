@@ -36,12 +36,6 @@ pipeline {
                 cleanWs()
             }
         }
-        stage('Create Directories'){
-            steps {
-                sh "mkdir ${env.binDir}"
-                sh "mkdir ${env.classesDir}"
-            }
-        }
 	    stage ('Start') {
 	      steps {
 	        // send to email
@@ -58,7 +52,12 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
-		
+		stage('Create Directories'){
+            steps {
+                sh "mkdir ${env.binDir}"
+                sh "mkdir ${env.classesDir}"
+            }
+        }
         stage('Build zOS File utilities') {
             steps {
                 sh "${env.javaHome}/javac -d ${env.classesDir} ${env.srcJavaZosFile}/*.java"
