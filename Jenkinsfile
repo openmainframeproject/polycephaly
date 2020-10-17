@@ -74,14 +74,14 @@ pipeline {
                 sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar:./bin/polycephaly.jar -d classes src/main/groovy/com/zos/cics/groovy/utilities/*.groovy' 
             }
         }
-        stage('Build zOS Groovy Utilities') {
-            steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp bin/polycephaly.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d classes src/main/groovy/com/zos/groovy/utilities/*.groovy' 
-            }
-        }
         stage('Build zOS Languages') {
             steps {
                 sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 cp bin/polycephaly.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar  -d classes src/main/groovy/com/zos/language/*.groovy' 
+            }
+        }
+        stage('Build zOS Groovy Utilities') {
+            steps {
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp bin/polycephaly.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d classes src/main/groovy/com/zos/groovy/utilities/*.groovy' 
             }
         }
 
