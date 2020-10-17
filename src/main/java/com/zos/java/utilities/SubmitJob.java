@@ -1,4 +1,4 @@
-package com.zos.java.utlities;
+package com.zos.java.utilities;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -8,4 +8,4 @@
 *
 * SPDX-License-Identifier: Apache-2.0 
 */
-package com.zos.java.utlities;
+package com.zos.java.utilities;
