@@ -56,7 +56,7 @@ pipeline {
         }
         stage('Build zOS source') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar  -d bin src/main/zOS/**/*.java' 
+                sh '/usr/lpp/java/J8.0_64/bin/javac -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar  -d bin src/main/zOS/*/*/*/*.java' 
             }
         }
         
