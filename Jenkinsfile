@@ -29,6 +29,11 @@ pipeline {
     }
 
     stages {
+    	stage('Test using variables') {
+            steps {
+                sh 'env' 
+            }
+        }
         stage('if directory bin exists'){
             when { expression { binDirExists == 'false' } }
             steps {
@@ -56,20 +61,11 @@ pipeline {
 	        }
 	    }
     	stage("CheckOut")  {
-    		options {
-    			 timeout(time: 1, unit: "MINUTES")
-    		}
     		steps {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
-		stage('Test using variables') {
-            steps {
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-                sh 'env' 
-                sh "${env.javaHome}/java -version"
-            }
-        }
+		
         stage('Build zOS File utilities') {
             steps {
                 sh "${env.javaHome}/javac -d ${env.classesDir} ${env.srcJavaZosFile}/*.java"
