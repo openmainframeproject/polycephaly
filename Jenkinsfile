@@ -87,10 +87,16 @@ pipeline {
         stage('Add Languages to JAR') {
             steps {
                 sh '/usr/lpp/java/J8.0_64/bin/jar uf bin/polycephaly.jar -C classes . '
-          
+            }
+        }
         stage('Build zOS Groovy Utilities') {
             steps {
                 sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar:./bin/polycephaly.jar -d classes src/main/groovy/com/zos/groovy/utilities/*.groovy' 
+            }
+        }
+        stage('Add z/OS Groovy Utilities to JAR') {
+            steps {
+                sh '/usr/lpp/java/J8.0_64/bin/jar uf bin/polycephaly.jar -C classes . '
             }
         }
 
