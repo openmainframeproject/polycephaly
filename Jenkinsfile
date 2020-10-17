@@ -9,8 +9,8 @@ pipeline {
 		binDir				= fileExists 'bin'
 		classesDir			= fileExists 'classes'
 		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
-		javaHome			= '/usr/lpp/java/J8.0_64/bin/'
-		groovyHome			= '/u/jerrye/jenkins/groovy/bin/'
+		javaHome			= '/usr/lpp/java/J8.0_64/bin'
+		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		polycephalyJar		= 'bin/polycephaly.jar'
@@ -64,7 +64,7 @@ pipeline {
         }
         stage('Build zOS File utilities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d classes src/main/java/com/jenkins/zos/file/*.java'
+                sh "${env.javaHome}/javac -d classes ${env.srcJavaZosFile}/*.java"
             }
         }
         stage('Build zOS Java utilities') {
