@@ -92,7 +92,7 @@ pipeline {
         }
         stage('Build CICS Groovy Utilities') {
             steps {
-                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcZosCICSutil}/*.groovy"
+                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyCICSutil}/*.groovy"
             }
         }
         stage('Add CICS Groovy Utilities to JAR') {
