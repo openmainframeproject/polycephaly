@@ -49,20 +49,35 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
-        stage('Build Java source') {
+        stage('Build zOS File utilities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/*/*/*/*.java'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/com/jenkins/zos/file/*.java'
             }
         }
-        stage('Build zOS source') {
+        stage('Build zOS Java utilities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar  -d bin src/main/zOS/*/*/*/*.java' 
+                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/com/zos/java/utilities/*.java'
+            }
+        }
+        stage('Build zOS resbuild utlities') {
+            steps {
+                sh '/usr/lpp/java/J8.0_64/bin/javac -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar  -d bin src/main/zOS/com.zos.resbuild/*.java' 
             }
         }
         
-        stage('Build Groovy Routines') {
+        stage('Build CICS Groovy Utilities') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d bin src/main/groovy/*/*/*/*.groovy' 
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d bin src/main/groovy/com/zos/cics/groovy/utilities/*.groovy' 
+            }
+        }
+        stage('Build zOS Groovy Utilities') {
+            steps {
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d bin src/main/groovy/com/zos/groovy/utilities/*.groovy' 
+            }
+        }
+        stage('Build zOS Languages') {
+            steps {
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d bin src/main/groovy/com/zos/lanuage/*.groovy' 
             }
         }
 
