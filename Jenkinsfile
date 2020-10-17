@@ -45,7 +45,7 @@ pipeline {
             when { expression { classesDirExists == 'false' } }
             steps {
                 echo "directory classes does not exist"
-                sh 'mkdir ${env.classesDir}'
+                sh "mkdir ${env.classesDir}"
             }
         }
         
