@@ -66,7 +66,7 @@ pipeline {
         }
         stage('Create Java Jar file') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/jar cvf polycephaly.jar ./bin/com/*/*/*/*.class'
+                sh '/usr/lpp/java/J8.0_64/bin/jar cvf bin/polycephaly.jar bin/com/*/*/*/*.class'
             }
         }
         stage('Build CICS Groovy Utilities') {
