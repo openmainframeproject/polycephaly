@@ -5,18 +5,12 @@ pipeline {
         timestamps()
     }
     
-    environment {		
-		binDir				= fileExists 'bin'
-		classesDir			= fileExists 'classes'
-		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
-		javaHome			= '/usr/lpp/java/J8.0_64/bin/'
-		groovyHome			= '/u/jerrye/jenkins/groovy/bin/'
-		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
-		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
-		polycephalyJar		= 'bin/polycephaly.jar'
-		javaClassPath		= '$LCASSPATH:ibmjzos:dbbcore'
-		groovyClassPath		= '$CLASSPATH:javaClassPath:polycephalyJar'
-		
+    environment {
+		polydir 	= '/opt/lpp/polycephaly/bin'
+		ddbDir  	= '/opt/lpp/IBM/dbb/lib'
+		srcJavaDir 	= 'src/main/java'
+		binDir		= fileExists 'bin'
+		classesDir	= fileExists 'classes'
 		
     }
 
@@ -55,11 +49,6 @@ pipeline {
     			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch01']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
-		stage('Test using variables') {
-            steps {
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-            }
-        }
         stage('Build zOS File utilities') {
             steps {
                 sh '/usr/lpp/java/J8.0_64/bin/javac -d classes src/main/java/com/jenkins/zos/file/*.java'
