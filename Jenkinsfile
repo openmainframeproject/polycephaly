@@ -6,12 +6,9 @@ pipeline {
     }
     
     environment {	
-    
     	
     	binDir				= 'bin'
     	classesDir			= 'classes'	
-		binDirExists		= fileExists "${env.binDir}"
-		classesDirExists	= fileExists "${env.classesDir}"
 		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
 		srcJavaZosUtil		= 'src/main/java/com/zos/java/utilities'
 		srcZosResbiuld		= 'src/main/zOS/com.zos.resbuild'
@@ -40,14 +37,14 @@ pipeline {
             }
         }
         stage('if directory bin exists'){
-            when { expression { binDirExists == 'false' } }
+            when { expression { fileExists "${env.binDir}" == 'false' } }
             steps {
                 echo "directory dist does not exist"
                 sh "mkdir ${env.binDir}"
             }
         }
         stage('if directory classes exists'){
-            when { expression { classesDirExists == 'false' } }
+            when { expression { fileExists "${env.classesDir}" == 'false' } }
             steps {
                 echo "directory classes does not exist"
                 sh "mkdir ${env.classesDir}"
