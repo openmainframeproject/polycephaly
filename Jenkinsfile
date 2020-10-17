@@ -7,6 +7,7 @@ pipeline {
     
     environment {	
     
+    	load "conf/Global.Properties"
     	binDir				= 'bin'
     	classesDir			= 'classes'	
 		binDirExists		= fileExists "${env.binDir}"
