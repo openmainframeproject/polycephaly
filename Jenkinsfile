@@ -23,7 +23,7 @@ pipeline {
 		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		polycephalyJar		= "${env.binDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
-		groovyClassPath		= "${env.javaClassPath}:/${env.polycephalyJar}"
+		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		
 
     }
