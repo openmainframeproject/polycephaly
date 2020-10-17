@@ -14,8 +14,8 @@ pipeline {
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		polycephalyJar		= 'bin/polycephaly.jar'
-		javaClassPath		= '$CLASSPATH:${env.ibmjzos}:${env.dbbcore}'
-		groovyClassPath		= '$CLASSPATH:${env.javaClassPath}:${env.polycephalyJar}'
+		javaClassPath		= "$CLASSPATH:${env.ibmjzos}:${env.dbbcore}"
+		groovyClassPath		= "$CLASSPATH:${env.javaClassPath}:${env.polycephalyJar}"
 		
 
     }
