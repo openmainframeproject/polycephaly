@@ -21,9 +21,9 @@ pipeline {
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
-		polycephalyJar		= '/polycephaly.jar'
+		polycephalyJar		= "${env.binDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
-		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
+		groovyClassPath		= "${env.javaClassPath}:/${env.polycephalyJar}"
 		
 
     }
@@ -87,7 +87,7 @@ pipeline {
         }
         stage('Create Java Jar file') {
             steps {
-                sh "${env.javaHome}/jar cvf ${env.binDir}/${env.polycephalyJar} -C ${env.classesDir} . "
+                sh "${env.javaHome}/jar cvf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
         stage('Build CICS Groovy Utilities') {
@@ -97,7 +97,7 @@ pipeline {
         }
         stage('Add CICS Groovy Utilities to JAR') {
             steps {
-                sh "${env.javaHome}/jar uf ${env.binDir}/${env.polycephalyJar} -C ${env.classesDir} . "
+                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
         stage('Build zOS Languages') {
@@ -107,7 +107,7 @@ pipeline {
         }
         stage('Add Languages to JAR') {
             steps {
-                sh "${env.javaHome}/jar uf ${env.binDir}/${env.polycephalyJar} -C ${env.classesDir} . "
+                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
         stage('Build zOS Groovy Utilities') {
@@ -117,7 +117,7 @@ pipeline {
         }
         stage('Add z/OS Groovy Utilities to JAR') {
             steps {
-                sh "${env.javaHome}/jar uf ${env.binDir}/${env.polycephalyJar} -C ${env.classesDir} . "
+                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
 
