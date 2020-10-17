@@ -34,6 +34,11 @@ pipeline {
                 sh 'env' 
             }
         }
+        stage('Clean workspace') {
+            steps {
+                cleanWs()
+            }
+        }
         stage('if directory bin exists'){
             when { expression { binDirExists == 'false' } }
             steps {
