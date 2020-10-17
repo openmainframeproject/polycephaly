@@ -76,12 +76,12 @@ pipeline {
         }
         stage('Build zOS Groovy Utilities') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047  -d classes -sourcepath src/main/groovy . ' 
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047  -d classes -sourcepath src/main/groovy com/zos/groovy/utilties/*.groovy' 
             }
         }
         stage('Build zOS Languages') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -d classes src/main/groovy/com/zos/lanuage/*.groovy' 
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -d classes src/main/groovy/com/zos/language/*.groovy' 
             }
         }
 
