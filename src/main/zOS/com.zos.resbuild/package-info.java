@@ -5,4 +5,4 @@
  * @author ge64297
  *
  */
-package polycephalyzOSResBuild;
+package com.zos.resbuid;

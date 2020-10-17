@@ -1,4 +1,4 @@
-package polycephalyzOSResBuild;
+package com.zos.resbuid;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
