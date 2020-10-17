@@ -14,10 +14,10 @@ pipeline {
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		polycephalyJar		= 'bin/polycephaly.jar'
-		javaClassPath		= '$LCASSPATH:ibmjzos:dbbcore'
-		groovyClassPath		= '$CLASSPATH:javaClassPath:polycephalyJar'
+		javaClassPath		= '$CLASSPATH:${ibmjzos}:${dbbcore}'
+		groovyClassPath		= '$CLASSPATH:${javaClassPath}:${polycephalyJar}'
 		
-		
+
     }
 
     stages {
@@ -58,6 +58,7 @@ pipeline {
 		stage('Test using variables') {
             steps {
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh 'env' 
             }
         }
         stage('Build zOS File utilities') {
