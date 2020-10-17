@@ -76,7 +76,7 @@ pipeline {
         }
         stage('Add CICS Groovy Utilities to JAR') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/jar uf bin/polycephaly.jar -C classes . '
+                sh '/usr/lpp/java/J8.0_64/bin/jar ufm bin/polycephaly.jar -C classes . '
             }
         }
         stage('Build zOS Languages') {
@@ -86,7 +86,7 @@ pipeline {
         }
         stage('Add Languages to JAR') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/jar uf bin/polycephaly.jar -C classes . '
+                sh '/usr/lpp/java/J8.0_64/bin/jar ufm bin/polycephaly.jar -C classes . '
             }
         }
         stage('Build zOS Groovy Utilities') {
@@ -96,7 +96,7 @@ pipeline {
         }
         stage('Add z/OS Groovy Utilities to JAR') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/jar uf bin/polycephaly.jar -C classes . '
+                sh '/usr/lpp/java/J8.0_64/bin/jar ufm bin/polycephaly.jar -C classes . '
             }
         }
 

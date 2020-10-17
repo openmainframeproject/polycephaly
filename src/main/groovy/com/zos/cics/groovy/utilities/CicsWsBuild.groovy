@@ -1,7 +1,7 @@
 /**
  * 
  */
-package polycephalyCICSUtilities
+package com.zos.cics.groovy.utilities
 
 import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
