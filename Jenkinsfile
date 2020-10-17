@@ -5,15 +5,23 @@ pipeline {
         timestamps()
     }
     
-    environment {		
-		binDir				= fileExists 'bin'
-		classesDir			= fileExists 'classes'
+    environment {	
+    
+    	binDir				= 'bin'
+    	classesDir			= 'classes'	
+		binDirExists		= fileExists "${env.binDir}"
+		classesDirExists	= fileExists "${env.classesDir}"
 		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
+		srcJavaZosUtil		= 'src/main/java/com/zos/java/utilities'
+		srcZosResbiuld		= 'src/main/zOS/com.zos.resbuild'
+		srcGroovyZosLang	= 'src/main/groovy/com/zos/language'
+		srcGrovoyZosUtil	= 'src/main/groovy/com/zos/groovy/utilities'
+		srcGroovyCICSutil	= 'src/main/groovy/com/zos/cics/groovy/utilities'
 		javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
-		polycephalyJar		= 'bin/polycephaly.jar'
+		polycephalyJar		= '/polycephaly.jar'
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		
@@ -22,17 +30,17 @@ pipeline {
 
     stages {
         stage('if directory bin exists'){
-            when { expression { binDir == 'false' } }
+            when { expression { binDirExists == 'false' } }
             steps {
                 echo "directory dist does not exist"
-                sh 'mkdir bin'
+                sh "mkdir ${env.binDir}"
             }
         }
         stage('if directory classes exists'){
-            when { expression { classesDir == 'false' } }
+            when { expression { classesDirExists == 'false' } }
             steps {
                 echo "directory classes does not exist"
-                sh 'mkdir classes'
+                sh 'mkdir ${env.classesDir}'
             }
         }
         
@@ -64,52 +72,52 @@ pipeline {
         }
         stage('Build zOS File utilities') {
             steps {
-                sh "${env.javaHome}/javac -d classes ${env.srcJavaZosFile}/*.java"
+                sh "${env.javaHome}/javac -d ${env.classesDir} ${env.srcJavaZosFile}/*.java"
             }
         }
         stage('Build zOS Java utilities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d classes src/main/java/com/zos/java/utilities/*.java'
+                sh "${env.javaHome}/javac -d ${env.classesDir} ${env.srcJavaZosUtil}/*.java"
             }
         }
         stage('Build zOS resbuild utlities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar  -d classes src/main/zOS/com.zos.resbuild/*.java' 
+                sh "${env.javaHome}/javac -cp .:${env.javaClassPath}  -d ${env.classesDir} ${env.srcZosResbiuld}/*.java"
             }
         }
         stage('Create Java Jar file') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/jar cvf bin/polycephaly.jar -C classes . '
+                sh "${env.javaHome}/jar cvf ${env.binDir}/${env.polycephalyJar}-C ${env.classesDir} . "
             }
         }
         stage('Build CICS Groovy Utilities') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar:./bin/polycephaly.jar -d classes src/main/groovy/com/zos/cics/groovy/utilities/*.groovy' 
+                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcZosCICSutil}/*.groovy"
             }
         }
         stage('Add CICS Groovy Utilities to JAR') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/jar uf bin/polycephaly.jar -C classes . '
+                sh "${env.javaHome}/jar uf ${env.binDir}/${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
         stage('Build zOS Languages') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar:./bin/polycephaly.jar  -d classes src/main/groovy/com/zos/language/*.groovy' 
+                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosLang}/*.groovy"
             }
         }
         stage('Add Languages to JAR') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/jar uf bin/polycephaly.jar -C classes . '
+                sh "${env.javaHome}/jar uf ${env.binDir}/${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
         stage('Build zOS Groovy Utilities') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar:./bin/polycephaly.jar -d classes src/main/groovy/com/zos/groovy/utilities/*.groovy' 
+                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d classes ${env.srcGrovoyZosUtil}/*.groovy"
             }
         }
         stage('Add z/OS Groovy Utilities to JAR') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/jar uf bin/polycephaly.jar -C classes . '
+                sh "${env.javaHome}/jar uf ${env.binDir}/${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
 
