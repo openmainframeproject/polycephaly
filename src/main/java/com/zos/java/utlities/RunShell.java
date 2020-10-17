@@ -1,4 +1,4 @@
-package polycephalyzOSUtilities;
+package com.zos.java.utlities;
 
 import java.io.BufferedReader;
 import java.io.IOException;

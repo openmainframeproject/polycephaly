@@ -6,4 +6,4 @@
  *
  * SPDX-License-Identifier: Apache-2.0 
  */
-package polycephalyCICSUtilities;
+package com.zos.cics.groovy.utilties;
