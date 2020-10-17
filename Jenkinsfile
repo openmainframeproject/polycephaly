@@ -62,7 +62,7 @@ pipeline {
         
         stage('Build Groovy Routines') {
             steps {
-                sh '/opt/lpp/IBM/dbb/groovy-2.4.12/bin/groovyc -verbose -d bin src/main/groovy/**/*.groovy' 
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc -verbose -d bin src/main/groovy/**/*.groovy' 
             }
         }
 
