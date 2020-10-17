@@ -87,7 +87,7 @@ pipeline {
         }
         stage('Create Java Jar file') {
             steps {
-                sh "${env.javaHome}/jar cvf ${env.binDir}/${env.polycephalyJar}-C ${env.classesDir} . "
+                sh "${env.javaHome}/jar cvf ${env.binDir}/${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
         stage('Build CICS Groovy Utilities') {
@@ -112,7 +112,7 @@ pipeline {
         }
         stage('Build zOS Groovy Utilities') {
             steps {
-                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d classes ${env.srcGrovoyZosUtil}/*.groovy"
+                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
             }
         }
         stage('Add z/OS Groovy Utilities to JAR') {
