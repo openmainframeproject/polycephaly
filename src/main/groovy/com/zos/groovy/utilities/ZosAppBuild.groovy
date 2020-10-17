@@ -8,6 +8,7 @@ import groovy.time.*
 import groovy.lang.GroovyClassLoader
 import groovy.lang.Script 
 import com.zos.language.*
+import com.zos.cics.groovy.utilities.*
 
 /**
 * @author gedgingt
