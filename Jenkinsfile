@@ -10,7 +10,7 @@ pipeline {
 		ddbDir  	= '/opt/lpp/IBM/dbb/lib'
 		srcJavaDir 	= 'src/main/java'
 		binDir		= fileExists 'bin'
-		distDir		= fileExists 'classes'
+		classesDir	= fileExists 'classes'
 		
     }
 
@@ -23,7 +23,7 @@ pipeline {
             }
         }
         stage('if directory classes exists'){
-            when { expression { distDir == 'false' } }
+            when { expression { classesDir == 'false' } }
             steps {
                 echo "directory classes does not exist"
                 sh 'mkdir classes'
@@ -51,37 +51,37 @@ pipeline {
 		}
         stage('Build zOS File utilities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/com/jenkins/zos/file/*.java'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -d classes src/main/java/com/jenkins/zos/file/*.java'
             }
         }
         stage('Build zOS Java utilities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -d bin src/main/java/com/zos/java/utilities/*.java'
+                sh '/usr/lpp/java/J8.0_64/bin/javac -d classes src/main/java/com/zos/java/utilities/*.java'
             }
         }
         stage('Build zOS resbuild utlities') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/javac -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar  -d bin src/main/zOS/com.zos.resbuild/*.java' 
+                sh '/usr/lpp/java/J8.0_64/bin/javac -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar  -d classes src/main/zOS/com.zos.resbuild/*.java' 
             }
         }
         stage('Create Java Jar file') {
             steps {
-                sh '/usr/lpp/java/J8.0_64/bin/jar cvf bin/polycephaly.jar bin/com/*/*/*/*.class'
+                sh '/usr/lpp/java/J8.0_64/bin/jar cvf bin/polycephaly.jar -C classes com/*/*/*/*.class'
             }
         }
         stage('Build CICS Groovy Utilities') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar:./bin/polycephaly.jar -d bin src/main/groovy/com/zos/cics/groovy/utilities/*.groovy' 
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar:./bin/polycephaly.jar -d classes src/main/groovy/com/zos/cics/groovy/utilities/*.groovy' 
             }
         }
         stage('Build zOS Groovy Utilities') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d bin src/main/groovy/com/zos/groovy/utilities/*.groovy' 
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d classes src/main/groovy/com/zos/groovy/utilities/*.groovy' 
             }
         }
         stage('Build zOS Languages') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d bin src/main/groovy/com/zos/lanuage/*.groovy' 
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d classes src/main/groovy/com/zos/lanuage/*.groovy' 
             }
         }
 
