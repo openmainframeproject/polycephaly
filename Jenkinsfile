@@ -62,7 +62,7 @@ pipeline {
         
         stage('Build Groovy Routines') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -d bin src/main/groovy/**/*.groovy' 
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -cp .:/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar:/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar -d bin src/main/groovy/**/*.groovy' 
             }
         }
 
