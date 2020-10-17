@@ -1,5 +1,7 @@
 pipeline {
-    agent { node { label 'zOS' } }
+    agent { node { label 'zOS' } 
+    	load "conf/Global.Properties"
+    }
 
     options {
         timestamps()
@@ -7,7 +9,7 @@ pipeline {
     
     environment {	
     
-    	load "conf/Global.Properties"
+    	
     	binDir				= 'bin'
     	classesDir			= 'classes'	
 		binDirExists		= fileExists "${env.binDir}"
