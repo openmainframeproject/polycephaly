@@ -37,14 +37,20 @@ pipeline {
             }
         }
         stage('if directory bin exists'){
-            when { expression { fileExists "${env.binDir}" == 'false' } }
+        	environment {
+    	   		binDirExists		= fileExists "${env.binDir}"
+        	}
+            when { expression { binDirExists == 'false' } }
             steps {
                 echo "directory dist does not exist"
                 sh "mkdir ${env.binDir}"
             }
         }
         stage('if directory classes exists'){
-            when { expression { fileExists "${env.classesDir}" == 'false' } }
+        	environment {
+				classesDirExists	= fileExists "${env.classesDir}" 
+        	}
+        	when { expression { classesDirExists == 'false' } }
             steps {
                 echo "directory classes does not exist"
                 sh "mkdir ${env.classesDir}"
