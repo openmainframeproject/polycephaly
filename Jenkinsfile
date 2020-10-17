@@ -62,7 +62,7 @@ pipeline {
         
         stage('Build Groovy Routines') {
             steps {
-                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -verbose -d bin src/main/groovy/**/*.groovy' 
+                sh '/u/jerrye/jenkins/groovy/bin/groovyc-1047 -d bin src/main/groovy/**/*.groovy' 
             }
         }
 
