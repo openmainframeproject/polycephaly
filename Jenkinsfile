@@ -80,13 +80,22 @@ pipeline {
                 sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
-        stage('Build Groovy Utilities') {
+        stage('Build Groovy CICS Utilities') {
             steps {
                 sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyCICSutil}/*.groovy"
+            }
+        }
+        stage('Add Groovy CICS Utilities to JAR') {
+            steps {
+                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
+            }
+        }
+        stage('Build Groovy zOS Utilities') {
+            steps {
                 sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
             }
         }
-        stage('Add Groovy Utilities to JAR') {
+        stage('Add Groovy ZOS Utilities to JAR') {
             steps {
                 sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
