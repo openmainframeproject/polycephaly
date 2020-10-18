@@ -26,11 +26,6 @@ pipeline {
     }
 
     stages {
-    	stage('Test using variables') {
-            steps {
-                sh 'env' 
-            }
-        }
         stage('Clean workspace') {
             steps {
                 cleanWs()
