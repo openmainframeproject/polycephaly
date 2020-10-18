@@ -58,18 +58,10 @@ pipeline {
                 sh "mkdir ${env.classesDir}"
             }
         }
-        stage('Build zOS File utilities') {
+        stage('Build zOS utilities') {
             steps {
                 sh "${env.javaHome}/javac -d ${env.classesDir} ${env.srcJavaZosFile}/*.java"
-            }
-        }
-        stage('Build zOS Java utilities') {
-            steps {
                 sh "${env.javaHome}/javac -d ${env.classesDir} ${env.srcJavaZosUtil}/*.java"
-            }
-        }
-        stage('Build zOS resbuild utlities') {
-            steps {
                 sh "${env.javaHome}/javac -cp .:${env.javaClassPath}  -d ${env.classesDir} ${env.srcZosResbiuld}/*.java"
             }
         }
@@ -78,32 +70,14 @@ pipeline {
                 sh "${env.javaHome}/jar cvf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
-        stage('Build CICS Groovy Utilities') {
+        stage('Build Groovy Utilities') {
             steps {
                 sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyCICSutil}/*.groovy"
-            }
-        }
-        stage('Add CICS Groovy Utilities to JAR') {
-            steps {
-                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
-            }
-        }
-        stage('Build zOS Languages') {
-            steps {
                 sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosLang}/*.groovy"
-            }
-        }
-        stage('Add Languages to JAR') {
-            steps {
-                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
-            }
-        }
-        stage('Build zOS Groovy Utilities') {
-            steps {
                 sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
             }
         }
-        stage('Add z/OS Groovy Utilities to JAR') {
+        stage('Add Groovy Utilities to JAR') {
             steps {
                 sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
@@ -128,8 +102,6 @@ pipeline {
     }
 	post {
 	    success {
-
-	
 	      emailext (
 	          subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
 	          body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
@@ -139,7 +111,6 @@ pipeline {
 	    }
 	
 	    failure {
-
 	      emailext (
 	          subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
 	          body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>

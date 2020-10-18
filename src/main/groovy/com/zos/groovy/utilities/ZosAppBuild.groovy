@@ -53,21 +53,21 @@ class ZosAppBuild {
 		
 		// parse command line arguments and load build properties
 		def usage = "build.groovy [options] buildfile"
-		//println("args = $args")
+		println("args = $args")
 		def opts = tools.parseArgs(args, usage)
-		//println("opts = $opts")
+		println("opts = $opts")
 		def properties = tools.loadProperties(opts)
-		//println("************************************* system properties loaded **************************************************************")
-		//println(properties.list())
-		//def env = System.getenv()
-		//	env.each{
-		//	println it
-		//}
-		//println("*****************************************************************************************************************************")
+		println("************************************* system properties loaded **************************************************************")
+		println(properties.list())
+		def env = System.getenv()
+			env.each{
+			println it
+		}
+		println("*****************************************************************************************************************************")
 		tools.validateRequiredProperties(["BuildList"])
 		
 		properties.startTime = startTime.format("yyyyMMdd.hhmmss.mmm")
-		//println("** Build start at $properties.startTime")
+		println("** Build start at $properties.startTime")
 		
 		// initialize build artifacts
 		tools.initializeBuildArtifacts()
@@ -90,25 +90,25 @@ class ZosAppBuild {
 			println("** Scan the build list to collect dependency data")
 			def scanner = new DependencyScanner()
 			def logicalFiles = [] as List<LogicalFile>
-			//println("logicalFiles = $logicalFiles")
-			//println("buildList = $buildList")
+			println("logicalFiles = $logicalFiles")
+			println("buildList = $buildList")
 			
 			buildList.each { file ->
 				def scanFile = "${properties.'src.zOS.dir'}/$file"
-				//println("Scanning $scanFile for $file")
+				println("Scanning $scanFile for $file")
 				def logicalFile = scanner.scan(scanFile, properties.workDir)
-				//println("logicalFile = $logicalFile")
+				println("logicalFile = $logicalFile")
 				logicalFiles.add(logicalFile)
 				
 				if (logicalFiles.size() == 500) {
-					//println("** Storing ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
+					println("** Storing ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
 					 repositoryClient.saveLogicalFiles(properties.collection, logicalFiles);
-					//println(repositoryClient.getLastStatus())
+					println(repositoryClient.getLastStatus())
 					logicalFiles.clear()
 				}
 			}
 		
-			//println("** Storing remaining ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
+			println("** Storing remaining ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
 			repositoryClient.saveLogicalFiles(properties.collection, logicalFiles);
 			println(repositoryClient.getLastStatus())
 		}
