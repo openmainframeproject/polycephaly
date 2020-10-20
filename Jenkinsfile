@@ -6,7 +6,6 @@ pipeline {
     }
     
     environment {	
-    	
     	binDir				= 'bin'
     	classesDir			= 'classes'	
 		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
@@ -22,7 +21,6 @@ pipeline {
 		polycephalyJar		= "${env.binDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
-
     }
 
     stages {
