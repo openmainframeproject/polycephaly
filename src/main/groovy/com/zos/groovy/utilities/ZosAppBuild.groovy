@@ -54,6 +54,10 @@ class ZosAppBuild {
 		// parse command line arguments and load build properties
 		def usage = "build.groovy [options] buildfile"
 		println("args = $args")
+		
+			Map<String, String> env = System.getenv();
+			env.forEach((k, v) -> System.out.println(k + ":" + v));)
+
 		def opts = tools.parseArgs(args, usage)
 		println("opts = $opts")
 		def properties = tools.loadProperties(opts)
