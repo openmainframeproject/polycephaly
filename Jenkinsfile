@@ -21,6 +21,7 @@ pipeline {
 		polycephalyJar		= "${env.binDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
+		polyRuntime			= '/u/jerrye/bin'
     }
 
     stages {
@@ -107,7 +108,9 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                sh 'printf "\\e[31m Deploy package...\\e[0m\\n"'
+            	sh 'printf "Deploying ${env.polycephalyJar} to ${env.polyRuntime} "'
+            	sh "cp ${env.polycephalyJar} ${env.polyRuntime}"
+            	
             }
         }
     }
