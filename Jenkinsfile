@@ -99,7 +99,6 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                step([$class: 'ZosAppBuild.execute()'])
                 sh 'printf "\\Some tests execution here...\\e[0m\\n"'
             }
         }
