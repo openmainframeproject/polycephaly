@@ -109,7 +109,7 @@ pipeline {
             }
             steps {
             	sh "printf Deploying ${env.polycephalyJar} to ${env.polyRuntime} "
-            	sh "cp ${env.polycephalyJar} ${env.polyRuntime}"
+            	sh "cp -f ${env.polycephalyJar} ${env.polyRuntime}"
             	
             }
         }
