@@ -111,7 +111,7 @@ pipeline {
             steps {
             	script {
                 	step ([$class: 'CopyArtifact',
-                    projectName: 'polycephaly',
+                    projectName: '${JOB_NAME}',
                    	filter: "${env.polycephalyJar}",
                    	target: "${env.polyRuntime}"])
             	}
