@@ -112,8 +112,8 @@ pipeline {
             	script {
                 	step ([$class: 'CopyArtifact',
                     projectName: '${JOB_NAME}',
-                   	filter: 'bin/*.jar',
-                   	target: '/u/jerrye/bin'])
+                   	filter: '${WORKSPACE}/bin/*.jar',
+                   	target: '/u/jerrye/bin/'])
             	}
             }
         }
