@@ -22,6 +22,13 @@ pipeline {
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		polyRuntime			= '/u/jerrye/bin/'
+		
+		def d = [test: 'Default', something: 'Default', other: 'Default']
+        def props = readProperties defaults: d, file: 'conf/Global.properties', text: 'other=Override'
+        assert props['test'] == 'One'
+        assert props['something'] == 'Default'
+        assert props.something == 'Default'
+        assert props.other == 'Override'
     }
 
     stages {
@@ -109,8 +116,12 @@ pipeline {
             }
             steps {
             	sh "printf Deploying ${env.polycephalyJar} to ${env.polyRuntime} "
-            	sh "cp -f ${env.polycephalyJar} ${env.polyRuntime}"
-            	
+            	script {
+                	step ([$class: 'CopyArtifact',
+                    projectName: 'Polycephaly',
+                   	filter: "${env.polycephalyJar}",
+                   	target: "${env.polyRuntime}"])
+            	}
             }
         }
     }
