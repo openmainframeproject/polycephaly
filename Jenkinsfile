@@ -109,7 +109,6 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-            	sh "printf Deploying ${env.polycephalyJar} to ${env.polyRuntime} "
             	script {
                 	step ([$class: 'CopyArtifact',
                     projectName: 'Polycephaly',
