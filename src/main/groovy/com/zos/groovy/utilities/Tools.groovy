@@ -60,9 +60,10 @@ class Tools {
 		
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
 		println("buildPropFile = $buildPropFile")
-		if (buildPropFile.exists())
+		if (buildPropFile.exists()) {
 			   BuildProperties.load(buildPropFile,"UTF-8")
-		
+			   println("buildPropFile found = $buildPropFile") }
+			   
 	   def propsFiles = Eval.me(properties.PropsFiles)
 	   propsFiles.each { file ->
 	       println("loading property file = $confDir/${file}")
