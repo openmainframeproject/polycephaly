@@ -109,7 +109,7 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                sh 'cp /u/jerrye/jenkins/workspace/haly-MultiBranch_edge05_branch01/bin/polycephaly.jar /u/jerrye/bin/'
+                sh "cp ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}"  
             }
         }
     }
