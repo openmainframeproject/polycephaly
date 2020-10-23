@@ -63,7 +63,8 @@ class Tools {
 		if (buildPropFile.exists()) {
 			   BuildProperties.load(buildPropFile,"UTF-8")
 			   println("buildPropFile found = $buildPropFile") }
-			   
+		
+		println("properties.PropsFiles = $properties.PropsFiles")
 	   def propsFiles = Eval.me(properties.PropsFiles)
 	   if (propsFiles == null) {
 			 println("Script text to compile cannot be null!")
