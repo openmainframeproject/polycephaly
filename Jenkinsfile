@@ -104,17 +104,12 @@ pipeline {
                 sh 'printf "\\Some tests execution here...\\e[0m\\n"'
             }
         }
-        stage("Deploy") {
+        stage("Test") {
             options {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-            	script {
-                	step ([$class: 'CopyArtifact',
-                    projectName: '${JOB_NAME}',
-                   	filter: "${WORKSPACE}/${env.polycephalyJar}",
-                   	target: "/u/jerrye/${env.polycephalyJar}"])
-            	}
+                sh 'cp /u/jerrye/jenkins/workspace/haly-MultiBranch_edge05_branch01/bin/polycephaly.jar /u/jerrye/bin/'
             }
         }
     }
