@@ -110,7 +110,8 @@ pipeline {
             }
             steps {
                 sh "cp ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/bin/" 
-                sh "cp ${WORKSPACE}/conf/* ${env.polyRuntime}/conf/"  
+                sh "cp ${WORKSPACE}/conf/*.properties ${env.polyRuntime}/conf/"
+                sh "cp ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/"   
             }
         }
     }
