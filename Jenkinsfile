@@ -104,7 +104,7 @@ pipeline {
                 sh 'printf "\\Some tests execution here...\\e[0m\\n"'
             }
         }
-        stage("Test") {
+        stage("Deploy") {
             options {
                 timeout(time: 2, unit: "MINUTES")
             }
