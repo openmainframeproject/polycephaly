@@ -21,7 +21,7 @@ pipeline {
 		polycephalyJar		= "${env.binDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
-		polyRuntime			= '/u/jerrye/'
+		polyRuntime			= '/u/jerrye'
 		
     }
 
@@ -110,7 +110,7 @@ pipeline {
             }
             steps {
                 sh "cp ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/bin/" 
-                sh "cp ${WORKSPACE}/conf/* ${env.polyRuntime}/conf/*"  
+                sh "cp ${WORKSPACE}/conf/* ${env.polyRuntime}/conf/"  
             }
         }
     }
