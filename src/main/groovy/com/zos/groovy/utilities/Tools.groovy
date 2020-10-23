@@ -66,10 +66,11 @@ class Tools {
 		
 		println("properties.PropsFiles = $properties.PropsFiles")
 	   def propsFiles = Eval.me(properties.PropsFiles)
+	   println("after defining propsFiles")
 	   if (propsFiles == null) {
 			 println("Script text to compile cannot be null!")
 			 throw new IllegalArgumentException("Script text to compile cannot be null!")
-	   } else
+	   } else {
 		   println("starting to process the property files ")
 		   propsFiles.each { file ->
 		       println("loading property file = $confDir/${file}")
