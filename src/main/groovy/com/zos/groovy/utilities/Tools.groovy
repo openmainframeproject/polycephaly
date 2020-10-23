@@ -65,13 +65,18 @@ class Tools {
 			   println("buildPropFile found = $buildPropFile") }
 			   
 	   def propsFiles = Eval.me(properties.PropsFiles)
-	   println("starting to process the property files ")
-	   propsFiles.each { file ->
-	       println("loading property file = $confDir/${file}")
-	       properties.load(new File("$confDir/${file}"),properties.Encoding)
-	   }
+	   if (propsFiles == null) {
+			 println("Script text to compile cannot be null!")
+			 throw new IllegalArgumentException("Script text to compile cannot be null!")
+	   } else
+		   println("starting to process the property files ")
+		   propsFiles.each { file ->
+		       println("loading property file = $confDir/${file}")
+		       properties.load(new File("$confDir/${file}"),properties.Encoding)
+		   }
+		}
 
-	   //println("set command line arguments")
+	   println("set command line arguments")
 		// set command line arguments
 		if (opts.b) properties.buildHash = opts.b
 		if (opts.c) properties.collection = opts.c
