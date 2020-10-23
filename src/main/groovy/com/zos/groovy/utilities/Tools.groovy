@@ -64,7 +64,7 @@ class Tools {
 			   BuildProperties.load(buildPropFile,"UTF-8")
 			   println("buildPropFile found = $buildPropFile") }
 		
-		println("properties.PropsFiles = $properties.PropsFiles")
+		println("properties PropsFiles = " properties.PropsFiles)
 	   def propsFiles = Eval.me(properties.PropsFiles)
 	   println("after defining propsFiles")
 	   if (propsFiles == null) {
