@@ -65,6 +65,7 @@ class Tools {
 			   println("buildPropFile found = $buildPropFile") }
 			   
 	   def propsFiles = Eval.me(properties.PropsFiles)
+	   println("starting to process the property files ")
 	   propsFiles.each { file ->
 	       println("loading property file = $confDir/${file}")
 	       properties.load(new File("$confDir/${file}"),properties.Encoding)
