@@ -21,7 +21,7 @@ class Tools {
 	}
 	
 	def parseArgs(String[] cliArgs, String usage) {
-		//println("*** running in parseArgs ***")
+		println("*** running in parseArgs ***")
 		def cli = new CliBuilder(usage: usage)
 		cli.b(longOpt:'buildHash', args:1, argName:'hash', 'Git commit hash for the build')
 		cli.c(longOpt:'collection', args:1, argName:'name', 'Name of the dependency data collection')
@@ -43,7 +43,7 @@ class Tools {
 	
 	def loadProperties(OptionAccessor opts) {
 		// check to see if there is a ./build.properties to load
-		//println("*** running in loadProperties ***")
+		println("*** running in loadProperties ***")
 		
 		def properties = BuildProperties.getInstance()
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
