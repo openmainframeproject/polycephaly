@@ -48,12 +48,15 @@ class Tools {
 		def properties = BuildProperties.getInstance()
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
+		println("scriptDir = $scriptDir")
 		
 		def confDir = new File(scriptDir).getParent() + "/conf"
 		properties.confDir = confDir
+		println("confDir = $confDir")
 		
 		def buildDir = new File(scriptDir).getParent() + "/build"
 		properties.buildDir = buildDir
+		println("buildDir = $buildDir")
 		
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
 		println("buildPropFile = $buildPropFile")
