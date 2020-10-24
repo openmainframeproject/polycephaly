@@ -62,7 +62,7 @@ class Tools {
 		println("buildPropFile = $buildPropFile")
 		if (buildPropFile.exists()) {
 			   BuildProperties.load(buildPropFile,"UTF-8")
-			   println("buildPropFile found = $buildPropFile") }
+			   println("buildPropFile found = $buildPropFile") 
 		}
 
 	   println("set command line arguments")
