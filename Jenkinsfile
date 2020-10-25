@@ -101,7 +101,8 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                sh 'printf "\\Some tests execution here...\\e[0m\\n"'
+                sh "${env.groovyHome}/groovyc-1047/groovyz build.groovy "
+                println "${env.groovyHome}/groovyc-1047/groovyz build.groovy --workspace $WORKSPACE --application ${env.JOB_NAME} "
             }
         }
         stage("Deploy") {
