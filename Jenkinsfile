@@ -101,7 +101,7 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                println "${env.groovyHome}/groovyc-1047/groovyz $WORKSPACE/test/build/build.groovy --workspace $WORKSPACE --application ${env.JOB_NAME} "
+                sh "${env.groovyHome}/groovyc-1047/groovyz $WORKSPACE/test/build/build.groovy --workspace $WORKSPACE --application Polycephaly "
             }
         }
         stage("Deploy") {
