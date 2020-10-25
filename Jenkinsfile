@@ -109,9 +109,9 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                sh "cp ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/bin/" 
-                sh "cp ${WORKSPACE}/conf/*.properties ${env.polyRuntime}/conf/"
-                sh "cp ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/"   
+                sh "cp -Rf ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/bin/" 
+                sh "cp -Rf ${WORKSPACE}/conf/*.properties ${env.polyRuntime}/conf/"
+                sh "cp -Rf ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/"   
             }
         }
     }
