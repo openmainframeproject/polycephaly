@@ -57,13 +57,24 @@ class Tools {
 		def buildDir = new File(scriptDir).getParent() + "/build"
 		properties.buildDir = buildDir
 		println("buildDir = $buildDir")
+
 		
-		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
-		println("buildPropFile = $buildPropFile")
-		if (buildPropFile.exists()) {
-			   BuildProperties.load(buildPropFile,"UTF-8")
-			   println("buildPropFile found = $buildPropFile") 
-		}
+		// check to see if there is a ./build.properties to load
+		def properties = BuildProperties.getInstance()
+		// One may also use YAML files as an alternative to properties files (DBB 1.0.6 and later):
+		//     def buildPropFile = new File("${getScriptDir()}/build.yaml")
+		def buildPropFile2 = new File("${getScriptDir()}/build.properties")
+		println("buildPropFile2 = $buildPropFile2")
+		if (buildPropFile2.exists())
+			   BuildProperties.load(buildPropFile2)
+			   
+			   
+	   def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
+	   println("buildPropFile = $buildPropFile")
+	   if (buildPropFile.exists()) {
+		   printn("")
+		  BuildProperties.load(buildPropFile,"UTF-8")
+	   }
 
 	   println("set command line arguments")
 		// set command line arguments
