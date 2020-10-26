@@ -108,12 +108,12 @@ class Tools {
 		if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
 		if (opts.p) properties.'dbb.RepositoryClient.password' = opts.p
 		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
-		if (opts.B) { 
+		if (!opts.B) { 
 			properties.buildDir = opts.B
 		} else {
 			properties.buildDir = "/build"
 		}
-		if (opts.Z)  {
+		if (!opts.Z)  {
 			properties.confDir = opts.Z
 		} else {
 			properties.confDir = "/conf"
