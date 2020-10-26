@@ -49,14 +49,21 @@ class ZosAppBuild {
 		println("                    Project build started at $startTime ")
 		println("*****************************************************************************************************")
 		
-		GroovyObject tools = (GroovyObject) Tools.newInstance()
+		//GroovyObject tools = (GroovyObject) Tools.newInstance()
+		
+		// load the Tools.groovy utility script
+		def tools = loadScript(new File("Tools.groovy"))
 		
 		// parse command line arguments and load build properties
 		def usage = "build.groovy [options] buildfile"
 		println("args = $args")
 		def opts = tools.parseArgs(args, usage)
 		println("opts = $opts")
+		tools.validateRequiredOpts(opts)
 		def properties = tools.loadProperties(opts)
+		if (!properties.userBuild)
+			tools.validateRequiredProperties(["dbb.RepositoryClient.url", "dbb.RepositoryClient.userId", "password", "collection"])
+			
 		println("************************************* system properties loaded **************************************************************")
 		println(properties.list())
 		def env = System.getenv()

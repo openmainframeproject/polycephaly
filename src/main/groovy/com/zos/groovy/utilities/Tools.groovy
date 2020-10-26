@@ -15,37 +15,132 @@ import groovy.io.FileType
 * SPDX-License-Identifier: Apache-2.0 
 */
 
+/**
+ * This is the main build script for the Mortgage Application.
+ *
+ * usage: build.groovy [options] buildfile
+ *
+ * buildFile:  Relative path (from sourceDir) of the file to build. If file
+ * is *.txt then assumed to be buildlist file containing a list of relative
+ * path files to build. Build list file can be absolute or relative (from
+ * sourceDir) path.
+ *
+ * options:
+ *  -b,--buildHash <hash>         Git commit hash for the build
+ *  -B,--buildDir <dir>           Name of the Project Build directory
+ *  -c,--collection <name>        Name of the dependency data collection
+ *  -C, --clean                   Deletes the dependency collection and build result group
+ *                                from the DBB repository then terminates (skips build)
+ *  -D,--confDir <dir>			  Name of the Project Config directory
+ *  -e,--logEncoding <encoding>   Encoding of output logs. Default is EBCDIC
+ *  -E,--errPrefix <uniqueId>     Unique id used for IDz error message datasets
+ *  -h,--help                     Prints this message
+ *  -i,--id <id>                  DBB repository id
+ *  -p,--pw <password>            DBB password
+ *  -P,--pwFile <file>            Absolute path to file containing DBB password
+ *  -q,--hlq <hlq>                High level qualifier for partition data sets
+ *  -r,--repo <url>               DBB repository URL
+ *  -s,--sourceDir <dir>          Absolute path to source directory
+ *  -t,--team <hlq>               Team build hlq for user build syslib concatenations
+ *  -u,--userBuild                Flag indicating running a user build
+ *  -w,--workDir <dir>            Absolute path to the build output directory
+ *
+ * All command line options can be set in the MortgageApplication/build/build.properties file
+ * that is loaded at the beginning of the build. Use the argument long form name for the property's
+ * name. The properties in build.properties are used as default property values and can be
+ * overridden by command line options.
+ */
+
 class Tools {
 
 	static main(args) {
 	}
 	
 	def parseArgs(String[] cliArgs, String usage) {
-		println("*** running in parseArgs ***")
 		def cli = new CliBuilder(usage: usage)
+		cli.s(longOpt:'sourceDir', args:1, argName:'dir', 'Absolute path to source directory')
+		cli.w(longOpt:'workDir', args:1, argName:'dir', 'Absolute path to the build output directory')
 		cli.b(longOpt:'buildHash', args:1, argName:'hash', 'Git commit hash for the build')
+		cli.q(longOpt:'hlq', args:1, argName:'hlq', 'High level qualifier for partition data sets')
 		cli.c(longOpt:'collection', args:1, argName:'name', 'Name of the dependency data collection')
-		cli.e(longOpt:'logEncoding', args:1, argName:'encoding', 'Encoding of output logs. Default is EBCDIC')
-		cli.h(longOpt:'help', 'Prints this message')
+		cli.t(longOpt:'team', args:1, argName:'hlq', 'Team build hlq for user build syslib concatenations')
 		cli.r(longOpt:'repo', args:1, argName:'url', 'DBB repository URL')
-		cli.t(longOpt:'team', args:1, argName:'devHQL', 'Team build hlq for user build syslib concatenations')
-		cli.C(longOpt:'clean', 'Deletes the dependency collection and build reeult group from the DBB repository then terminates (skips build)')
+		cli.i(longOpt:'id', args:1, argName:'id', 'DBB repository id')
+		cli.p(longOpt:'pw', args:1, argName:'password', 'DBB password')
+		cli.P(longOpt:'pwFile', args:1, argName:'file', 'Absolute or relative (from sourceDir) path to file containing DBB password')
+		cli.e(longOpt:'logEncoding', args:1, argName:'encoding', 'Encoding of output logs. Default is EBCDIC')
+		cli.u(longOpt:'userBuild', 'Flag indicating running a user build')
 		cli.E(longOpt:'errPrefix', args:1, argName:'errorPrefix', 'Unique id used for IDz error message datasets')
-		cli.P(longOpt:'projectName', args:1, argName:'projectName', 'Name of the project - Defaults to Jenkins Item Name')
+		cli.h(longOpt:'help', 'Prints this message')
+		cli.C(longOpt:'clean', 'Deletes the dependency collection and build reeult group from the DBB repository then terminates (skips build)')
+		cli.B(longOpt:'buildDir', args:1, argName:'dir', 'directory path to the build.groovy startup script')
+		cli.Z(longOpt:'confDir', args:1, argName:'dir', 'directory path to the configuration directory')
 	
 		def opts = cli.parse(cliArgs)
 		if (opts.h) { // if help option used, print usage and exit
-			 cli.usage()
+		 	cli.usage()
 			System.exit(0)
 		}
-		return opts
+	
+	    return opts
 	}
 	
 	def loadProperties(OptionAccessor opts) {
 		// check to see if there is a ./build.properties to load
 		println("*** running in loadProperties ***")
 		
+		// check to see if there is a ./build.properties to load
 		def properties = BuildProperties.getInstance()
+	
+		// set command line arguments
+		if (opts.s) properties.sourceDir = opts.s
+		if (opts.w) properties.workDir = opts.w
+		if (opts.b) properties.buildHash = opts.b
+		if (opts.q) properties.hlq = opts.q
+		if (opts.c) properties.collection = opts.c
+		if (opts.t) properties.team = opts.t
+		if (opts.e) properties.logEncoding = opts.e
+		if (opts.E) properties.errPrefix = opts.E
+		if (opts.u) properties.userBuild = "true"
+		
+		// override new default properties
+		if (opts.r) properties.'dbb.RepositoryClient.url' = opts.r
+		if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
+		if (opts.p) properties.'dbb.RepositoryClient.password' = opts.p
+		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
+		if (opts.B) properties.'buildDir' = opts.B
+		if (opts.Z) properties.'confDir' = opts.Z
+		
+		// handle --clean option
+		if (opts.C)  {
+			println("** Clean up option selected")
+			def repo = getDefaultRepositoryClient()
+			
+			println("* Deleting dependency collection ${properties.collection}")
+			repo.deleteCollection(properties.collection)
+	
+			println("* Deleting build result group ${properties.collection}Build")
+			repo.deleteBuildResults("${properties.collection}Build")
+			
+			System.exit(0)
+		}
+		
+		// add build hash if not specific
+		if (!opts.b && !properties.userBuild) {
+			properties.buildHash = getCurrentGitHash() as String
+		}
+		
+		println("java.version="+System.getProperty("java.runtime.version"))
+		println("java.home="+System.getProperty("java.home"))
+		println("user.dir="+System.getProperty("user.dir"))
+		
+		// One may also use YAML files as an alternative to properties files (DBB 1.0.6 and later):
+		//     def buildPropFile = new File("${getScriptDir()}/build.yaml")
+		// def buildPropFile = new File("${getScriptDir()}/build.properties")
+		//if (buildPropFile.exists())
+		//	   BuildProperties.load(buildPropFile)
+		
+		//def properties = BuildProperties.getInstance()
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
 		println("scriptDir = $scriptDir")
@@ -135,13 +230,32 @@ class Tools {
 		return properties
 	}
 	
+	def validateRequiredOpts(OptionAccessor opts) {
+		if (!opts.s) {
+			assert opts.s : 'Missing argument --sourceDir'
+		}
+		if (!opts.w) {
+			assert opts.w : 'Missing argument --workDir'
+		}
+		if (!opts.q) {
+			assert opts.q : 'Missing argument --hlq'
+		}
+	}
+	
 	def validateRequiredProperties(List<String> props) {
-		//println("*** running in validateRequiredProperties ***")
-	    def properties = BuildProperties.getInstance()
-	    props.each { prop ->
-	        // handle password special case i.e. can have either pw or pwFile
-	    	assert properties."$prop" : "Missing property $prop"
-	    }
+		def properties = BuildProperties.getInstance()
+		props.each { prop ->
+			// handle password special case i.e. can have either password or passwordFile
+			if (prop.equals("password")) {
+				if (!(properties.'dbb.RepositoryClient.password' || properties.'dbb.RepositoryClient.passwordFile')) {
+					 assert properties.'dbb.RepositoryClient.password' : "Missing property 'dbb.RepositoryClient.password'"
+					  assert properties.'dbb.RepositoryClient.passwordFile' : "Missing property 'dbb.RepositoryClient.passwordFile'"
+			   }
+			}
+			else {
+				assert properties."$prop" : "Missing property $prop"
+			}
+		}
 	}
 	
 	def getBuildList(List<String> args) {
