@@ -111,16 +111,16 @@ class Tools {
 		if (opts.B) { 
 			properties.'buildDir' = opts.B
 		} else {
-			properties.'buildDir' = "/build"
+			properties.'buildDir' = /build
 		}
 		if (opts.Z)  {
 			properties.'confDir' = opts.Z
 		} else {
-			properties.'confDir' = "/conf"
+			properties.'confDir' = /conf
 		}
 		
-		println("buildDir = $properties.'buildDir'")
-		println("confDir = $properties.'confDir'")
+		println("buildDir = $properties.buildDir")
+		println("confDir = $properties.confDir")
 		
 		// handle --clean option
 		if (opts.C)  {
