@@ -58,30 +58,36 @@ class Tools {
 		properties.buildDir = buildDir
 		println("buildDir = $buildDir")
 		
-	   def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
-	   println("buildPropFile = $buildPropFile")
-	   if (buildPropFile.exists()) {
-		   printn("")
-		  BuildProperties.load(buildPropFile,"UTF-8")
-	   }
+		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
+		println("buildPropFile = $buildPropFile")
+		if (buildPropFile.exists()) {
+			   BuildProperties.load(buildPropFile,"UTF-8")
+			   println("buildPropFile found = $buildPropFile") }
+		
+		println("properties PropsFiles = " properties.PropsFiles)
+	   def propsFiles = Eval.me(properties.PropsFiles)
+	   println("after defining propsFiles")
+	   if (propsFiles == null) {
+			 println("Script text to compile cannot be null!")
+			 throw new IllegalArgumentException("Script text to compile cannot be null!")
+	   } else {
+		   println("starting to process the property files ")
+		   propsFiles.each { file ->
+		       println("loading property file = $confDir/${file}")
+		       properties.load(new File("$confDir/${file}"),properties.Encoding)
+		   }
+		}
 
 	   println("set command line arguments")
 		// set command line arguments
-		if (opts.s) properties.sourceDir = opts.s
-		if (opts.w) properties.workDir = opts.w
 		if (opts.b) properties.buildHash = opts.b
-		if (opts.q) properties.hlq = opts.q
 		if (opts.c) properties.collection = opts.c
-		if (opts.t) properties.team = opts.t
 		if (opts.e) properties.logEncoding = opts.e
+		if (opts.p) properties.pw = opts.p
+		if (opts.r) properties.repo = opts.r
+		if (opts.t) properties.team = opts.t
 		if (opts.E) properties.errPrefix = opts.E
-		if (opts.u) properties.userBuild = "true"
-		
-		// override new default properties
-		if (opts.r) properties.'dbb.RepositoryClient.url' = opts.r
-		if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
-		if (opts.p) properties.'dbb.RepositoryClient.password' = opts.p
-		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
+		if (opts.P) properties.projectName = opts.P
 		  
 		if (properties.workDir == null) {
 			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
