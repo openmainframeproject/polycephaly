@@ -1,5 +1,5 @@
-import com.zos.groovy.utilities.ZosAppBuild
-import com.ibm.dbb.build.BuildProperties
+import com.zos.groovy.utilities.*
+import com.ibm.dbb.build.*
 import com.zos.java.utilities.*
 
 	GroovyObject zBuild = (GroovyObject) ZosAppBuild.newInstance()
