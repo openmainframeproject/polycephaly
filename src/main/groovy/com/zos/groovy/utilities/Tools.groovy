@@ -109,14 +109,14 @@ class Tools {
 		if (opts.p) properties.'dbb.RepositoryClient.password' = opts.p
 		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
 		if (opts.B) { 
-			properties.'buildDir' = opts.B
+			properties.buildDir = opts.B
 		} else {
-			properties.'buildDir' = /build
+			properties.buildDir = "/build"
 		}
 		if (opts.Z)  {
-			properties.'confDir' = opts.Z
+			properties.confDir = opts.Z
 		} else {
-			properties.'confDir' = /conf
+			properties.confDir = "/conf"
 		}
 		
 		println("buildDir = $properties.buildDir")
@@ -156,11 +156,11 @@ class Tools {
 		properties.scriptDir = scriptDir
 		println("scriptDir = $scriptDir")
 		
-		def confDir = new File(scriptDir).getParent() + properties.'confDir'
+		def confDir = new File(scriptDir).getParent() + properties.confDir
 		properties.confDir = confDir
 		println("confDir = $confDir")
 		
-		def buildDir = new File(scriptDir).getParent() + properties.'buildDir'
+		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
 		println("buildDir = $buildDir")
 		
