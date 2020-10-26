@@ -108,16 +108,8 @@ class Tools {
 		if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
 		if (opts.p) properties.'dbb.RepositoryClient.password' = opts.p
 		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
-		if (opts.B) { 
-			properties.buildDir = "/build"
-		} else {
-			properties.buildDir = opts.B
-		}
-		if (opts.Z)  {
-			properties.confDir = "/conf"
-		} else {
-			properties.confDir = opts.Z
-		}
+		if (opts.B) properties.buildDir = opts.B
+		if (opts.Z) properties.confDir = opts.Z
 		
 		println("buildDir = $properties.buildDir")
 		println("confDir = $properties.confDir")
