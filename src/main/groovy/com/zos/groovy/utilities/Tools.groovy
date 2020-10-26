@@ -108,8 +108,19 @@ class Tools {
 		if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
 		if (opts.p) properties.'dbb.RepositoryClient.password' = opts.p
 		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
-		if (opts.B) properties.'buildDir' = opts.B
-		if (opts.Z) properties.'confDir' = opts.Z
+		if (opts.B) { 
+			properties.'buildDir' = opts.B
+		} else {
+			properties.'buildDir' = "/build"
+		}
+		if (opts.Z)  {
+			properties.'confDir' = opts.Z
+		} else {
+			properties.'confDir' = "/conf"
+		}
+		
+		println("buildDir = $properties.'buildDir'")
+		println("confDir = $properties.'confDir'")
 		
 		// handle --clean option
 		if (opts.C)  {
@@ -145,11 +156,11 @@ class Tools {
 		properties.scriptDir = scriptDir
 		println("scriptDir = $scriptDir")
 		
-		def confDir = new File(scriptDir).getParent() + "/conf"
+		def confDir = new File(scriptDir).getParent() + properties.'confDir'
 		properties.confDir = confDir
 		println("confDir = $confDir")
 		
-		def buildDir = new File(scriptDir).getParent() + "/build"
+		def buildDir = new File(scriptDir).getParent() + properties.'buildDir'
 		properties.buildDir = buildDir
 		println("buildDir = $buildDir")
 		
