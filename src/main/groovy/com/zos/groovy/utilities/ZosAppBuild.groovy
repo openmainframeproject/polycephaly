@@ -49,10 +49,10 @@ class ZosAppBuild {
 		println("                    Project build started at $startTime ")
 		println("*****************************************************************************************************")
 		
-		//GroovyObject tools = (GroovyObject) Tools.newInstance()
+		GroovyObject tools = (GroovyObject) Tools.newInstance()
 		
 		// load the Tools.groovy utility script
-		def tools = loadScript(new File("Tools.groovy"))
+		//def tools = loadScript(new File("Tools.groovy"))
 		
 		// parse command line arguments and load build properties
 		def usage = "build.groovy [options] buildfile"
