@@ -126,9 +126,9 @@ class Tools {
 		}
 		
 		// add build hash if not specific
-		if (!opts.b && !properties.userBuild) {
-			properties.buildHash = getCurrentGitHash() as String
-		}
+		//if (!opts.b && !properties.userBuild) {
+		//	properties.buildHash = getCurrentGitHash() as String
+		//}
 		
 		println("java.version="+System.getProperty("java.runtime.version"))
 		println("java.home="+System.getProperty("java.home"))
