@@ -114,8 +114,8 @@ class Tools {
 		
 		if (properties.buildDir == null) properties.buildDir = "/build"
 		if (properties.confDir == null) properties.confDir = "/conf"
-		println("buildDir = $properties.buildDir")
-		println("confDir = $properties.confDir")
+		//println("buildDir = $properties.buildDir")
+		//println("confDir = $properties.confDir")
 		
 		// handle --clean option
 		if (opts.C)  {
@@ -178,17 +178,6 @@ class Tools {
 		   }
 		}
 
-	   println("set command line arguments")
-		// set command line arguments
-		if (opts.b) properties.buildHash = opts.b
-		if (opts.c) properties.collection = opts.c
-		if (opts.e) properties.logEncoding = opts.e
-		if (opts.p) properties.pw = opts.p
-		if (opts.r) properties.repo = opts.r
-		if (opts.t) properties.team = opts.t
-		if (opts.E) properties.errPrefix = opts.E
-		if (opts.P) properties.projectName = opts.P
-		  
 		if (properties.workDir == null) {
 			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
 		}
@@ -209,13 +198,13 @@ class Tools {
 		} else {
 			properties.ddioName = "${properties.ddioName}".toString().toUpperCase()
 		}
-		//println("************************************* all properties have been loaded  ******************************************************")
-		//println(properties.list())
-		//def env = System.getenv()
-		//	env.each{
-		//	println it
-		//}
-		//println("*****************************************************************************************************************************")
+		println("************************************* all properties have been loaded  ******************************************************")
+		println(properties.list())
+		def env = System.getenv()
+			env.each{
+			println it
+		}
+		println("*****************************************************************************************************************************")
 	
 		if (properties.collection == null) {
 			properties.collection = System.getenv(Zconstants.BASENAME).trim()
@@ -224,15 +213,6 @@ class Tools {
 			println (" Running $properties.collection Collection")
 		}
 		
-		if (opts.C)  {
-			//println("** Clean up option selected")
-			def repo = getDefaultRepositoryClient()
-			//println("* Deleting dependency collection ${properties.collection}")
-			repo.deleteCollection(properties.collection)
-			//println("* Deleting build result group ${properties.collection}Build")
-			repo.deleteBuildResults("${properties.collection}Build")
-			System.exit(0)
-		}
 		return properties
 	}
 	
