@@ -111,6 +111,8 @@ class Tools {
 		if (opts.B) properties.buildDir = opts.B
 		if (opts.Z) properties.confDir = opts.Z
 		
+		if (properties.buildDir == null) properties.buildDir = "/build"
+		if (properties.confDir == null) properties.confDir = "/conf"
 		println("buildDir = $properties.buildDir")
 		println("confDir = $properties.confDir")
 		

@@ -3,7 +3,7 @@ import com.ibm.dbb.build.*
 import com.zos.java.utilities.*
 
 	GroovyObject zBuild = (GroovyObject) ZosAppBuild.newInstance()
- 	def build = zBuild.execute()
+ 	def build = zBuild.execute(args)
 	
 	 // define local properties
 	 def properties = BuildProperties.getInstance()
