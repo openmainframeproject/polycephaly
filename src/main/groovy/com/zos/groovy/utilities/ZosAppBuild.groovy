@@ -42,7 +42,7 @@ class ZosAppBuild {
 	static main(args) {
 		
 	}
-	public void execute(args) {
+	public void execute(args(args, usage)) {
 		def startTime = new Date()
 		println()
 		println("*****************************************************************************************************")

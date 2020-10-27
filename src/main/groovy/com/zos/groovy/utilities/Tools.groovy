@@ -6,6 +6,7 @@ import com.ibm.dbb.build.html.*
 import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
 import groovy.io.FileType
+import groovy.transform.Field
 
 /**
 * @author gedgingt
@@ -53,7 +54,7 @@ import groovy.io.FileType
 
 class Tools {
 
-	static main(args) {
+	static main(args(args, usage)) {
 	}
 	
 	def parseArgs(String[] cliArgs, String usage) {
