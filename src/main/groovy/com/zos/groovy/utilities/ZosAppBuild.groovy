@@ -42,7 +42,7 @@ class ZosAppBuild {
 	static main(args) {
 		
 	}
-	public void execute(args, usage) {
+	public void execute(String[] executeArgs, String usage) {
 		def startTime = new Date()
 		println()
 		println("*****************************************************************************************************")
@@ -56,8 +56,8 @@ class ZosAppBuild {
 		
 		// parse command line arguments and load build properties
 		//def usage = "build.groovy [options] buildfile"
-		println("args = $args", usage = "$usage")
-		def opts = tools.parseArgs(args, usage)
+		println("args = $executeArgs", usage = "$usage")
+		def opts = tools.parseArgs(executeArgs, usage)
 		println("opts = $opts")
 		def properties = tools.loadProperties(opts)
 		println("************************************* print input properties **************************************************************")
