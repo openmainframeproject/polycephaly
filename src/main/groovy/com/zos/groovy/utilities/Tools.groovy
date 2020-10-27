@@ -54,7 +54,7 @@ import groovy.transform.Field
 
 class Tools {
 
-	static main(args(args, usage)) {
+	static main(void) {
 	}
 	
 	def parseArgs(String[] cliArgs, String usage) {
