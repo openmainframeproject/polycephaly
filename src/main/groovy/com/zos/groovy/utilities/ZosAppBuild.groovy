@@ -60,6 +60,10 @@ class ZosAppBuild {
 		def opts = tools.parseArgs(args, usage)
 		println("opts = $opts")
 		def properties = tools.loadProperties(opts)
+		println("************************************* print input properties **************************************************************")
+		println(properties.list())
+		println("************************************* print input properties **************************************************************")
+		
 		if (!properties.userBuild)
 			tools.validateRequiredProperties(["dbb.RepositoryClient.url", "dbb.RepositoryClient.userId", "password", "collection"])
 			
