@@ -39,7 +39,7 @@ class ZosAppBuild {
 	 * @since version 1.00
 	 */
 	
-	static main(void) {
+	static main(args) {
 		
 	}
 	public void execute(args, usage) {
