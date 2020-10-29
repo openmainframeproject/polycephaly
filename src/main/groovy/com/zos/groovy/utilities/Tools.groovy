@@ -114,13 +114,6 @@ class Tools {
 		if (opts.Z) properties.confDir = opts.Z
 		if (opts.Z) properties.ProjectName = opts.A
 		
-		if (properties.buildDir == null) properties.buildDir = "/build"
-		if (properties.confDir == null) properties.confDir = "/conf"
-		if (properties.ProjectName == null) properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
-		println("properties. = ${properties.ProjectName}")
-		//println("buildDir = $properties.buildDir")
-		//println("confDir = $properties.confDir")
-		
 		// handle --clean option
 		if (opts.C)  {
 			println("** Clean up option selected")
@@ -149,6 +142,13 @@ class Tools {
 		// def buildPropFile = new File("${getScriptDir()}/build.properties")
 		//if (buildPropFile.exists())
 		//	   BuildProperties.load(buildPropFile)
+		
+		if (properties.buildDir == null) properties.buildDir = "/build"
+		if (properties.confDir == null) properties.confDir = "/conf"
+		
+		
+		//println("buildDir = $properties.buildDir")
+		//println("confDir = $properties.confDir")
 		
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
@@ -187,10 +187,12 @@ class Tools {
 			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
 		}
 		def workDir = properties.workDir
-		//if(properties.ProjectName == null) {
-		//	properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
-		//}
-		
+		if(properties.ProjectName == null) {
+			properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
+		} else {
+			properties.ProjectName = opts.A
+		}
+		println("properties.ProjectName = ${properties.ProjectName}")
 		
 		properties.load(new File("$workDir/conf/${properties.ProjectName}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
