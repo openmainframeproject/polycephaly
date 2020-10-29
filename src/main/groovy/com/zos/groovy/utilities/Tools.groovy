@@ -112,11 +112,12 @@ class Tools {
 		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
 		if (opts.B) properties.buildDir = opts.B
 		if (opts.Z) properties.confDir = opts.Z
-		if (opts.Z) properties.application = opts.A
+		if (opts.Z) properties.ProjectName = opts.A
 		
 		if (properties.buildDir == null) properties.buildDir = "/build"
 		if (properties.confDir == null) properties.confDir = "/conf"
-		if (properties.application == null) properties.application = System.getenv(Zconstants.BASENAME).trim()
+		if (properties.ProjectName == null) properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
+		println("properties. = ${properties.ProjectName}")
 		//println("buildDir = $properties.buildDir")
 		//println("confDir = $properties.confDir")
 		
@@ -190,7 +191,7 @@ class Tools {
 		//	properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
 		//}
 		
-		println("properties.ProjectName = ${properties.ProjectName}")
+		
 		properties.load(new File("$workDir/conf/${properties.ProjectName}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
 		if(properties.devHLQ == null) {
