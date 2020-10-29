@@ -101,7 +101,7 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                sh "${env.groovyHome}/groovy --classpath .:${env.javaClassPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --application Polycephaly --sourceDir --sourceDir $WORKSPACE/conf/package.txt"
+                sh "${env.groovyHome}/groovy --classpath .:${env.javaClassPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --application Polycephaly --sourceDir $WORKSPACE/conf/package.txt"
             }
         }
         stage("Deploy") {
