@@ -163,7 +163,9 @@ class Tools {
 		println("buildPropFile = $buildPropFile")
 		if (buildPropFile.exists()) {
 		   BuildProperties.load(buildPropFile,"UTF-8")
-		   println("buildPropFile found = $buildPropFile") 
+		   println("****************** properties list ******************")
+		   properties.list()
+		   println("****************** properties list ******************")
 	   }
 	   
 	   println("properties.PropsFiles = $properties.PropFiles")
