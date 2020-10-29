@@ -161,7 +161,8 @@ class Tools {
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
 		println("buildPropFile = $buildPropFile")
 		if (buildPropFile.exists()) {
-		   BuildProperties.load(buildPropFile,"UTF-8")
+		   //BuildProperties.load(buildPropFile,"UTF-8")
+		   properties.load(new File("${buildPropFile,'UTF-8'"))
 		   println("****************** properties list ******************")
 		   properties.list()
 		   println("****************** properties list ******************")

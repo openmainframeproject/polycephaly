@@ -51,12 +51,6 @@ class ZosAppBuild {
 		
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
 		
-		// load the Tools.groovy utility script
-		//def tools = loadScript(new File("Tools.groovy"))
-		
-		// parse command line arguments and load build properties
-		//def usage = "build.groovy [options] buildfile"
-		//println("args = $executeArgs", usage = "$usage")
 		def opts = tools.parseArgs(executeArgs, usage)
 		println("opts = $opts")
 		def properties = tools.loadProperties(opts)
