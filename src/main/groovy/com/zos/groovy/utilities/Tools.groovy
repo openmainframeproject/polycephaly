@@ -191,7 +191,7 @@ class Tools {
 		}
 		println("properties.ProjectName = ${properties.ProjectName}")
 		
-		properties.load(new File("$workDir/conf/${properties.ProjectName}.properties"))
+		properties.load(new File("$properties.confDir/${properties.ProjectName}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
 		if(properties.devHLQ == null) {
 			properties.devHLQ = "${properties.datasetPrefix}.${properties.ProjectName}.${properties.buildNodeName}".toString()
