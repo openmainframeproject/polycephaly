@@ -76,6 +76,7 @@ class Tools {
 		cli.C(longOpt:'clean', 'Deletes the dependency collection and build reeult group from the DBB repository then terminates (skips build)')
 		cli.B(longOpt:'buildDir', args:1, argName:'dir', 'directory path to the build.groovy startup script')
 		cli.Z(longOpt:'confDir', args:1, argName:'dir', 'directory path to the configuration directory')
+		cli.A(longOpt:'application', args:1, argName:'name', 'name of the application to build')
 	
 		def opts = cli.parse(cliArgs)
 		if (opts.h) { // if help option used, print usage and exit
@@ -111,9 +112,11 @@ class Tools {
 		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
 		if (opts.B) properties.buildDir = opts.B
 		if (opts.Z) properties.confDir = opts.Z
+		if (opts.Z) properties.application = opts.A
 		
 		if (properties.buildDir == null) properties.buildDir = "/build"
 		if (properties.confDir == null) properties.confDir = "/conf"
+		if (properties.application == null) properties.application = System.getenv(Zconstants.BASENAME).trim()
 		//println("buildDir = $properties.buildDir")
 		//println("confDir = $properties.confDir")
 		
@@ -168,10 +171,6 @@ class Tools {
 	   println("properties.PropsFiles = $properties.PropFiles")
 	   def propsFiles = Eval.me(properties.PropsFiles)
 	   
-	   println("****************** properties list srt1******************")
-	   properties.list()
-	   println("****************** properties list end1******************")
-		
 	   if (propsFiles == null) {
 			 println("Script text to compile cannot be null!")
 			 throw new IllegalArgumentException("Script text to compile cannot be null!")
@@ -183,18 +182,15 @@ class Tools {
 		   }
 		}
 
-		println("****************** properties list srt2******************")
-		properties.list()
-		println("****************** properties list end2******************")
-		
 		if (properties.workDir == null) {
 			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
 		}
 		def workDir = properties.workDir
-		if(properties.ProjectName == null) {
-			properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
-		}
+		//if(properties.ProjectName == null) {
+		//	properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
+		//}
 		
+		println("properties.ProjectName = ${properties.ProjectName}")
 		properties.load(new File("$workDir/conf/${properties.ProjectName}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
 		if(properties.devHLQ == null) {
