@@ -76,7 +76,6 @@ class Tools {
 		cli.C(longOpt:'clean', 'Deletes the dependency collection and build reeult group from the DBB repository then terminates (skips build)')
 		cli.B(longOpt:'buildDir', args:1, argName:'dir', 'directory path to the build.groovy startup script')
 		cli.Z(longOpt:'confDir', args:1, argName:'dir', 'directory path to the configuration directory')
-		cli.A(longOpt:'application', args:1, argName:'name', 'name of the application to build')
 	
 		def opts = cli.parse(cliArgs)
 		if (opts.h) { // if help option used, print usage and exit
@@ -112,7 +111,6 @@ class Tools {
 		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
 		if (opts.B) properties.buildDir = opts.B
 		if (opts.Z) properties.confDir = opts.Z
-		if (opts.Z) properties.ProjectName = opts.A
 		
 		// handle --clean option
 		if (opts.C)  {
@@ -169,7 +167,6 @@ class Tools {
 
 	   }
 	   
-	   println("properties.PropsFiles = $properties.PropFiles")
 	   def propsFiles = Eval.me(properties.PropsFiles)
 	   
 	   if (propsFiles == null) {
@@ -183,14 +180,14 @@ class Tools {
 		   }
 		}
 
-		if (properties.workDir == null) {
-			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
-		}
-		def workDir = properties.workDir
+		//if (properties.workDir == null) {
+		//	properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
+		//}
+		//def workDir = properties.workDir
 		if(properties.ProjectName == null) {
 			properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
 		} else {
-			properties.ProjectName = opts.A
+			properties.ProjectName = opts.c
 		}
 		println("properties.ProjectName = ${properties.ProjectName}")
 		
