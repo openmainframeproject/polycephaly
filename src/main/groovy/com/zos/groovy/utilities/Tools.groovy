@@ -168,9 +168,9 @@ class Tools {
 	   println("properties.PropsFiles = $properties.PropFiles")
 	   def propsFiles = Eval.me(properties.PropsFiles)
 	   
-	   println("****************** properties list ******************")
+	   println("****************** properties list srt1******************")
 	   properties.list()
-	   println("****************** properties list ******************")
+	   println("****************** properties list end1******************")
 		
 	   if (propsFiles == null) {
 			 println("Script text to compile cannot be null!")
@@ -183,9 +183,9 @@ class Tools {
 		   }
 		}
 
-		println("****************** properties list ******************")
+		println("****************** properties list srt2******************")
 		properties.list()
-		println("****************** properties list ******************")
+		println("****************** properties list end2******************")
 		
 		if (properties.workDir == null) {
 			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
