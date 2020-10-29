@@ -161,16 +161,17 @@ class Tools {
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
 		println("buildPropFile = $buildPropFile")
 		if (buildPropFile.exists()) {
-		   //BuildProperties.load(buildPropFile,"UTF-8")
 		   properties.load(new File("${buildPropFile}"))
-		   println("****************** properties list ******************")
-		   properties.list()
-		   println("****************** properties list ******************")
+
 	   }
 	   
 	   println("properties.PropsFiles = $properties.PropFiles")
 	   def propsFiles = Eval.me(properties.PropsFiles)
-	   println("after defining propsFiles")
+	   
+	   println("****************** properties list ******************")
+	   properties.list()
+	   println("****************** properties list ******************")
+		
 	   if (propsFiles == null) {
 			 println("Script text to compile cannot be null!")
 			 throw new IllegalArgumentException("Script text to compile cannot be null!")
@@ -178,10 +179,14 @@ class Tools {
 		   println("starting to process the property files ")
 		   propsFiles.each { file ->
 		       println("loading property file = $confDir/${file}")
-		       properties.load(new File("$confDir/${file}"),properties.Encoding)
+		       properties.load(new File("$confDir/${file}"))
 		   }
 		}
 
+		println("****************** properties list ******************")
+		properties.list()
+		println("****************** properties list ******************")
+		
 		if (properties.workDir == null) {
 			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
 		}
