@@ -146,7 +146,6 @@ class Tools {
 		//if (buildPropFile.exists())
 		//	   BuildProperties.load(buildPropFile)
 		
-		def properties = BuildProperties.getInstance()
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
 		println("scriptDir = $scriptDir")
