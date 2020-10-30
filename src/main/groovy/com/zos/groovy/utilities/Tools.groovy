@@ -149,6 +149,7 @@ class Tools {
 		if (properties.buildDir == null) properties.buildDir = "/build"
 		if (properties.confDir == null) properties.confDir = "/conf"
 		
+		
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
 		println("scriptDir = $scriptDir")
@@ -156,6 +157,9 @@ class Tools {
 		def confDir = new File(scriptDir).getParent() + properties.confDir
 		properties.confDir = confDir
 		println("confDir = $confDir")
+		
+		properties.'dbb.RepositoryClient.passwordFile' = scriptDir + properties.'dbb.RepositoryClient.passwordFile'
+		println("properties.'dbb.RepositoryClient.passwordFile' = $properties.'dbb.RepositoryClient.passwordFile'")
 		
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
@@ -167,6 +171,7 @@ class Tools {
 		   properties.load(new File("${buildPropFile}"))
 
 	   }
+	   
 	   
 	   def propsFiles = Eval.me(properties.PropsFiles)
 	   

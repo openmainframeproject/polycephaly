@@ -54,22 +54,20 @@ class ZosAppBuild {
 		def opts = tools.parseArgs(executeArgs, usage)
 		println("opts = $opts")
 		def properties = tools.loadProperties(opts)
-		println("************************************* print input properties **************************************************************")
-		println(properties.list())
-		println("************************************* print input properties **************************************************************")
 		
 		if (!properties.userBuild)
 			tools.validateRequiredProperties(["dbb.RepositoryClient.url", "dbb.RepositoryClient.userId", "password", "collection"])
 			
-		println("************************************* system properties loaded **************************************************************")
+		println("******************* system properties loaded *********************************************************")
 		println(properties.list())
 		def env = System.getenv()
 			env.each{
 			println it
 		}
-		println("*****************************************************************************************************************************")
+		println("******************************************************************************************************")
 		tools.validateRequiredProperties(["BuildList"])
 		
+		def startTime = new Date()
 		properties.startTime = startTime.format("yyyyMMdd.hhmmss.mmm")
 		println("** Build start at $properties.startTime")
 		
