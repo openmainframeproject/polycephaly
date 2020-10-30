@@ -179,18 +179,16 @@ class Tools {
 		       properties.load(new File("$confDir/${file}"))
 		   }
 		}
+		
+		println("Zconstants.BASENAME = $System.getenv(Zconstants.BASENAME)")
+		println("properties.ProjectName = ${properties.ProjectName}")
 
-		//if (properties.workDir == null) {
-		//	properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
-		//}
-		//def workDir = properties.workDir
 		if(properties.ProjectName == null) {
 			properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
 		} else {
 			properties.ProjectName = opts.c
 		}
-		println("properties.ProjectName = ${properties.ProjectName}")
-		
+
 		properties.load(new File("$properties.confDir/${properties.ProjectName}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
 		if(properties.devHLQ == null) {
