@@ -181,16 +181,11 @@ class Tools {
 		   }
 		}
 		
-		if(properties.ProjectName == null) {
-			properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
-		} else {
-			properties.ProjectName = opts.c
+		if(properties.collection == null) {
+			properties.collection = System.getenv(Zconstants.BASENAME).trim()
 		}
 
-		println("properties.ProjectName = ${properties.ProjectName}")
-
-		
-		properties.load(new File("$properties.confDir/${properties.ProjectName}.properties"))
+		properties.load(new File("$properties.confDir/${properties.collection}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
 		if(properties.devHLQ == null) {
 			properties.devHLQ = "${properties.datasetPrefix}.${properties.ProjectName}.${properties.buildNodeName}".toString()
