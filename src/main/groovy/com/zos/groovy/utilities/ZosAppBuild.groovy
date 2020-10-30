@@ -67,7 +67,6 @@ class ZosAppBuild {
 		println("******************************************************************************************************")
 		tools.validateRequiredProperties(["BuildList"])
 		
-		def startTime = new Date()
 		properties.startTime = startTime.format("yyyyMMdd.hhmmss.mmm")
 		println("** Build start at $properties.startTime")
 		
