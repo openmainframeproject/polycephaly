@@ -16,14 +16,12 @@ pipeline {
 		srcGroovyCICSutil	= 'src/main/groovy/com/zos/cics/groovy/utilities'
 		javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
-		dbblibs				= '/opt/lpp/IBM/dbb/lib'
-		jzoslibs			= '/usr/lpp/java/J8.0_64/lib/'
-		ibmjzos				= '${env.jzoslibs}/ext/ibmjzos.jar'
-		dbbcore				= '${env.dbblibs}/dbb.core_1.0.6.jar'
+		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
+		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		polycephalyJar		= "${env.binDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
-		groovyClassPath		= "${env.ibmjzos}:${env.dbbcore}:${env.polycephalyJar}"
-		groovyLibPath		= "${env.jzoslibs}/*:${env.dbblibs}/*"
+		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
+		groovyLibPath		= "/usr/lpp/java/J8.0_64/lib/*:/usr/lpp/java/J8.0_64/lib/ext/*:/opt/lpp/IBM/dbb/lib/*"
 		polyRuntime			= '/u/jerrye'
 		
     }
