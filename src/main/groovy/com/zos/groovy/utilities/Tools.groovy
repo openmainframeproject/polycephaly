@@ -104,6 +104,9 @@ class Tools {
 		if (opts.E) properties.errPrefix = opts.E
 		if (opts.u) properties.userBuild = "true"
 		
+		println("properties.sourceDir = ${properties.sourceDir}")
+		println("properties.collection = ${properties.collection}")
+		
 		// override new default properties
 		if (opts.r) properties.'dbb.RepositoryClient.url' = opts.r
 		if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
@@ -130,6 +133,8 @@ class Tools {
 		//if (!opts.b && !properties.userBuild) {
 		//	properties.buildHash = getCurrentGitHash() as String
 		//}
+		
+
 		
 		println("java.version="+System.getProperty("java.runtime.version"))
 		println("java.home="+System.getProperty("java.home"))
@@ -176,19 +181,14 @@ class Tools {
 		   }
 		}
 		
-		println("Zconstants.BASENAME = $System.getenv(Zconstants.BASENAME)")
-		println("properties.ProjectName = ${properties.ProjectName}")
-		println("properties.collection = ${properties.collection}")
-
 		if(properties.ProjectName == null) {
 			properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
 		} else {
 			properties.ProjectName = opts.c
 		}
 
-		println("Zconstants.BASENAME = $System.getenv(Zconstants.BASENAME)")
 		println("properties.ProjectName = ${properties.ProjectName}")
-		println("properties.collection = ${properties.collection}")
+
 		
 		properties.load(new File("$properties.confDir/${properties.ProjectName}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
