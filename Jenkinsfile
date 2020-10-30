@@ -17,12 +17,13 @@ pipeline {
 		javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
 		dbblibs				= '/opt/lpp/IBM/dbb/lib'
-		jzoslibs			= '/usr/lpp/java/J8.0_64/lib/ext'
-		ibmjzos				= '${env.jzoslibs}/ibmjzos.jar'
+		jzoslibs			= '/usr/lpp/java/J8.0_64/lib/'
+		ibmjzos				= '${env.jzoslibs}/ext/ibmjzos.jar'
 		dbbcore				= '${env.dbblibs}/dbb.core_1.0.6.jar'
 		polycephalyJar		= "${env.binDir}/polycephaly.jar"
-		javaClassPath		= "${env.jzoslibs}/*:${env.dbblib}/*"
-		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
+		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}"
+		groovyClassPath		= "${env.ibmjzos}:${env.dbbcore}:${env.polycephalyJar}"
+		groovyLibPath		= "${env.jzoslibs}/*:${env.dbblibs}/*"
 		polyRuntime			= '/u/jerrye'
 		
     }
@@ -103,7 +104,7 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                sh "${env.groovyHome}/groovy --classpath .:${env.javaClassPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --sourceDir $WORKSPACE/conf/package.txt"
+                sh "${env.groovyHome}/groovy --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --sourceDir $WORKSPACE/conf/package.txt"
             }
         }
         stage("Deploy") {
