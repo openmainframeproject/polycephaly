@@ -134,8 +134,6 @@ class Tools {
 		//	properties.buildHash = getCurrentGitHash() as String
 		//}
 		
-
-		
 		println("java.version="+System.getProperty("java.runtime.version"))
 		println("java.home="+System.getProperty("java.home"))
 		println("user.dir="+System.getProperty("user.dir"))
@@ -157,9 +155,6 @@ class Tools {
 		def confDir = new File(scriptDir).getParent() + properties.confDir
 		properties.confDir = confDir
 		println("confDir = $confDir")
-		
-		properties.'dbb.RepositoryClient.passwordFile' = scriptDir + properties.'dbb.RepositoryClient.passwordFile'
-		println("properties.'dbb.RepositoryClient.passwordFile' = $properties.'dbb.RepositoryClient.passwordFile'")
 		
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
