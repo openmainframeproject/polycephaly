@@ -144,10 +144,6 @@ class Tools {
 		if (properties.buildDir == null) properties.buildDir = "/build"
 		if (properties.confDir == null) properties.confDir = "/conf"
 		
-		
-		//println("buildDir = $properties.buildDir")
-		//println("confDir = $properties.confDir")
-		
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
 		println("scriptDir = $scriptDir")
@@ -182,6 +178,7 @@ class Tools {
 		
 		println("Zconstants.BASENAME = $System.getenv(Zconstants.BASENAME)")
 		println("properties.ProjectName = ${properties.ProjectName}")
+		println("properties.collection = ${properties.collection}")
 
 		if(properties.ProjectName == null) {
 			properties.ProjectName = System.getenv(Zconstants.BASENAME).trim()
@@ -189,6 +186,10 @@ class Tools {
 			properties.ProjectName = opts.c
 		}
 
+		println("Zconstants.BASENAME = $System.getenv(Zconstants.BASENAME)")
+		println("properties.ProjectName = ${properties.ProjectName}")
+		println("properties.collection = ${properties.collection}")
+		
 		properties.load(new File("$properties.confDir/${properties.ProjectName}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
 		if(properties.devHLQ == null) {
