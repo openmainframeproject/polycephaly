@@ -181,6 +181,11 @@ class Tools {
 		   }
 		}
 		
+		if (properties.workDir == null) {
+			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
+		}
+		def workDir = properties.workDir
+		
 		if(properties.collection == null) {
 			properties.collection = System.getenv(Zconstants.BASENAME).trim()
 		}
