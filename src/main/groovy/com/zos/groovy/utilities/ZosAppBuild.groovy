@@ -1,18 +1,5 @@
 package com.zos.groovy.utilities
 
-import com.zos.cics.groovy.utilities.CicsApiBuild
-import com.zos.cics.groovy.utilities.CicsWsBuild
-import com.zos.language.Assembler
-import com.zos.language.BMSProcessing
-import com.zos.language.CobolCompile
-import com.zos.language.Compile
-import com.zos.language.Copybook
-import com.zos.language.DualCompiles
-import com.zos.language.Easytrieve
-import com.zos.language.JCLcheck
-import com.zos.language.LinkEdit
-import com.zos.language.MFSGenUtility
-import com.zos.language.SDFGenUtility
 import com.ibm.dbb.build.*
 import com.ibm.dbb.build.report.*
 import com.ibm.dbb.repository.*
@@ -20,6 +7,8 @@ import com.ibm.dbb.dependency.*
 import groovy.time.*
 import groovy.lang.GroovyClassLoader
 import groovy.lang.Script 
+import com.zos.language.*
+import com.zos.cics.groovy.utilities.*
 
 /**
 * @author gedgingt
@@ -53,7 +42,7 @@ class ZosAppBuild {
 	static main(args) {
 		
 	}
-	public void execute(args) {
+	public void execute(String[] executeArgs, String usage) {
 		def startTime = new Date()
 		println()
 		println("*****************************************************************************************************")
@@ -62,23 +51,24 @@ class ZosAppBuild {
 		
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
 		
-		// parse command line arguments and load build properties
-		def usage = "build.groovy [options] buildfile"
-		//println("args = $args")
-		def opts = tools.parseArgs(args, usage)
-		//println("opts = $opts")
+		def opts = tools.parseArgs(executeArgs, usage)
+		println("opts = $opts")
 		def properties = tools.loadProperties(opts)
-		//println("************************************* system properties loaded **************************************************************")
-		//println(properties.list())
-		//def env = System.getenv()
-		//	env.each{
-		//	println it
-		//}
-		//println("*****************************************************************************************************************************")
+		
+		if (!properties.userBuild)
+			tools.validateRequiredProperties(["dbb.RepositoryClient.url", "dbb.RepositoryClient.userId", "password", "collection"])
+			
+		println("******************* system properties loaded *********************************************************")
+		println(properties.list())
+		def env = System.getenv()
+			env.each{
+			println it
+		}
+		println("******************************************************************************************************")
 		tools.validateRequiredProperties(["BuildList"])
 		
 		properties.startTime = startTime.format("yyyyMMdd.hhmmss.mmm")
-		//println("** Build start at $properties.startTime")
+		println("** Build start at $properties.startTime")
 		
 		// initialize build artifacts
 		tools.initializeBuildArtifacts()
@@ -101,25 +91,25 @@ class ZosAppBuild {
 			println("** Scan the build list to collect dependency data")
 			def scanner = new DependencyScanner()
 			def logicalFiles = [] as List<LogicalFile>
-			//println("logicalFiles = $logicalFiles")
-			//println("buildList = $buildList")
+			println("logicalFiles = $logicalFiles")
+			println("buildList = $buildList")
 			
 			buildList.each { file ->
 				def scanFile = "${properties.'src.zOS.dir'}/$file"
-				//println("Scanning $scanFile for $file")
+				println("Scanning $scanFile for $file")
 				def logicalFile = scanner.scan(scanFile, properties.workDir)
-				//println("logicalFile = $logicalFile")
+				println("logicalFile = $logicalFile")
 				logicalFiles.add(logicalFile)
 				
 				if (logicalFiles.size() == 500) {
-					//println("** Storing ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
+					println("** Storing ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
 					 repositoryClient.saveLogicalFiles(properties.collection, logicalFiles);
-					//println(repositoryClient.getLastStatus())
+					println(repositoryClient.getLastStatus())
 					logicalFiles.clear()
 				}
 			}
 		
-			//println("** Storing remaining ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
+			println("** Storing remaining ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
 			repositoryClient.saveLogicalFiles(properties.collection, logicalFiles);
 			println(repositoryClient.getLastStatus())
 		}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src/main/groovy">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/zOS">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="build"/>
+	<classpathentry kind="src" path="src/tst/zOS"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-14">
+		<attributes>
+			<attribute name="module" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/com.ibm.dmh.jjson_6.1.0.20190812.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/com.ibm.dmh.scan.classify_6.1.0.20190812.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/com.ibm.dmh.utils_6.1.0.20190812.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/commons-codec-1.14.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/commons-compress-1.19.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/dbb.core_1.0.9.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/dbb.ext_1.0.9.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/dbb.groovy_1.0.9.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/lib/dbb.html_1.0.9.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/ibmjzos.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/ant-1.9.4.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/ant-antlr-1.9.4.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/ant-junit-1.9.4.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/ant-launcher-1.9.4.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/bsf-2.4.0.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/Users/JerryEdgingtons.info/Downloads/dbb-ztoolkit-trial-1.0.9/groovy-2.4.12/lib/groovy-2.4.12.jar"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="GROOVY_DSL_SUPPORT"/>
+	<classpathentry kind="con" path="GROOVY_SUPPORT"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
