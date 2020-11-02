@@ -237,7 +237,7 @@ class Tools {
 	}
 	
 	def getBuildList(List<String> args) {
-		//println("*** running in getBuildList ***")
+		println("*** running in getBuildList ***")
 	    def properties = BuildProperties.getInstance()
 	    def files = []
 		// Set the buildFile or buildList property
@@ -264,16 +264,16 @@ class Tools {
 		else { 
 		    files = new File("$properties.workDir/$properties.BuildList") 
 		}
-		//println("*** properties.buildFile = ${properties.buildFile} ***")
+		println("*** properties.buildFile = ${properties.buildFile} ***")
 		
 		def tempFileList = new File("${properties.workDir}/tempFileList.txt")
         def GenericFileListFound = false
-		//println("*** files = $files ***")
+		println("*** files = $files ***")
         files.eachLine('ibm-1047') { line ->
-			//println("line = $line")
+			println("line = $line")
             if (line.contains("*")) {
 				GenericFileListFound = true
-				//println("Generic Found = $line")
+				println("Generic Found = $line")
                 def fileDirectory = line[0..<line.lastIndexOf('*')]
                 def dir = new File("${properties.'src.zOS.dir'}/$fileDirectory")
                 def stripNumber = "${properties.'src.zOS.dir'}".size()+1
