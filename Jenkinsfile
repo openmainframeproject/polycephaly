@@ -51,7 +51,7 @@ pipeline {
 	    }
     	stage("CheckOut")  {
     		steps {
-    			checkout([$class: 'GitSCM', branches: [[name: '*/edge05/branch02']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
+    			checkout([$class: 'GitSCM', branches: [[name: '*/"${env.BRANCH_NAME}"']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'edge05', url: 'https://github.com/openmainframeproject/polycephaly.git']]])
     		}	 
 		}
 		stage('Create Directories'){
