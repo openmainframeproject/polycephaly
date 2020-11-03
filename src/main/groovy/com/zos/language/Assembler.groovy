@@ -4,6 +4,8 @@ import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
 import com.ibm.dbb.build.*
 import com.zos.groovy.utilities.*
+
+import sun.tools.tree.ThisExpression
 /**
 * @author gedgingt
 * @version v4.0.0
@@ -65,7 +67,8 @@ class Assembler {
 		
 		//GroovyObject tools = (GroovyObject) Tools.newInstance()
 		//--
-		def tools = this.class.classLoader.loadClass( 'Tools', true, false )?.newInstance()
+		//def tools = this.class.classLoader().loadClass( , true, false )?.newInstance()
+		def tools = this.class.classLoader().loadClass('Tools').newInstance()
 		//--
 		
 		
