@@ -1,4 +1,3 @@
-@groovy.transform.BaseScript com.ibm.dbb.groovy.ScriptLoader baseScript
 package com.zos.language
 
 import com.ibm.dbb.repository.*
@@ -67,8 +66,8 @@ class Assembler {
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
 		//GroovyObject tools = (GroovyObject) Tools.newInstance()
-		def tools = loadScript(new File("Tools.groovy"))
-
+		def tools = new Tools()
+		
 		def properties = BuildProperties.getInstance()
 		def datasets 
 		datasets = Eval.me(properties.AssemblerSrcFiles)
