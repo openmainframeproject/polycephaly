@@ -13,7 +13,6 @@ pipeline {
 		srcZosResbiuld		= 'src/main/zOS/com.zos.resbuild'
 		srcGroovyZosLang	= 'src/main/groovy/com/zos/language'
 		srcGrovoyZosUtil	= 'src/main/groovy/com/zos/groovy/utilities'
-		srcGroovyCICSutil	= 'src/main/groovy/com/zos/cics/groovy/utilities'
 		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
 		javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
@@ -105,17 +104,6 @@ pipeline {
                 sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
-        stage('Build Groovy CICS Utilities') {
-            steps {
-                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyCICSutil}/*.groovy"
-            }
-        }
-        stage('Add Groovy CICS Utilities to JAR') {
-            steps {
-                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
-            }
-        }
-
         stage("Test") {
             options {
                 timeout(time: 2, unit: "MINUTES")
