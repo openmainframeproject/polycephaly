@@ -22,7 +22,7 @@ pipeline {
 		polycephalyJar		= "${env.binDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}:${env.dbbhtml}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
-		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*"
+		groovyLibPath		= "${env.groovyClassPath}"
 		polyRuntime			= '/u/jerrye'
 		
     }
