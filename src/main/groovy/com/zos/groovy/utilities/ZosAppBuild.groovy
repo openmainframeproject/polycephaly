@@ -79,6 +79,7 @@ class ZosAppBuild {
 		
 		// create build list from input build file
 		def buildList = tools.getBuildList(opts.arguments())
+		println("buildList = $buildList")
 
 		
 		// scan all the files in the process list for dependency data (team build only)
@@ -115,7 +116,7 @@ class ZosAppBuild {
 		}
 		def totalNumLines = 0
 		def processCounter = 0
-		println("buildList.size = $buildList.size(), buildList = $buildList")
+		println("buildList = $buildList")
 		if (buildList.size() == 0)
 			println("** No files in build list.  Nothing to build.")
 		else {
@@ -148,7 +149,7 @@ class ZosAppBuild {
 			buildOrder.each { script ->
 		    	// Use the ScriptMappings class to get the files mapped to the build script
 				def buildFiles = ScriptMappings.getMappedList(script, buildList) 
-				println("buildFiles = $buildFiles, script = $script")
+				println("buildList = $buildList, buildFiles = $buildFiles, script = $script")
 				buildFiles.each { file ->
 					println("---- file = $file ----")
 					buildFile = "${properties.'src.zOS.dir'}/$file"
