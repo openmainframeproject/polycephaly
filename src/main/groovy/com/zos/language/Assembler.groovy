@@ -67,8 +67,7 @@ class Assembler {
 		
 		//GroovyObject tools = (GroovyObject) Tools.newInstance()
 		//--
-		//def tools = this.class.classLoader().loadClass( , true, false )?.newInstance()
-		def tools = this.class.classLoader().loadClass('Tools').newInstance()
+		def tools = this.class.classLoader().loadClass("Tools" , true, false ).newInstance()
 		//--
 		
 		
