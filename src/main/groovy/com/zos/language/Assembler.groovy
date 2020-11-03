@@ -63,7 +63,12 @@ class Assembler {
 		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
-		GroovyObject tools = (GroovyObject) Tools.newInstance()
+		//GroovyObject tools = (GroovyObject) Tools.newInstance()
+		//--
+		def tools = this.class.classLoader.loadClass( 'Tools', true, false )?.newInstance()
+		//--
+		
+		
 		def properties = BuildProperties.getInstance()
 		def datasets 
 		datasets = Eval.me(properties.AssemblerSrcFiles)
