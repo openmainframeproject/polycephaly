@@ -14,6 +14,7 @@ pipeline {
 		srcGroovyZosLang	= 'src/main/groovy/com/zos/language'
 		srcGrovoyZosUtil	= 'src/main/groovy/com/zos/groovy/utilities'
 		srcGroovyCICSutil	= 'src/main/groovy/com/zos/cics/groovy/utilities'
+		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
 		javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
@@ -90,6 +91,16 @@ pipeline {
             }
         }
         stage('Add Groovy Language Utilities to JAR') {
+            steps {
+                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
+            }
+        }
+        stage('Build Groovy Program Utilities') {
+            steps {
+                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyPrgUtil}/*.groovy"
+            }
+        }
+        stage('Add Groovy Program Utilities to JAR') {
             steps {
                 sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
