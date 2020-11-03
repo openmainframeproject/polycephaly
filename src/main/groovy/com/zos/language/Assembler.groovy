@@ -1,3 +1,4 @@
+@groovy.transform.BaseScript com.ibm.dbb.groovy.ScriptLoader baseScript
 package com.zos.language
 
 import com.ibm.dbb.repository.*
