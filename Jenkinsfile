@@ -75,22 +75,22 @@ pipeline {
                 sh "${env.javaHome}/jar cvf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
-        stage('Build Groovy zOS Utilities') {
-            steps {
-                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
-            }
-        }
-        stage('Add Groovy ZOS Utilities to JAR') {
-            steps {
-                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
-            }
-        }
         stage('Build Groovy Language Utilities') {
             steps {
                 sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosLang}/*.groovy"
             }
         }
         stage('Add Groovy Language Utilities to JAR') {
+            steps {
+                sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
+            }
+        }
+        stage('Build Groovy zOS Utilities') {
+            steps {
+                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
+            }
+        }
+        stage('Add Groovy ZOS Utilities to JAR') {
             steps {
                 sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
