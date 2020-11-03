@@ -70,6 +70,11 @@ pipeline {
                 sh "${env.javaHome}/javac -cp .:${env.javaClassPath}  -d ${env.classesDir} ${env.srcZosResbiuld}/*.java"
             }
         }
+        stage('Create Java Jar file') {
+            steps {
+                sh "${env.javaHome}/jar cvf ${env.polycephalyJar} -C ${env.classesDir} . "
+            }
+        }
         stage('Build Groovy zOS Utilities') {
             steps {
                 sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
@@ -78,11 +83,6 @@ pipeline {
         stage('Add Groovy ZOS Utilities to JAR') {
             steps {
                 sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
-            }
-        }
-        stage('Create Java Jar file') {
-            steps {
-                sh "${env.javaHome}/jar cvf ${env.polycephalyJar} -C ${env.classesDir} . "
             }
         }
         stage('Build Groovy Language Utilities') {
