@@ -68,8 +68,8 @@ class Assembler {
 		
 		try {
 			GroovyObject tools = (GroovyObject) Tools.newInstance()
-		} catch {
-			println("exception caught")
+		} catch(Exception ex)  {
+			println("exception caught = $ex")
 		}
 		
 		def properties = BuildProperties.getInstance()
