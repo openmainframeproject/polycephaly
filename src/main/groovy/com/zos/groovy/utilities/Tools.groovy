@@ -280,6 +280,7 @@ class Tools {
                 def stripNumber = "${properties.'src.zOS.dir'}".size()+1
 				println("stripNumber = $stripNumber")
                 dir.eachFileRecurse(FileType.FILES) {  file ->
+					println("file = $file")
                     file = file.toString().stripIndent(stripNumber)
                     tempFileList.append "$file${System.getProperty('line.separator')}"
                 }
