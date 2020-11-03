@@ -1,2 +1,1 @@
-org/omp/polycephaly/*.cbl
-org/omp/polycephaly/*.asm
+org/omp/polycephaly/*
