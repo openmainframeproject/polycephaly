@@ -138,7 +138,6 @@ class ZosAppBuild {
 			def ezt = new Easytrieve()
 			def jcl = new JCLcheck()
 			def lnkEdit = new LinkEdit()
-			def pli = new PLI()
 			def mfs = new MFSGenUtility()
 			def sdf = new SDFGenUtility()
 			def lines = null
@@ -194,9 +193,6 @@ class ZosAppBuild {
 							break
 						case "LinkEdit":
 							lnkEdit.run([buildFile] as String[])
-							break
-						case "PLI":
-							pli.run([buildFile] as String[])
 							break
 						case "MFSGenUtility":
 							mfs.run([buildFile] as String[])
