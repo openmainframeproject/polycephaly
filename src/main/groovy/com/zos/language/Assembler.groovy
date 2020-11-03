@@ -66,8 +66,8 @@ class Assembler {
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
 		//GroovyObject tools = (GroovyObject) Tools.newInstance()
-		
-		def Tools tools = new Tools()
+		def tools = loadScript(new File("Tools.groovy"))
+
 		def properties = BuildProperties.getInstance()
 		def datasets 
 		datasets = Eval.me(properties.AssemblerSrcFiles)
@@ -171,7 +171,7 @@ class Assembler {
 		job.start()
 		
 		def rc = assemble.execute()
-		//println(" ran Assembly completed RC = $rc ")
+		println(" ran Assembly completed RC = $rc ")
 		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		if (rc <= 4) {
 			rc = linkedit.execute()
