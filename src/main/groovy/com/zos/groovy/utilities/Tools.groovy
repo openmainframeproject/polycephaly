@@ -202,13 +202,13 @@ class Tools {
 		} else {
 			properties.ddioName = "${properties.ddioName}".toString().toUpperCase()
 		}
-		println("************************************* all properties have been loaded  ******************************************************")
+		println("********************** all properties have been loaded  ***************************************")
 		println(properties.list())
 		def env = System.getenv()
 			env.each{
 			println it
 		}
-		println("*****************************************************************************************************************************")
+		println("************************************************************************************************")
 	
 		if (properties.collection == null) {
 			properties.collection = System.getenv(Zconstants.BASENAME).trim()
