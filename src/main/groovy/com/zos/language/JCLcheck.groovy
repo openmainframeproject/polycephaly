@@ -22,7 +22,8 @@ class JCLcheck {
 		def file = args[0]
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
-		GroovyObject tools = (GroovyObject) Tools.newInstance()
+		//GroovyObject tools = (GroovyObject) Tools.newInstance()
+		def tools = new Tools()
 		// define local properties
 		def properties = BuildProperties.getInstance()
 		def datasets

@@ -26,7 +26,8 @@ class Compile {
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		//* Building src/main/zOS/com/zos/cobol/App1/k164baco.cbl using com.zos.groovy.utilities.Compile.groovy script
 		
-		GroovyObject tools = (GroovyObject) Tools.newInstance()
+		//GroovyObject tools = (GroovyObject) Tools.newInstance()
+		def tools = new Tools()
 		// define local properties
 		def properties = BuildProperties.getInstance()
 		def datasets
