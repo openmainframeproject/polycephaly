@@ -283,6 +283,7 @@ class Tools {
                 }
             } else {
                 tempFileList.append "$line${System.getProperty('line.separator')}"
+				println("tempFileList = $tempFileList")
             }
         }
 
@@ -296,7 +297,7 @@ class Tools {
         if (GenericFileListFound) {
             files = tempFileList
         } 
-		println("files = $files")
+		println("returning files = $files")
 		return files
 	}
 	
