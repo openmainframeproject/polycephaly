@@ -4,7 +4,6 @@ import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
 import com.ibm.dbb.build.*
 import com.zos.groovy.utilities.*
-import com.zos.groovy.utilities.Tools
 
 import sun.tools.tree.ThisExpression
 /**
