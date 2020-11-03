@@ -275,6 +275,7 @@ class Tools {
 				GenericFileListFound = true
 				println("Generic Found = $line")
                 def fileDirectory = line[0..<line.lastIndexOf('*')]
+				println("fileDirectory = $fileDirectory")
                 def dir = new File("${properties.'src.zOS.dir'}/$fileDirectory")
 				println("dir = $dir")
                 def stripNumber = "${properties.'src.zOS.dir'}".size()+1
