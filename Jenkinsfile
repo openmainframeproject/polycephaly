@@ -127,10 +127,11 @@ pipeline {
 	post {
 	    success {
 	      emailext (
-	          subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-	          body: """<p>SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-	            <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-	          recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+          		attachLog: true,
+          		subject: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+    			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+     			recipientProviders: [developers(), requestor()],
+     			subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
 	        )
 	    }
 	
