@@ -145,7 +145,9 @@ class ZosAppBuild {
 			println("** Invoking build scripts according to build order: ${buildOrder[1..-1].join(', ')}")
 			buildOrder.each { script ->
 		    	// Use the ScriptMappings class to get the files mapped to the build script
+				println("*** script = $script ***")
 				def buildFiles = ScriptMappings.getMappedList(script, buildList) 
+				println("*** buildFiles = $buildFiles ***")
 				buildFiles.each { file ->
 					buildFile = "${properties.'src.zOS.dir'}/$file"
 					numLines = 0 
