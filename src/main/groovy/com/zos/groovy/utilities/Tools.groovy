@@ -276,7 +276,9 @@ class Tools {
 				println("Generic Found = $line")
                 def fileDirectory = line[0..<line.lastIndexOf('*')]
                 def dir = new File("${properties.'src.zOS.dir'}/$fileDirectory")
+				println("dir = $dir")
                 def stripNumber = "${properties.'src.zOS.dir'}".size()+1
+				println("stripNumber = $stripNumber")
                 dir.eachFileRecurse(FileType.FILES) {  file ->
                     file = file.toString().stripIndent(stripNumber)
                     tempFileList.append "$file${System.getProperty('line.separator')}"
