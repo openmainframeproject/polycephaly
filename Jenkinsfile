@@ -32,6 +32,12 @@ pipeline {
                 cleanWs()
             }
         }
+        stage ("Print env") {
+            steps {
+                sh 'printenv'
+            }          
+      	}
+
 	    stage ('Start') {
 	      steps {
 	        // send to email
