@@ -35,7 +35,8 @@ pipeline {
         }
         stage ("Print env") {
             steps {
-                sh 'printenv'
+                //sh 'printenv'
+                echo sh(script: 'env|sort', returnStdout: true)
             }          
       	}
 
