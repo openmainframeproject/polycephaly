@@ -4,6 +4,7 @@ import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
 import com.ibm.dbb.build.*
 import com.zos.groovy.utilities.*
+import com.zos.groovy.utilities.Tools
 
 import sun.tools.tree.ThisExpression
 /**
@@ -65,11 +66,11 @@ class Assembler {
 		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
-		//GroovyObject tools = (GroovyObject) Tools.newInstance()
-		//--
-		def tools = this.class.classLoader().loadClass("Tools" , true, false ).newInstance()
-		//--
-		
+		try {
+			GroovyObject tools = (GroovyObject) Tools.newInstance()
+		} catch {
+			println("exception caught")
+		}
 		
 		def properties = BuildProperties.getInstance()
 		def datasets 
