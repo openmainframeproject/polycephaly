@@ -120,6 +120,7 @@ class ZosAppBuild {
 		else {
 			// build programs by invoking the appropriate build script
 			def buildOrder = Eval.me(properties.buildOrder)
+			println("buildOrder = $buildOrder")
 			// optionally execute IMS MFS builds
 			if (properties.BUILD_MFS.toBoolean())   
 				buildOrder << "MFSGenUtility"
@@ -148,12 +149,12 @@ class ZosAppBuild {
 				def buildFiles = ScriptMappings.getMappedList(script, buildList) 
 				buildFiles.each { file ->
 					buildFile = "${properties.'src.zOS.dir'}/$file"
-					println("*** buildFile = $buildFile ***")
 					numLines = 0 
 					tempFile = new File(buildFile)
 					lines = tempFile.readLines()
 					numLines = lines.size()
 					totalNumLines = totalNumLines + numLines
+					println("script = $script, buildFile = $buildFile")
 					
 					switch (script) {
 						case "Assembler":
