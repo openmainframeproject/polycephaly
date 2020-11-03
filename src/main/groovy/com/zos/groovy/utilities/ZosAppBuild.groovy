@@ -115,6 +115,7 @@ class ZosAppBuild {
 		}
 		def totalNumLines = 0
 		def processCounter = 0
+		println("buildList.size = $buildList.size(), buildList = $buildList")
 		if (buildList.size() == 0)
 			println("** No files in build list.  Nothing to build.")
 		else {
