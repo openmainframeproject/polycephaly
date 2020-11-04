@@ -57,7 +57,8 @@ class DualCompiles {
 		//*	to  src/main/zOS/com/zos/cobol/App1/k164baco.cbl
 		//*	to	src/main/zOS/com/zos/cobol/App1/k164bacb.cbl
 		
-		GroovyObject tools = (GroovyObject) Tools.newInstance()
+		//GroovyObject tools = (GroovyObject) Tools.newInstance()
+		def tools = new Tools()
 		
 		// define local properties
 		def properties = BuildProperties.getInstance()

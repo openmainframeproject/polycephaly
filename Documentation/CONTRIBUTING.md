@@ -8,3 +8,5 @@ Polycephaly accepts any contributions made from the community at large, with the
 - Contributions must be made as a [pull request](https://github.com/openmainframeproject/ploycephaly/pulls), and is subject to review by a [committer](https://github.com/openmainframeproject/polycephaly/blob/master/governance.md#committer) to be accepted.
 
 If you have any questions or concerns - feel free to reach out to polycephaly-dev@lists.openmainframeproject.org.
+
+# SPDX-License-Identifier: Apache-2.0 

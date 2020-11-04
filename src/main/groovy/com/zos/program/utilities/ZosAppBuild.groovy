@@ -79,6 +79,7 @@ class ZosAppBuild {
 		
 		// create build list from input build file
 		def buildList = tools.getBuildList(opts.arguments())
+		println("buildList = $buildList")
 
 		
 		// scan all the files in the process list for dependency data (team build only)
@@ -115,11 +116,13 @@ class ZosAppBuild {
 		}
 		def totalNumLines = 0
 		def processCounter = 0
+		println("buildList = $buildList")
 		if (buildList.size() == 0)
 			println("** No files in build list.  Nothing to build.")
 		else {
 			// build programs by invoking the appropriate build script
 			def buildOrder = Eval.me(properties.buildOrder)
+			println("buildOrder = $buildOrder")
 			// optionally execute IMS MFS builds
 			if (properties.BUILD_MFS.toBoolean())   
 				buildOrder << "MFSGenUtility"
@@ -146,13 +149,16 @@ class ZosAppBuild {
 			buildOrder.each { script ->
 		    	// Use the ScriptMappings class to get the files mapped to the build script
 				def buildFiles = ScriptMappings.getMappedList(script, buildList) 
+				println("buildList = $buildList, buildFiles = $buildFiles, script = $script")
 				buildFiles.each { file ->
+					println("---- file = $file ----")
 					buildFile = "${properties.'src.zOS.dir'}/$file"
 					numLines = 0 
 					tempFile = new File(buildFile)
 					lines = tempFile.readLines()
 					numLines = lines.size()
 					totalNumLines = totalNumLines + numLines
+					println("script = $script, buildFile = $buildFile")
 					
 					switch (script) {
 						case "Assembler":

@@ -6,6 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+* @author gedgingt
+* @version v4.0.0
+* Date 11/04/2020
+*
+* SPDX-License-Identifier: Apache-2.0 
+*/
+
 public class CopyFiletoFile {
 
 	public static void copyFile(File source, File dest) throws IOException {

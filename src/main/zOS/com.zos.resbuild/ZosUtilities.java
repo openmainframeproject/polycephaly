@@ -1,5 +1,13 @@
 package com.zos.resbuid;
 
+/**
+* @author gedgingt
+* @version v4.0.0
+* Date 11/04/2020
+*
+* SPDX-License-Identifier: Apache-2.0 
+*/
+
 public class ZosUtilities {
 	
 	public static String COPYCMD 		= padRight("  COPY INDD=SYSUT1,OUTDD=SYSUT2", 80);

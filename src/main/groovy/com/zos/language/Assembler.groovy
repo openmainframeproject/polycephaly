@@ -4,6 +4,8 @@ import com.ibm.dbb.repository.*
 import com.ibm.dbb.dependency.*
 import com.ibm.dbb.build.*
 import com.zos.groovy.utilities.*
+
+import sun.tools.tree.ThisExpression
 /**
 * @author gedgingt
 * @version v4.0.0
@@ -63,7 +65,9 @@ class Assembler {
 		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
 		
-		GroovyObject tools = (GroovyObject) Tools.newInstance()
+		//GroovyObject tools = (GroovyObject) Tools.newInstance()
+		def tools = new Tools()
+		
 		def properties = BuildProperties.getInstance()
 		def datasets 
 		datasets = Eval.me(properties.AssemblerSrcFiles)
@@ -167,7 +171,7 @@ class Assembler {
 		job.start()
 		
 		def rc = assemble.execute()
-		//println(" ran Assembly completed RC = $rc ")
+		println(" ran Assembly completed RC = $rc ")
 		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		if (rc <= 4) {
 			rc = linkedit.execute()

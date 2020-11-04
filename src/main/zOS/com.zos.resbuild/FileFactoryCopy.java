@@ -7,6 +7,14 @@ import java.io.IOException;
 import com.ibm.jzos.FileFactory;
 
 /**
+* @author gedgingt
+* @version v4.0.0
+* Date 11/04/2020
+*
+* SPDX-License-Identifier: Apache-2.0 
+*/
+
+/**
  * Sample program that uses the FileFactory class to copy a text file or dataset.
  * The input and output file names are given as arguments to main, 
  * and they main be either POSIX (HFS) file names or MVS dataset names.

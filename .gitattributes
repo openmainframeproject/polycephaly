@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0 
+
 *.clist working-tree-encoding=ibm-1047 git-encoding=utf-8
 *.txt working-tree-encoding=ibm-1047 git-encoding=utf-8
 # line endings

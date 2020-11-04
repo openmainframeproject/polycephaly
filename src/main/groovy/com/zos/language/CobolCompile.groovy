@@ -29,8 +29,10 @@ class CobolCompile {
 		def compileParms
 		def compilerLibrary
 		
-		GroovyObject tools = (GroovyObject) Tools.newInstance()
-		GroovyObject zProgs = (GroovyObject) Zprograms.newInstance()
+		//GroovyObject zProgs = (GroovyObject) Zprograms.newInstance()
+		//GroovyObject tools = (GroovyObject) Tools.newInstance()
+		def tools = new Tools()
+		def zProgs = new Zprograms()
 		def properties = BuildProperties.getInstance()
 		def datasets
 		datasets = Eval.me(properties.CobolCompilesrcFiles)
