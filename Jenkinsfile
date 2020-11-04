@@ -19,10 +19,11 @@ pipeline {
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		dbbhtml				= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
+		dbbJNI 				= '/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so'
 		polycephalyJar		= "${env.binDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}:${env.dbbhtml}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
-		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.groovyClassPath}"
+		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
 		polyRuntime			= '/u/jerrye'
 		
     }
