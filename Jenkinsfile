@@ -16,6 +16,7 @@ pipeline {
 		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
 		javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
+		groovyzHome			= '/opt/lpp/IBM/dbb/bin'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		dbbhtml				= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
@@ -107,6 +108,16 @@ pipeline {
             }
         }
         stage("Test") {
+            options {
+                timeout(time: 2, unit: "MINUTES")
+            }
+            steps {
+            	sh "export DBB_HOME=/opt/lpp/IBM/dbb"
+            	sh "export export DBB_CONF=$WORKSPACE/conf"
+                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --sourceDir $WORKSPACE/conf/package.txt"
+            }
+        }
+        stage("Test2") {
             options {
                 timeout(time: 2, unit: "MINUTES")
             }
