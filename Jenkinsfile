@@ -117,14 +117,6 @@ pipeline {
                 sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --sourceDir $WORKSPACE/conf/package.txt"
             }
         }
-        stage("Test2") {
-            options {
-                timeout(time: 2, unit: "MINUTES")
-            }
-            steps {
-                sh "${env.groovyHome}/groovy --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --sourceDir $WORKSPACE/conf/package.txt"
-            }
-        }
         stage("Deploy") {
             options {
                 timeout(time: 2, unit: "MINUTES")
