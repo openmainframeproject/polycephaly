@@ -102,6 +102,7 @@ pipeline {
         stage('Add Groovy Program Utilities to JAR') {
             steps {
                 sh "${env.javaHome}/jar uf ${env.polycephalyJar} -C ${env.classesDir} . "
+                sh "chmod 766 ${env.polycephalyJar}"
             }
         }
         stage("Test") {
