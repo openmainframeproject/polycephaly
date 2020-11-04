@@ -1,4 +1,7 @@
-//DEFZFS   EXEC PGM=IDCAMS,REGION=8M                            
+//DEFZFS   EXEC PGM=IDCAMS,REGION=8M  
+//*
+//*   # SPDX-License-Identifier: Apache-2.0 
+//*                               
 //SYSPRINT DD  SYSOUT=*                                         
 //SYSIN    DD  *                                                
  SET MAXCC=0                                                    
