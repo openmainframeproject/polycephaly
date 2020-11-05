@@ -273,7 +273,7 @@ class CobolCompile {
 		job.start()
 		
 		def rc = compile.execute()
-		//println(" ran Cobol Compile completed RC = $rc ")
+		println(" ran Cobol Compile completed RC = $rc ")
 		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		if (rc <= 4) {
 			//println(" running LinkEdit ")
@@ -283,7 +283,6 @@ class CobolCompile {
 		}
 		job.stop()
 		
-		//println("CobolCompile completed with RC = $rc")
 		// run DB2 Bind PACKAGE if bind is turned on (see MortgageApplication/build/bind.properties)
 		if (logicalFile.isSQL() && properties.RUN_DB2_BIND.toBoolean()) {
 			def scriptName = "$properties.workDir/build/BindPackage.groovy"
