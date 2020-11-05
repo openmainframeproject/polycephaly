@@ -72,7 +72,8 @@ class Assembler {
 		def datasets 
 		datasets = Eval.me(properties.AssemblerSrcFiles)
 		tools.createDatasets(suffixList:datasets, suffixOpts:"${properties.srcOptions}")
-
+		datasets = Eval.me(properties.AssemblerLoadFiles)
+		tools.createDatasets(suffixList:datasets, suffixOpts:"${properties.loadOptions}")
 		
 		def member = CopyToPDS.createMemberName(file)
 		def logFile = new File("${properties.workDir}/${member}.log")
@@ -173,8 +174,6 @@ class Assembler {
 		println(" ran Assembly completed RC = $rc ")
 		tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		if (rc <= 4) {
-			datasets = Eval.me(properties.AssemblerLoadFiles)
-			tools.createDatasets(suffixList:datasets, suffixOpts:"${properties.loadOptions}")
 			rc = linkedit.execute()
 			println(" running LinkEdit completed RC = $rc ")
 			tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
