@@ -247,27 +247,14 @@ class Tools {
 				if (buildFile.startsWith("/"))
 					properties.buildListFile = buildFile
 			      else
-					//properties.buildListFile = "$properties.workDir/$buildFile".toString()
-					properties.buildListFile = "$properties.sourceDir/$buildFile".toString()
+					properties.buildListFile = "$properties.workDir/$buildFile".toString()
+					//properties.buildListFile = "$properties.sourceDir/$buildFile".toString()
 		  	}
 		    else {
 				properties.buildFile = buildFile
 		    }
 		}    
 		
-		//----------
-			// check to see if a build file was passed in
-			if (properties.buildFile) {
-				println("** Building file $properties.buildFile")
-				files = [properties.buildFile]
-			}
-			// else check to see if a build list file was passed in
-			else if (properties.buildListFile) {
-				println("** Building files listed in $properties.buildListFile")
-				files = new File(properties.buildListFile) as List<String>
-			}
-		//----------
-
 		if (properties.buildFile) {
 			files = [properties.buildFile]
 		}
@@ -275,10 +262,10 @@ class Tools {
 		else if (properties.buildListFile) { 
 		    files = new File(properties.buildListFile) as List<String>
 		}   
-		//else { 
-		    //files = new File("$properties.workDir/$properties.BuildList") 
+		else { 
+	    	files = new File("$properties.workDir/$properties.BuildList") 
 		//	files = new File("$properties.sourceDir/$properties.BuildList")
-		//}
+		}
 		println("*** properties.buildFile = ${properties.buildFile} ***")
 		
 		def tempFileList = new File("${properties.workDir}/tempFileList.txt")
