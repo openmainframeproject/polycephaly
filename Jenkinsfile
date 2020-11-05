@@ -60,7 +60,7 @@ pipeline {
 		}
 		stage('Create Directories'){
             steps {
-                rc = sh(script: "mkdir ${env.binDir}", returnStatus: true)
+                sh "mkdir ${env.binDir}"
                 sh "mkdir ${env.classesDir}"
             }
         }
