@@ -104,8 +104,8 @@ class Tools {
 		if (opts.E) properties.errPrefix = opts.E
 		if (opts.u) properties.userBuild = "true"
 		
-		println("properties.sourceDir = ${properties.sourceDir}")
-		println("properties.collection = ${properties.collection}")
+		//println("properties.sourceDir = ${properties.sourceDir}")
+		//println("properties.collection = ${properties.collection}")
 		
 		// override new default properties
 		if (opts.r) properties.'dbb.RepositoryClient.url' = opts.r
@@ -150,18 +150,18 @@ class Tools {
 		
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
-		println("scriptDir = $scriptDir")
+		//println("scriptDir = $scriptDir")
 		
 		def confDir = new File(scriptDir).getParent() + properties.confDir
 		properties.confDir = confDir
-		println("confDir = $confDir")
+		//println("confDir = $confDir")
 		
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
-		println("buildDir = $buildDir")
+		//println("buildDir = $buildDir")
 		
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
-		println("buildPropFile = $buildPropFile")
+		//println("buildPropFile = $buildPropFile")
 		if (buildPropFile.exists()) {
 		   properties.load(new File("${buildPropFile}"))
 
@@ -176,7 +176,7 @@ class Tools {
 	   } else {
 		   //println("starting to process the property files ")
 		   propsFiles.each { file ->
-		       println("loading property file = $confDir/${file}")
+		       //println("loading property file = $confDir/${file}")
 		       properties.load(new File("$confDir/${file}"))
 		   }
 		}
