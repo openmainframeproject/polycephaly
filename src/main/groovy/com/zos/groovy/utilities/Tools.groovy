@@ -247,13 +247,14 @@ class Tools {
 				if (buildFile.startsWith("/"))
 					properties.buildListFile = buildFile
 			      else
-					properties.buildListFile = "$properties.workDir/$buildFile".toString()
+					//properties.buildListFile = "$properties.workDir/$buildFile".toString()
+					properties.buildListFile = "$properties.sourceDir/$buildFile".toString(
 		  	}
 		    else {
 				properties.buildFile = buildFile
 		    }
 		}    
-		
+
 		if (properties.buildFile) {
 			files = [properties.buildFile]
 		}
@@ -262,7 +263,8 @@ class Tools {
 		    files = new File(properties.buildListFile) as List<String>
 		}   
 		else { 
-		    files = new File("$properties.workDir/$properties.BuildList") 
+		    //files = new File("$properties.workDir/$properties.BuildList") 
+			files = new File("$properties.sourceDir/$properties.BuildList")
 		}
 		println("*** properties.buildFile = ${properties.buildFile} ***")
 		
