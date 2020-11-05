@@ -88,7 +88,7 @@ class Tools {
 	
 	def loadProperties(OptionAccessor opts) {
 		// check to see if there is a ./build.properties to load
-		println("*** running in loadProperties ***")
+		//println("*** running in loadProperties ***")
 		
 		// check to see if there is a ./build.properties to load
 		def properties = BuildProperties.getInstance()
@@ -174,7 +174,7 @@ class Tools {
 			 println("Script text to compile cannot be null!")
 			 throw new IllegalArgumentException("Script text to compile cannot be null!")
 	   } else {
-		   println("starting to process the property files ")
+		   //println("starting to process the property files ")
 		   propsFiles.each { file ->
 		       println("loading property file = $confDir/${file}")
 		       properties.load(new File("$confDir/${file}"))
@@ -202,13 +202,13 @@ class Tools {
 		} else {
 			properties.ddioName = "${properties.ddioName}".toString().toUpperCase()
 		}
-		println("********************** all properties have been loaded  ***************************************")
-		println(properties.list())
-		def env = System.getenv()
-			env.each{
-			println it
-		}
-		println("************************************************************************************************")
+		//println("********************** all properties have been loaded  ***************************************")
+		//println(properties.list())
+		//def env = System.getenv()
+	    //	env.each{
+		//	println it
+		//}
+		//println("************************************************************************************************")
 	
 		if (properties.collection == null) {
 			properties.collection = System.getenv(Zconstants.BASENAME).trim()
@@ -237,7 +237,7 @@ class Tools {
 	}
 	
 	def getBuildList(List<String> args) {
-		println("*** running in getBuildList ***")
+		//println("*** running in getBuildList ***")
 	    def properties = BuildProperties.getInstance()
 	    def files = []
 		// Set the buildFile or buildList property
@@ -268,26 +268,26 @@ class Tools {
 		
 		def tempFileList = new File("${properties.workDir}/tempFileList.txt")
         def GenericFileListFound = false
-		println("*** files = $files ***")
+		//println("*** files = $files ***")
         files.eachLine('ibm-1047') { line ->
-			println("line = $line")
+			//println("line = $line")
             if (line.contains("*")) {
 				GenericFileListFound = true
-				println("Generic Found = $line")
+				//println("Generic Found = $line")
                 def fileDirectory = line[0..<line.lastIndexOf('*')]
-				println("fileDirectory = $fileDirectory")
+				//println("fileDirectory = $fileDirectory")
                 def dir = new File("${properties.'src.zOS.dir'}/$fileDirectory")
-				println("dir = $dir")
+				//println("dir = $dir")
                 def stripNumber = "${properties.'src.zOS.dir'}".size()+1
-				println("stripNumber = $stripNumber")
+				//println("stripNumber = $stripNumber")
                 dir.eachFileRecurse(FileType.FILES) {  file ->
-					println("file = $file")
+					//println("file = $file")
                     file = file.toString().stripIndent(stripNumber)
                     tempFileList.append "$file${System.getProperty('line.separator')}"
                 }
             } else {
                 tempFileList.append "$line${System.getProperty('line.separator')}"
-				println("tempFileList = $tempFileList")
+				//println("tempFileList = $tempFileList")
             }
         }
 
@@ -301,12 +301,12 @@ class Tools {
         if (GenericFileListFound) {
             files = tempFileList
         } 
-		println("returning files = $files")
+		//println("returning files = $files")
 		return files
 	}
 	
 	def createDatasets(Map args) {
-		println("*** running in createDatasets ***")
+		//println("*** running in createDatasets ***")
 	    def properties = BuildProperties.getInstance()
 		args.suffixList.each { LLQ ->
 			def dataset = "${properties.devHLQ}.$LLQ"
@@ -323,7 +323,7 @@ class Tools {
 	
 	}
 	def getDefaultRepositoryClient() {
-		println("*** running in getDefaultRepositoryClient ***")
+		//println("*** running in getDefaultRepositoryClient ***")
 		def properties = BuildProperties.getInstance()
 		def repositoryClient = new RepositoryClient().url(properties.dbbRepo)
 								 .userId(properties.dbbID)
@@ -340,7 +340,7 @@ class Tools {
 	}
 	
 	def initializeBuildArtifacts() {
-		println("*** running in initializeBuildArtifacts ***")
+		//println("*** running in initializeBuildArtifacts ***")
 	    BuildReportFactory.createDefaultReport()
 	    def properties = BuildProperties.getInstance()
 	    if (!properties.userBuild) {
@@ -357,7 +357,7 @@ class Tools {
 	}
 	
 	def getBuildResult() {
-		println("*** running in getBuildResult ***")
+		//println("*** running in getBuildResult ***")
 	    def properties = BuildProperties.getInstance()
 	    def buildResult = null
 	    if (!properties.userBuild) {
@@ -368,7 +368,7 @@ class Tools {
 	}
 	
 	def generateBuildReport() {
-		println("*** running in generateBuildReport ***")
+		//println("*** running in generateBuildReport ***")
 	    def properties = BuildProperties.getInstance()
 	    def jsonOutputFile = new File("${properties.workDir}/BuildReport.json")
 	    def htmlOutputFile = new File("${properties.workDir}/BuildReport.html")
@@ -389,7 +389,7 @@ class Tools {
 	}
 	
 	def getDefaultDependencyResolver(String file) {
-		println("*** running in getDefaultDependencyResolver ***")
+		//println("*** running in getDefaultDependencyResolver ***")
 	    def properties = BuildProperties.getInstance()
 		def path = new DependencyPath().sourceDir(properties.workDir).directory("${properties.sourceDir}/${properties.copybookPackage}")
 		def rule = new ResolutionRule().library("SYSLIB").path(path)
@@ -406,7 +406,7 @@ class Tools {
 	}
 	
 	def getDefaultImpactResolver(String file) {
-		println("*** running in getDefaultImpactResolver ***")
+		//println("*** running in getDefaultImpactResolver ***")
 		def properties = BuildProperties.getInstance()
 	   	def path = new DependencyPath().sourceDir(properties.workDir).directory("${properties.sourceDir}/${properties.copybookPackage}")
 	   	def rule = new ResolutionRule().library("SYSLIB").path(path)
@@ -415,7 +415,7 @@ class Tools {
 	}
 	
 	def updateBuildResult(Map args) {
-		println("*** running in updateBuildResult ***")
+		//println("*** running in updateBuildResult ***")
 	    def properties = BuildProperties.getInstance()
 	    def error = args.rc > args.maxRC
 	    def errorMsg = null
@@ -439,7 +439,7 @@ class Tools {
 	}
 	
 	def finalizeBuildResult(Map args) {
-		println("*** running in finalizeBuildResult ***")
+		//println("*** running in finalizeBuildResult ***")
 		def properties = BuildProperties.getInstance()
 		if (!properties.userBuild) {
 			def buildResult = getBuildResult()
