@@ -16,7 +16,16 @@ class Compile {
 	static void main(args) {
 	
 	}
-	
+	/**
+	 *
+	 * Compile COBOL source code
+	 * <br />
+	 *
+	 * @param args[0] = source file input from USS directory
+	 *
+	 * Properties bring used:
+	 * @since version 1.00
+	 */
 	public void run(args) {
 		
 		
@@ -24,9 +33,7 @@ class Compile {
 		def file = args[0]
 		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
-		//* Building src/main/zOS/com/zos/cobol/App1/k164baco.cbl using com.zos.groovy.utilities.Compile.groovy script
 		
-		//GroovyObject tools = (GroovyObject) Tools.newInstance()
 		def tools = new Tools()
 		// define local properties
 		def properties = BuildProperties.getInstance()
@@ -134,11 +141,17 @@ class Compile {
 		// add a copy command to the MVSExec command to copy the SYSPRINT from the temporary dataset to an HFS log file
 		compile.copy(new CopyToHFS().ddName("SYSPRINT").file(logFile).hfsEncoding(properties.logEncoding))
 		
-		// execute the MVSExec compile command
-		def rc = compile.execute()
-		
+		/********************************************************************************
+		 *  Running individual steps
+		 ********************************************************************************/
+		def job = new MVSJob()
+		job.start()
+			// execute the MVSExec compile command
+			def rc = compile.execute()
+			println(" ran Compile completed RC = $rc ")
 		// update build result
 		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+		job.stop()
 		
 	}
 
