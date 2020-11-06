@@ -178,9 +178,7 @@ class Tools {
 		//println("buildPropFile = $buildPropFile")
 		if (buildPropFile.exists()) {
 		   properties.load(new File("${buildPropFile}"))
-
 	   }
-	   
 	   
 	   def propsFiles = Eval.me(properties.PropsFiles)
 	   
