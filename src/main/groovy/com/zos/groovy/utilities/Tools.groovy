@@ -158,7 +158,7 @@ class Tools {
 		
 		def projectConfDir = null
 		if (properties.projectConfDir == null) {
-			projectConfDir = new File("$properties.workDir") + '/conf'
+			projectConfDir = new File("$properties.workDir/conf") 
 		} else {
 			projectConfDir = new File("$properties.projectConfDir")
 		}
