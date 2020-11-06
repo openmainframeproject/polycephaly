@@ -156,13 +156,9 @@ class Tools {
 		def workDir = new File("$properties.workDir")
 		println("workDir = $workDir")
 		
-		println("properties.projectConfDir = $properties.projectConfDir")
-		if (properties.projectConfDir == null)  { 
-			//properties.projectConfDir =  properties.workDir + '/conf'	this is project confDir = $workSpace/conf by default //
-			def projectConfDir = new File("$workDir/conf")
-		} else {
-			def projectConfDir = new File("$properties.projectConfDir")
-		}
+		if (properties.projectConfDir == null) properties.projectConfDir = '/conf'
+		def projectConfDir = new File(workDir) + properties.projectConfDir
+		properties.projectConfDir = projectConfDir
 		println("projectConfDir = $projectConfDir")
 		
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
