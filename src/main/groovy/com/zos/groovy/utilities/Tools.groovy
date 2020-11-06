@@ -166,7 +166,7 @@ class Tools {
 		println("buildDir = $buildDir")
 		
 		println("properties.workDir = $properties.workDir")
-		def workDir = new File($properties.workDir.toString())
+		def workDir = new File("$properties.workDir")
 		properties.workDir = workDir
 		println("workDir = $workDir")
 		
