@@ -191,13 +191,12 @@ class Tools {
 	   } else {
 		   //println("starting to process the property files ")
 		   propsFiles.each { file ->
-		       //println("loading property file = $confDir/${file}")
+		       println("loading property file = $confDir/${file}")
 		       properties.load(new File("$confDir/${file}"))
 		   }
 		}
 		
-		
-		//properties.load(new File("$confDir/${properties.collection}.properties"))
+		println("loading $projectConfDir/${properties.collection}.properties")
 		properties.load(new File("$projectConfDir/${properties.collection}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
 		
@@ -351,7 +350,7 @@ class Tools {
 	}
 	
 	def initializeBuildArtifacts() {
-		//println("*** running in initializeBuildArtifacts ***")
+		println("*** running in initializeBuildArtifacts ***")
 	    BuildReportFactory.createDefaultReport()
 	    def properties = BuildProperties.getInstance()
 	    if (!properties.userBuild) {
