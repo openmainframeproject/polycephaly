@@ -172,7 +172,7 @@ class Tools {
 		println("properties.projectConfDir = $properties.projectConfDir")
 		if (properties.projectConfDir == null) properties.projectConfDir =  "$properties.workDir/conf"	// this is project confDir = $workSpace/conf by default //
 		println("properties.projectConfDir = $properties.projectConfDir")
-		def projectConfDir = new File("$properties.projectConfDir") + 
+		def projectConfDir = new File("$properties.projectConfDir") 
 		println("projectConfDir = $projectConfDir")
 		
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
