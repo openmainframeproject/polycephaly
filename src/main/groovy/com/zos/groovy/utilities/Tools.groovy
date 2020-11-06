@@ -147,8 +147,8 @@ class Tools {
 		//if (buildPropFile.exists())
 		//	   BuildProperties.load(buildPropFile)
 		
-		if (properties.buildDir == null) properties.buildDir = System.getenv(Zconstants.BUILDDIR.trim()
-		if (properties.confDir == null) properties.confDir = System.getenv(Zconstants.CONFDIR).trim()
+		if (properties.buildDir == null) properties.buildDir = '/build'
+		if (properties.confDir == null) properties.confDir = '/conf'
 		if (properties.workDir == null) properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
 		if (properties.collection == null) properties.collection = System.getenv(Zconstants.BASENAME).trim()
 
