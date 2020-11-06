@@ -329,7 +329,15 @@ class Tools {
 		}
 	
 	}
+	
 	def getDefaultRepositoryClient() {
+		//println("*** running in getDefaultRepositoryClient ***")
+		def properties = BuildProperties.getInstance()
+		def repositoryClient = new RepositoryClient().forceSSLTrusted(true)
+		return repositoryClient
+	}
+	
+	def getDefaultRepositoryClient.old() {
 		//println("*** running in getDefaultRepositoryClient ***")
 		def properties = BuildProperties.getInstance()
 		def repositoryClient = new RepositoryClient().url(properties.dbbRepo)
