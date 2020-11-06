@@ -178,6 +178,10 @@ class Assembler {
 			println(" running LinkEdit completed RC = $rc ")
 			tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		}
+		
+		if (rc > 4) {
+			properties.error = "ERROR"
+		}
 		job.stop()
 	}
 }

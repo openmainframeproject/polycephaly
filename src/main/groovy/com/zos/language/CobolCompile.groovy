@@ -274,12 +274,12 @@ class CobolCompile {
 		
 		def rc = compile.execute()
 		println(" ran Cobol Compile completed RC = $rc ")
-		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+		tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		if (rc <= 4) {
 			//println(" running LinkEdit ")
 			rc = linkedit.execute()
-			//println(" running LinkEdit completed RC = $rc ")
-			//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+			println(" running LinkEdit completed RC = $rc ")
+			tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		}
 		job.stop()
 		
@@ -287,6 +287,9 @@ class CobolCompile {
 		if (logicalFile.isSQL() && properties.RUN_DB2_BIND.toBoolean()) {
 			def scriptName = "$properties.workDir/build/BindPackage.groovy"
 			run(new File(scriptName), [file] as String[])
+		}
+		if (rc > 4) {
+			properties.error = "ERROR"
 		}
 	}
 
