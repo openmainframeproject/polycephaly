@@ -247,8 +247,8 @@ class Tools {
 				if (buildFile.startsWith("/"))
 					properties.buildListFile = buildFile
 			      else
-					properties.buildListFile = "$properties.workDir/$buildFile".toString()
-					//properties.buildListFile = "$properties.sourceDir/$buildFile".toString()
+					//properties.buildListFile = "$properties.workDir/$buildFile".toString()
+					properties.buildListFile = "$properties.sourceDir/$buildFile".toString()
 		  	}
 		    else {
 				properties.buildFile = buildFile
