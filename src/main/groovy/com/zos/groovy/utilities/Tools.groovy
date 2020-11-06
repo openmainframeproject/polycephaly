@@ -154,16 +154,14 @@ class Tools {
 
 		println("properties.workDir = $properties.workDir")
 		def workDir = new File("$properties.workDir")
-		properties.workDir = workDir
 		println("workDir = $workDir")
 		
 		def projectConfDir = null
 		if (properties.projectConfDir == null) {
-			projectConfDir = new File(workDir) + '/conf'
+			projectConfDir = new File("$properties.workDir") + '/conf'
 		} else {
 			projectConfDir = new File("$properties.projectConfDir")
 		}
-		properties.projectConfDir = projectConfDir
 		println("projectConfDir = $projectConfDir")
 		
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
