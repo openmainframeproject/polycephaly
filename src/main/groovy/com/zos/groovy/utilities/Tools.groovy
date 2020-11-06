@@ -337,23 +337,6 @@ class Tools {
 		return repositoryClient
 	}
 	
-	def getDefaultRepositoryClient.old() {
-		//println("*** running in getDefaultRepositoryClient ***")
-		def properties = BuildProperties.getInstance()
-		def repositoryClient = new RepositoryClient().url(properties.dbbRepo)
-								 .userId(properties.dbbID)
-								 .forceSSLTrusted(true)
-		if (properties.pw)
-			repositoryClient.setPassword(properties.pw)
-		else if (properties.dbbpwFile) {
-			def pFile = properties.dbbpwFile
-			   if (!pFile.startsWith("/"))
-				pFile = "$properties.confDir/$properties.dbbpwFile"
-			repositoryClient.setPasswordFile(new File(pFile))
-		}
-		return repositoryClient
-	}
-	
 	def initializeBuildArtifacts() {
 		println("*** running in initializeBuildArtifacts ***")
 	    BuildReportFactory.createDefaultReport()
