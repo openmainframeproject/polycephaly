@@ -170,7 +170,7 @@ class Tools {
 		properties.confDir = confDir
 		println("confDir = $confDir")
 		
-		properties.'dbb.RepositoryClient.passwordFile' = "$properties.confDir/conf/ADMIN.pw"
+		properties.'dbb.RepositoryClient.passwordFile' = properties.confDir + '/conf/ADMIN.pw'
 		println("dbb.RepositoryClient.passwordFile = $properties.'dbb.RepositoryClient.passwordFile'")
 		
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
