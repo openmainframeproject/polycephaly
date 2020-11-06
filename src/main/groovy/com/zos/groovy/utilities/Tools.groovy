@@ -190,7 +190,7 @@ class Tools {
 			properties.collection = System.getenv(Zconstants.BASENAME).trim()
 		}
 		if(properties.collectionPropertyDir == null) {
-			properties.collectionPropertyDir = "$workDir/conf"
+			properties.collectionPropertyDir = "${workDir}/conf"
 		} 
 		
 		properties.load(new File("$properties.collectionPropertyDir/${properties.collection}.properties"))
