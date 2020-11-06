@@ -152,7 +152,19 @@ class Tools {
 		if (properties.workDir == null) properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
 		if (properties.collection == null) properties.collection = System.getenv(Zconstants.BASENAME).trim()
 
-			
+		println("properties.workDir = $properties.workDir")
+		def workDir = new File("$properties.workDir")
+		println("workDir = $workDir")
+		
+		println("properties.projectConfDir = $properties.projectConfDir")
+		if (properties.projectConfDir == null)  { 
+			//properties.projectConfDir =  properties.workDir + '/conf'	this is project confDir = $workSpace/conf by default //
+			def projectConfDir = new File("$workDir/conf")
+		} else {
+			def projectConfDir = new File("$properties.projectConfDir")
+		}
+		println("projectConfDir = $projectConfDir")
+		
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
 		println("scriptDir = $scriptDir")
@@ -164,16 +176,7 @@ class Tools {
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
 		println("buildDir = $buildDir")
-		
-		println("properties.workDir = $properties.workDir")
-		def workDir = new File("$properties.workDir")
-		println("workDir = $workDir")
-		
-		println("properties.projectConfDir = $properties.projectConfDir")
-		if (properties.projectConfDir == null) properties.projectConfDir =  "$properties.workDir/conf"	// this is project confDir = $workSpace/conf by default //
-		println("properties.projectConfDir = $properties.projectConfDir")
-		def projectConfDir = new File("$properties.projectConfDir") 
-		println("projectConfDir = $projectConfDir")
+
 		
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
 		//println("buildPropFile = $buildPropFile")
