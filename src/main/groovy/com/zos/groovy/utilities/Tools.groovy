@@ -69,9 +69,9 @@ class Tools {
 		cli.e(longOpt:'logEncoding', args:1, argName:'encoding', 'Encoding of output logs. Default is EBCDIC')
 		cli.E(longOpt:'errPrefix', args:1, argName:'errorPrefix', 'Unique id used for IDz error message datasets')
 		cli.h(longOpt:'help', 'Prints this message')
-		cli.i(longOpt:'id', args:1, argName:'id', 'DBB repository id')
-		cli.p(longOpt:'pw', args:1, argName:'password', 'DBB password')
-		cli.P(longOpt:'pwFile', args:1, argName:'file', 'Absolute or relative (from sourceDir) path to file containing DBB password')
+		//cli.i(longOpt:'id', args:1, argName:'id', 'DBB repository id')
+		//cli.p(longOpt:'pw', args:1, argName:'password', 'DBB password')
+		//cli.P(longOpt:'pwFile', args:1, argName:'file', 'Absolute or relative (from sourceDir) path to file containing DBB password')
 		cli.q(longOpt:'hlq', args:1, argName:'hlq', 'High level qualifier for partition data sets')
 		cli.r(longOpt:'repo', args:1, argName:'url', 'DBB repository URL')
 		cli.s(longOpt:'sourceDir', args:1, argName:'dir', 'Absolute path to source directory')
@@ -169,6 +169,9 @@ class Tools {
 		def confDir = new File(scriptDir).getParent() + properties.confDir
 		properties.confDir = confDir
 		println("confDir = $confDir")
+		
+		properties.'dbb.RepositoryClient.passwordFile' = new File("$properties.confDir/conf/ADMIN.pw")
+		println("dbb.RepositoryClient.passwordFile = $properties.'dbb.RepositoryClient.passwordFile'")
 		
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
