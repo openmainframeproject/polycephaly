@@ -166,12 +166,12 @@ class Tools {
 		println("buildDir = $buildDir")
 		
 		println("properties.workDir = $properties.workDir")
-		def workDirTemp = properties.workDir
-		def workDir = new File("$workDirTemp")
+		def workDir = new File("$properties.workDir")
 		println("workDir = $workDir")
 		
-		if (properties.projectConfDir == null) properties.projectConfDir = System.getenv(Zconstants.CONFDIR).trim()	// this is project confDir = $workSpace/conf by default //
-		def projectConfDir = new File(workDir) + properties.projectConfDir
+		println("properties.projectConfDir = $properties.projectConfDir")
+		if (properties.projectConfDir == null) properties.projectConfDir = workDir + "/conf"	// this is project confDir = $workSpace/conf by default //
+		def projectConfDir = new File("$properties.projectConfDir") + 
 		println("projectConfDir = $projectConfDir")
 		
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
