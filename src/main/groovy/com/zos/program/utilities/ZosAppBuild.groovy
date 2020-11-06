@@ -79,7 +79,7 @@ class ZosAppBuild {
 		
 		// create build list from input build file
 		def buildList = tools.getBuildList(opts.arguments())
-		//println("buildList = $buildList")
+		println("buildList = $buildList")
 
 		
 		// scan all the files in the process list for dependency data (team build only)
