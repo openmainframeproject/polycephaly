@@ -170,7 +170,7 @@ class Tools {
 		println("workDir = $workDir")
 		
 		println("properties.projectConfDir = $properties.projectConfDir")
-		if (properties.projectConfDir == null) properties.projectConfDir = "$properties.workDir/conf"	// this is project confDir = $workSpace/conf by default //
+		if (properties.projectConfDir == null) properties.projectConfDir =  properties.workDir + "/conf"	// this is project confDir = $workSpace/conf by default //
 		def projectConfDir = new File("$properties.projectConfDir") + 
 		println("projectConfDir = $projectConfDir")
 		
