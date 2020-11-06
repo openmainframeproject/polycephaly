@@ -107,9 +107,6 @@ class Tools {
 		if (opts.E) properties.errPrefix = opts.E
 		if (opts.u) properties.userBuild = "true"
 		
-		//println("properties.sourceDir = ${properties.sourceDir}")
-		//println("properties.collection = ${properties.collection}")
-		
 		// override new default properties
 		if (opts.r) properties.'dbb.RepositoryClient.url' = opts.r
 		if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
@@ -117,7 +114,7 @@ class Tools {
 		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
 		if (opts.B) properties.buildDir = opts.B
 		if (opts.X) properties.confDir = opts.X
-		if (opts.Z) properties.projectConfDir = opts.Z
+		if (opts.Z) properties.projectConfDir = opts.D
 		
 		// handle --clean option
 		if (opts.C)  {
@@ -176,7 +173,6 @@ class Tools {
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
 		println("buildDir = $buildDir")
-
 		
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
 		//println("buildPropFile = $buildPropFile")
