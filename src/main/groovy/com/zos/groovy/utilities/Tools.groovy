@@ -75,7 +75,9 @@ class Tools {
 		cli.h(longOpt:'help', 'Prints this message')
 		cli.C(longOpt:'clean', 'Deletes the dependency collection and build reeult group from the DBB repository then terminates (skips build)')
 		cli.B(longOpt:'buildDir', args:1, argName:'dir', 'directory path to the build.groovy startup script')
-		cli.Z(longOpt:'confDir', args:1, argName:'dir', 'directory path to the configuration directory')
+		cli.X(longOpt:'confDir', args:1, argName:'dir', 'directory path to the polycephaly configuration directory')
+		cli.Z(longOpt:'projectConfDir', args:1, argName:'dir', 'directory path to the configuration directory')
+		
 	
 		def opts = cli.parse(cliArgs)
 		if (opts.h) { // if help option used, print usage and exit
@@ -113,7 +115,8 @@ class Tools {
 		if (opts.p) properties.'dbb.RepositoryClient.password' = opts.p
 		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
 		if (opts.B) properties.buildDir = opts.B
-		if (opts.Z) properties.confDir = opts.Z
+		if (opts.X) properties.confDir = opts.X
+		if (opts.Z) properties.projectConfDir = opts.Z
 		
 		// handle --clean option
 		if (opts.C)  {
@@ -144,21 +147,31 @@ class Tools {
 		//if (buildPropFile.exists())
 		//	   BuildProperties.load(buildPropFile)
 		
-		if (properties.buildDir == null) properties.buildDir = "/build"
-		if (properties.confDir == null) properties.confDir = "/conf"
-		
-		
+		if (properties.buildDir == null) properties.buildDir = System.getenv(Zconstants.BUILDDIR.trim()
+		if (properties.confDir == null) properties.confDir = System.getenv(Zconstants.CONFDIR).trim()
+		if (properties.workDir == null) properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
+		if (properties.collection == null) properties.collection = System.getenv(Zconstants.BASENAME).trim()
+
+			
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
-		//println("scriptDir = $scriptDir"
+		println("scriptDir = $scriptDir")
 		
 		def confDir = new File(scriptDir).getParent() + properties.confDir
 		properties.confDir = confDir
-		//println("confDir = $confDir"
+		println("confDir = $confDir")
 		
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
-		//println("buildDir = $buildDir"
+		println("buildDir = $buildDir")
+		
+		def workDir = new File(properties.workDir)
+		properties.workDir = workDir
+		println("workDir = $workDir")
+		
+		if (properties.projectConfDir == null) properties.projectConfDir = System.getenv(Zconstants.CONFDIR).trim()	// this is project confDir = $workSpace/conf by default //
+		def projectConfDir = new File(workDir) + properties.projectConfDir
+		println("projectConfDir = $projectConfDir")
 		
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
 		//println("buildPropFile = $buildPropFile")
@@ -181,19 +194,11 @@ class Tools {
 		   }
 		}
 		
-		if (properties.workDir == null) {
-			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
-		}
 		
-		if(properties.collection == null) {
-			properties.collection = System.getenv(Zconstants.BASENAME).trim()
-		}
-		if(properties.collectionPropertyDir == null) {
-			properties.collectionPropertyDir = "${properties.workDir}/conf"
-		} 
-		
-		properties.load(new File("${properties.collectionPropertyDir}/${properties.collection}.properties"))
+		//properties.load(new File("$confDir/${properties.collection}.properties"))
+		properties.load(new File("$projectConfDir/${properties.collection}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
+		
 		if(properties.devHLQ == null) {
 			properties.devHLQ = "${properties.datasetPrefix}.${properties.ProjectName}.${properties.buildNodeName}".toString()
 			//println("setting ddioName = default ${properties.ddioName}")
