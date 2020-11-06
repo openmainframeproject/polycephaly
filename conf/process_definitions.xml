@@ -2,8 +2,8 @@
 	<ProcessDefinition>
 		<name>groovyz</name>
 		<process>com.ibm.dbb.build.ext.buildprocess.GroovyBuildProcess</process>
-		<classpath>/opt/lpp/IBM/dbb/lib/*:/opt/lpp/IBM/dbb/groovy-2.4.12/lib/*:/u/jerrye/bin/*</classpath>	
-		<options>-Djava.library.path=/opt/lpp/IBM/dbb/lib/</options>
+		<classpath>/opt/lpp/IBM/dbb/lib/*:/opt/lpp/IBM/dbb/groovy-2.4.12/lib/*:/u/jerrye/lib/*</classpath>	
+		<options>-Djava.library.path=/opt/lpp/IBM/dbb/lib/:/u/jerrye/lib/</options>
 		<count>1</count>
 	</ProcessDefinition>
 </ProcessManager>

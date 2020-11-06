@@ -6,7 +6,7 @@ pipeline {
     }
     
     environment {	
-    	binDir				= 'bin'
+    	libDir				= 'lib'
     	classesDir			= 'classes'	
 		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
 		srcJavaZosUtil		= 'src/main/java/com/zos/java/utilities'
@@ -21,7 +21,7 @@ pipeline {
 		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		dbbhtml				= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
 		dbbJNI 				= '/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so'
-		polycephalyJar		= "${env.binDir}/polycephaly.jar"
+		polycephalyJar		= "${env.libDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}:${env.dbbhtml}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
@@ -53,7 +53,7 @@ pipeline {
 		}
 		stage('Create Directories'){
             steps {
-                sh "mkdir ${env.binDir}"
+                sh "mkdir ${env.libDir}"
                 sh "mkdir ${env.classesDir}"
             }
         }
@@ -115,7 +115,7 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                sh "cp -Rf ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/bin/" 
+                sh "cp -Rf ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/${env.libDir}/" 
                 sh "cp -Rf ${WORKSPACE}/conf/*.properties ${env.polyRuntime}/conf/"
                 sh "cp -Rf ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/" 
                 sh "cp -Rf ${WORKSPACE}/conf/process_definitions.xml ${env.polyRuntime}/conf/"   
