@@ -32,7 +32,7 @@ import groovy.transform.Field
  *  -c,--collection <name>        Name of the dependency data collection
  *  -C, --clean                   Deletes the dependency collection and build result group
  *                                from the DBB repository then terminates (skips build)
- *  -D,--confDir <dir>			  Name of the Project Config directory
+ *  -D,--projectConfDir <dir>	  Name of the Project Config directory
  *  -e,--logEncoding <encoding>   Encoding of output logs. Default is EBCDIC
  *  -E,--errPrefix <uniqueId>     Unique id used for IDz error message datasets
  *  -h,--help                     Prints this message
@@ -45,6 +45,8 @@ import groovy.transform.Field
  *  -t,--team <hlq>               Team build hlq for user build syslib concatenations
  *  -u,--userBuild                Flag indicating running a user build
  *  -w,--workDir <dir>            Absolute path to the build output directory
+ *  -,--workDir <dir>             Absolute path to the build output directory
+ *  -X,--confDir <dir>            Name of the Polycephaly Config directory
  *
  * All command line options can be set in the MortgageApplication/build/build.properties file
  * that is loaded at the beginning of the build. Use the argument long form name for the property's
@@ -59,26 +61,25 @@ class Tools {
 	
 	def parseArgs(String[] cliArgs, String usage) {
 		def cli = new CliBuilder(usage: usage)
-		cli.s(longOpt:'sourceDir', args:1, argName:'dir', 'Absolute path to source directory')
-		cli.w(longOpt:'workDir', args:1, argName:'dir', 'Absolute path to the build output directory')
 		cli.b(longOpt:'buildHash', args:1, argName:'hash', 'Git commit hash for the build')
-		cli.q(longOpt:'hlq', args:1, argName:'hlq', 'High level qualifier for partition data sets')
+		cli.B(longOpt:'buildDir', args:1, argName:'dir', 'directory path to the build.groovy startup script')
 		cli.c(longOpt:'collection', args:1, argName:'name', 'Name of the dependency data collection')
-		cli.t(longOpt:'team', args:1, argName:'hlq', 'Team build hlq for user build syslib concatenations')
-		cli.r(longOpt:'repo', args:1, argName:'url', 'DBB repository URL')
+		cli.C(longOpt:'clean', 'Deletes the dependency collection and build reeult group from the DBB repository then terminates (skips build)')
+		cli.D(longOpt:'projectConfDir', args:1, argName:'dir', 'directory path to the configuration directory')
+		cli.e(longOpt:'logEncoding', args:1, argName:'encoding', 'Encoding of output logs. Default is EBCDIC')
+		cli.E(longOpt:'errPrefix', args:1, argName:'errorPrefix', 'Unique id used for IDz error message datasets')
+		cli.h(longOpt:'help', 'Prints this message')
 		cli.i(longOpt:'id', args:1, argName:'id', 'DBB repository id')
 		cli.p(longOpt:'pw', args:1, argName:'password', 'DBB password')
 		cli.P(longOpt:'pwFile', args:1, argName:'file', 'Absolute or relative (from sourceDir) path to file containing DBB password')
-		cli.e(longOpt:'logEncoding', args:1, argName:'encoding', 'Encoding of output logs. Default is EBCDIC')
+		cli.q(longOpt:'hlq', args:1, argName:'hlq', 'High level qualifier for partition data sets')
+		cli.r(longOpt:'repo', args:1, argName:'url', 'DBB repository URL')
+		cli.s(longOpt:'sourceDir', args:1, argName:'dir', 'Absolute path to source directory')
+		cli.t(longOpt:'team', args:1, argName:'hlq', 'Team build hlq for user build syslib concatenations')
 		cli.u(longOpt:'userBuild', 'Flag indicating running a user build')
-		cli.E(longOpt:'errPrefix', args:1, argName:'errorPrefix', 'Unique id used for IDz error message datasets')
-		cli.h(longOpt:'help', 'Prints this message')
-		cli.C(longOpt:'clean', 'Deletes the dependency collection and build reeult group from the DBB repository then terminates (skips build)')
-		cli.B(longOpt:'buildDir', args:1, argName:'dir', 'directory path to the build.groovy startup script')
+		cli.w(longOpt:'workDir', args:1, argName:'dir', 'Absolute path to the build output directory')
 		cli.X(longOpt:'confDir', args:1, argName:'dir', 'directory path to the polycephaly configuration directory')
-		cli.Z(longOpt:'projectConfDir', args:1, argName:'dir', 'directory path to the configuration directory')
 		
-	
 		def opts = cli.parse(cliArgs)
 		if (opts.h) { // if help option used, print usage and exit
 		 	cli.usage()
