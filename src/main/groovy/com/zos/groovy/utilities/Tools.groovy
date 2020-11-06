@@ -150,15 +150,15 @@ class Tools {
 		
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
-		//println("scriptDir = $scriptDir")
+		//println("scriptDir = $scriptDir"
 		
 		def confDir = new File(scriptDir).getParent() + properties.confDir
 		properties.confDir = confDir
-		//println("confDir = $confDir")
+		//println("confDir = $confDir"
 		
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
-		//println("buildDir = $buildDir")
+		//println("buildDir = $buildDir"
 		
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
 		//println("buildPropFile = $buildPropFile")
@@ -184,16 +184,15 @@ class Tools {
 		if (properties.workDir == null) {
 			properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
 		}
-		def workDir = properties.workDir
 		
 		if(properties.collection == null) {
 			properties.collection = System.getenv(Zconstants.BASENAME).trim()
 		}
 		if(properties.collectionPropertyDir == null) {
-			properties.collectionPropertyDir = "${workDir}/conf"
+			properties.collectionPropertyDir = "${properties.workDir}/conf"
 		} 
 		
-		properties.load(new File("$properties.collectionPropertyDir/${properties.collection}.properties"))
+		properties.load(new File("${properties.collectionPropertyDir}/${properties.collection}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
 		if(properties.devHLQ == null) {
 			properties.devHLQ = "${properties.datasetPrefix}.${properties.ProjectName}.${properties.buildNodeName}".toString()
