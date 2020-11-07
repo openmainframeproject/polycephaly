@@ -44,12 +44,13 @@ class LinkEdit {
 		def lkedMember
 		if (lkedcntl != null) {
 			lkedMember = CopyToPDS.createMemberName(lkedcntl)
-			//println("with $fileName - copying ${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl to ${properties.linkPDS}($lkedMember)")
+			println("with $fileName - copying ${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl to ${properties.linkPDS}($lkedMember)")
 			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl")).dataset(properties.linkPDS).member(lkedMember).execute()
 		}
 		
 		// define the MVSExec command to link edit the program
 		// create the appropriate compile parm list
+		println("properties.objPDS = $properties.objPDS")
 		def linkOpts = properties.getFileProperty("LinkOpts", fileName)
 		if (linkOpts == null) {
 			linkOpts = properties.DefaultLinkEditOpts

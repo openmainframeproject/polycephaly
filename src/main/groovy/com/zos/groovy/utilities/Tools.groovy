@@ -322,7 +322,7 @@ class Tools {
 			def dataset = "${properties.devHLQ}.$LLQ"
 			LLQ = LLQ.toLowerCase().trim()
 			properties."${LLQ}PDS" = dataset.toString()
-			//println("creating $dataset with ${args.suffixOpts} assigned properties.${LLQ}PDS ")
+			println("creating $dataset with ${args.suffixOpts} assigned properties.${LLQ}PDS ")
 			//println("creating $dataset assigned properties.${LLQ}PDS ")
 			new CreatePDS().dataset("$dataset").options(args.suffixOpts).create()
 		}
