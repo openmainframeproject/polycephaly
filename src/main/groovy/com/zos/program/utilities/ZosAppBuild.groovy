@@ -52,19 +52,19 @@ class ZosAppBuild {
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
 		
 		def opts = tools.parseArgs(executeArgs, usage)
-		println("opts = $opts")
+		//println("opts = $opts")
 		def properties = tools.loadProperties(opts)
 		
 		if (!properties.userBuild)
 			tools.validateRequiredProperties(["dbb.RepositoryClient.url", "dbb.RepositoryClient.userId", "password", "collection"])
 			
-		println("******************* system properties loaded *********************************************************")
-		println(properties.list())
-		def env = System.getenv()
-			env.each{
-			println it
-		}
-		println("******************************************************************************************************")
+		//println("******************* system properties loaded *********************************************************")
+		//println(properties.list())
+		//def env = System.getenv()
+		//	env.each{
+		//	println it
+		//}
+		//println("******************************************************************************************************")
 		tools.validateRequiredProperties(["BuildList"])
 		
 		properties.startTime = startTime.format("yyyyMMdd.hhmmss.mmm")
@@ -75,11 +75,11 @@ class ZosAppBuild {
 		
 		// create workdir (if necessary)
 		new File(properties.workDir).mkdirs()
-		println("** Build output will be in $properties.workDir")
+		//println("** Build output will be in $properties.workDir")
 		
 		// create build list from input build file
 		def buildList = tools.getBuildList(opts.arguments())
-		println("buildList = $buildList")
+		//println("buildList = $buildList")
 
 		
 		// scan all the files in the process list for dependency data (team build only)
@@ -89,17 +89,17 @@ class ZosAppBuild {
 			if (!repositoryClient.collectionExists(properties.collection))
 				repositoryClient.createCollection(properties.collection)
 				
-			println("** Scan the build list to collect dependency data")
+			//println("** Scan the build list to collect dependency data")
 			def scanner = new DependencyScanner()
 			def logicalFiles = [] as List<LogicalFile>
-			println("logicalFiles = $logicalFiles")
-			println("buildList = $buildList")
+			//println("logicalFiles = $logicalFiles")
+			//println("buildList = $buildList")
 			
 			buildList.each { file ->
 				def scanFile = "${properties.'src.zOS.dir'}/$file"
-				println("Scanning $scanFile for $file")
+				//println("Scanning $scanFile for $file")
 				def logicalFile = scanner.scan(scanFile, properties.workDir)
-				println("logicalFile = $logicalFile")
+				//println("logicalFile = $logicalFile")
 				logicalFiles.add(logicalFile)
 				
 				if (logicalFiles.size() == 500) {
@@ -110,7 +110,7 @@ class ZosAppBuild {
 				}
 			}
 		
-			println("** Storing remaining ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
+			//println("** Storing remaining ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
 			repositoryClient.saveLogicalFiles(properties.collection, logicalFiles);
 			println(repositoryClient.getLastStatus())
 		}
@@ -122,7 +122,7 @@ class ZosAppBuild {
 		else {
 			// build programs by invoking the appropriate build script
 			def buildOrder = Eval.me(properties.buildOrder)
-			println("buildOrder = $buildOrder")
+			//println("buildOrder = $buildOrder")
 			// optionally execute IMS MFS builds
 			if (properties.BUILD_MFS.toBoolean())   
 				buildOrder << "MFSGenUtility"
@@ -149,16 +149,15 @@ class ZosAppBuild {
 			buildOrder.each { script ->
 		    	// Use the ScriptMappings class to get the files mapped to the build script
 				def buildFiles = ScriptMappings.getMappedList(script, buildList) 
-				println("buildList = $buildList, buildFiles = $buildFiles, script = $script")
+				//println("buildList = $buildList, buildFiles = $buildFiles, script = $script")
 				buildFiles.each { file ->
-					println("---- file = $file ----")
+					//println("---- file = $file ----")
 					buildFile = "${properties.'src.zOS.dir'}/$file"
 					numLines = 0 
 					tempFile = new File(buildFile)
 					lines = tempFile.readLines()
 					numLines = lines.size()
 					totalNumLines = totalNumLines + numLines
-					println("script = $script, buildFile = $buildFile")
 					
 					switch (script) {
 						case "Assembler":

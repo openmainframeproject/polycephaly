@@ -102,7 +102,7 @@ class Assembler {
 		}
 		println("** Running Assembler for program $member and opts = $assemblerParms")
 		def assemble = new MVSExec().file(file).pgm(properties.asmProgram).parm(assemblerParms)
-		assemble.dd(new DDStatement().name("SYSIN").dsn("${properties.asmPDS}($member)").options("shr"))
+		assemble.dd(new DDStatement().name("SYSIN").dsn("${properties.asmPDS}($member)").options("shr").report(true))
 		assemble.dd(new DDStatement().name("SYSPUNCH").dsn("&&TEMPOBJ").options(properties.tempCreateOptions).pass(true))
 		assemble.dd(new DDStatement().name("SYSPRINT").options(properties.tempCreateOptions))
 		assemble.dd(new DDStatement().name("SYSUT1").options(properties.tempCreateOptions))
@@ -172,11 +172,11 @@ class Assembler {
 		
 		def rc = assemble.execute()
 		println(" ran Assembly completed RC = $rc ")
-		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+		tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		if (rc <= 4) {
 			rc = linkedit.execute()
-			//println(" running LinkEdit completed RC = $rc ")
-			//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+			println(" running LinkEdit completed RC = $rc ")
+			tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		}
 		job.stop()
 	}

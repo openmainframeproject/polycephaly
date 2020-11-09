@@ -16,7 +16,16 @@ class Compile {
 	static void main(args) {
 	
 	}
-	
+	/**
+	 *
+	 * Compile COBOL source code
+	 * <br />
+	 *
+	 * @param args[0] = source file input from USS directory
+	 *
+	 * Properties bring used:
+	 * @since version 1.00
+	 */
 	public void run(args) {
 		
 		
@@ -24,9 +33,7 @@ class Compile {
 		def file = args[0]
 		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
-		//* Building src/main/zOS/com/zos/cobol/App1/k164baco.cbl using com.zos.groovy.utilities.Compile.groovy script
 		
-		//GroovyObject tools = (GroovyObject) Tools.newInstance()
 		def tools = new Tools()
 		// define local properties
 		def properties = BuildProperties.getInstance()
@@ -36,6 +43,17 @@ class Compile {
 
 		def member = CopyToPDS.createMemberName(file)
 		def logFile = new File("${properties.workDir}/${member}.log")
+		def xpedParms
+		def xpedCheck = properties.getFileProperty("Xpediter", fileName)
+		//println("Xpediter check = $xpedCheck for file = $fileName")
+		if (xpedCheck != null) {
+			xpedParms = properties.DefaultXpediterCompileOpts
+			AddXpediter = true
+			if (properties.XPED_BUILD_PARMS.toBoolean()) {
+				buildXpediterInputParms()
+				properties.XPED_BUILD_PARMS = 'false'
+			}
+		}
 		
 		// copy program to PDS
 		//println("Copying ${properties.workDir}/$file to ${properties.cobolPDS}($member)")
@@ -53,20 +71,69 @@ class Compile {
 		
 		// create the appropriate compile parm list
 		
-		def compileParms = properties.getFileProperty("compileOpts", fileName)
-		if (compileParms == null) {
-			compileParms = properties.DefaultCobolCompileOpts
+		def compileV4Parms = properties.getFileProperty("Cobolv4Opts", fileName)
+		def compileV6Parms = properties.getFileProperty("Cobolv6Opts", fileName)
+		if (compileV4Parms != null) {
+			compileParms = compileV4Parms
+			compilerLibrary = properties.SIGYCOMPV4
+			//println("running with Cobol v4.2 for program $member and opts = $compileParms")
+		} else {
+			if (compileV6Parms != null) {
+				compileParms = compileV6Parms
+				compilerLibrary = properties.SIGYCOMPV6
+				//println("running with Cobol v6 for program $member and opts = $compileParms")
+			} else {
+				compileParms = properties.DefaultCobolCompileOpts
+				compilerLibrary = properties.SIGYCOMPV6
+				//println("running with Cobol v6 for program $member and default opts = $compileParms")
+			}
 		}
 		if (logicalFile.isCICS()) {
-			compileParms = "$compileParms,DYNAM,CICS"
+			//println("Adding CICS to Compile")
+			compileParms = "$compileParms,CICS"
+		}
+		if (logicalFile.isSQL()) {
+			//println("Adding SQL to Compile")
+			compileParms = "$compileParms,SQL"
 		}
 		if (properties.errPrefix) {
+			//println("Adding errPrefix with ADATA,EX(ADX(ELAXMGUX)")
 			compileParms = "$compileParms,ADATA,EX(ADX(ELAXMGUX))"
 		}
 		
+		if (AddXpediter) {
+			/********************************************************************************
+			 *  Run Xpediter Utility to intialize the DDIO file, only once
+			 ********************************************************************************/
+			//println("properties.XPED_DELDEF_DDIO = ${properties.XPED_DELDEF_DDIO} for fileName = $fileName")
+			if (properties.XPED_DELDEF_DDIO.toBoolean()) {
+				zProgs.idcams(["${properties.ddiofile}"])
+				def xpedutil = new MVSExec().file(file).pgm(properties.xpediterUtilProgram)
+				xpedutil.dd(new DDStatement().name("ABNLDFIL").dsn("${properties.ddioName}").options("shr"))
+				xpedutil.dd(new DDStatement().name("ABNLREPT").options("${properties.tempCreateOptions2} ${properties.lrecl133} ${properties.recfmFBA}"))
+				xpedutil.dd(new DDStatement().name("ABNLTERM").options("${properties.tempCreateOptions2} ${properties.lrecl133} ${properties.recfmFBA}"))
+				xpedutil.dd(new DDStatement().name("ABNLPARM").dsn("${properties.parmlibPDS}(${properties.initddio})").options("shr"))
+				xpedutil.dd(new DDStatement().name("TASKLIB").dsn(properties.XPEDLOAD).options("shr"))
+				xpedutil.copy(new CopyToHFS().ddName("ABNLREPT").file(logFile).hfsEncoding(properties.logEncoding).append(true))
+				def rc = xpedutil.execute()
+				tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+				//properties.XPED_DELDEF_DDIO.toBoolean().FALSE
+				properties.XPED_DELDEF_DDIO = 'false'
+				//println("finished Xpediter format should be FALSE ${properties.XPED_DELDEF_DDIO} for fileName = $fileName")
+			}
+		}
+		
+		/********************************************************************************
+		 *  Building the Compile step
+		 ********************************************************************************/
 		// define the MVSExec command to compile the program
-		println("** Compiling Cobol for program $member and opts = $compileParms")
-		def compile = new MVSExec().file(file).pgm(properties.cobolCompiler).parm(compileParms)
+		if (AddXpediter) {
+			println("** Running Xpediter Compiler for Cobol program $member and options = $compileParms **")
+			compile = new MVSExec().file(file).pgm(properties.xpediterMainProgram).parm(xpedParms)
+		} else {
+			println("** ** Running Cobol Compiler for Cobol program $member and options = $compileParms **")
+			compile = new MVSExec().file(file).pgm(properties.cobolCompiler).parm(compileParms)
+		}
 		
 		// add DD statements to the MVSExec command
 		compile.dd(new DDStatement().name("SYSIN").dsn("${properties.cobolPDS}($member)").options("shr").report(true))
@@ -114,8 +181,8 @@ class Compile {
 			compile.dd(new DDStatement().dsn(properties.SDFHCOB).options("shr"))
 		}
 		
-		// add a tasklib to the MVSExec command with optional CICS and IDz concatenation
-		compile.dd(new DDStatement().name("TASKLIB").dsn(properties.SIGYCOMP).options("shr"))
+		// add a tasklib to the compile command with optional CICS, DB2, and IDz concatenations
+		compile.dd(new DDStatement().name("TASKLIB").dsn(compilerLibrary).options("shr"))
 		
 		if (logicalFile.isCICS()) {
 			// create a DD statement without a name to concatenate to the last named DD added to the MVSExec
@@ -134,11 +201,17 @@ class Compile {
 		// add a copy command to the MVSExec command to copy the SYSPRINT from the temporary dataset to an HFS log file
 		compile.copy(new CopyToHFS().ddName("SYSPRINT").file(logFile).hfsEncoding(properties.logEncoding))
 		
-		// execute the MVSExec compile command
-		def rc = compile.execute()
-		
+		/********************************************************************************
+		 *  Running individual steps
+		 ********************************************************************************/
+		def job = new MVSJob()
+		job.start()
+			// execute the MVSExec compile command
+			def rc = compile.execute()
+			println(" ran Compile completed RC = $rc ")
 		// update build result
 		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+		job.stop()
 		
 	}
 

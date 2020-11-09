@@ -21,5 +21,4 @@ class Zconstants {
 	static final String BUILDNUM = 'BUILD_NUMBER'
 	static final String BUILDTAG = 'BUILD_TAG'
 	static final String NODENAME = 'NODE_NAME'
-
 }
