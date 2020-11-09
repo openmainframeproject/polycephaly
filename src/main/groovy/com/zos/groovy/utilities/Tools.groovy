@@ -152,6 +152,7 @@ class Tools {
 		if (properties.workDir == null) properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
 		if (properties.collection == null) properties.collection = System.getenv(Zconstants.BASENAME).trim()
 
+
 		println("properties.workDir = $properties.workDir")
 		def workDir = new File("$properties.workDir")
 		println("workDir = $workDir")
@@ -171,6 +172,11 @@ class Tools {
 		def confDir = new File(scriptDir).getParent() + properties.confDir
 		properties.confDir = confDir
 		println("confDir = $confDir")
+		
+		//------------
+		// **   need to fix the DBB admin password location
+		//-----------
+
 		
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
