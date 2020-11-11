@@ -9,7 +9,7 @@ import com.zos.groovy.utilities.*
 * @version v4.0.0
 * Date 12/24/2018
 *
-* SPDX-License-Identifier: Apache-2.0 
+* SPDX-License-Identifier: Apache-2.0
 */
 class BMSProcessing {
 
@@ -18,19 +18,19 @@ class BMSProcessing {
 		 * TODO: need to rework like Assembler.groovy routine, removing hardcoded items
 		 */
 	}
-	
+
 	public void run(args) {
-		
+
 		// receive passed arguments
-		def file = args[0] 
+		def file = args[0]
 		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
-		
+
 		//GroovyObject tools = (GroovyObject) Tools.newInstance()
 		def tools = new Tools()
 		def properties = BuildProperties.getInstance()
-		
-		def datasets 
+
+		def datasets
 		datasets = Eval.me(properties.BMSsrcFiles)
 		tools.createDatasets(suffixList:datasets, suffixOpts:"${properties.srcOptions}")
 		datasets = Eval.me(properties.BMSloadFiles)
@@ -38,11 +38,11 @@ class BMSProcessing {
 
 		def member = CopyToPDS.createMemberName(file)
 		def logFile = new File("${properties.workDir}/${member}.log")
-		
-		// copy program to PDS 
+
+		// copy program to PDS
 		//println("Copying ${properties.workDir}/$file to $bmsPDS($member)")
 		new CopyToPDS().file(new File("${properties.workDir}/$file")).dataset(properties.bmsPDS).member(member).execute()
-		
+
 		/********************************************************************************
 		 *  Building the Copybook Generation step
 		 ********************************************************************************/
@@ -71,10 +71,10 @@ class BMSProcessing {
 			}
 		}
 		copybookGen.dd(new DDStatement().name("TASKLIB").dsn(properties.SASMMOD1).options("shr"))
-		
+
 		// add a copy command to the copybookGen command to copy the SYSPRINT from the temporary dataset to an HFS log file
 		copybookGen.copy(new CopyToHFS().ddName("SYSPRINT").file(logFile).hfsEncoding(properties.logEncoding))
-		
+
 		/********************************************************************************
 		 *  Building the Assemble step
 		 ********************************************************************************/
@@ -83,11 +83,11 @@ class BMSProcessing {
 		if (assemblerParms == null) {
 			assemblerParms = properties.DefaultAssemblerCompileOpts
 		}
-		
+
 		// define the MVSExec command to compile the BMS map
 		println("** Running Assembler for maps $member and opts = $assemblerParms")
 		def assemble = new MVSExec().file(file).pgm(properties.asmProgram).parm(assemblerParms)
-		
+
 		// add DD statements to the compile command
 		assemble.dd(new DDStatement().name("SYSIN").dsn("${properties.bmsPDS}($member)").options("shr"))
 		assemble.dd(new DDStatement().name("SYSPUNCH").dsn("&&TEMPOBJ").options(properties.tempCreateOptions).pass(true))
@@ -106,10 +106,10 @@ class BMSProcessing {
 			}
 		}
 		assemble.dd(new DDStatement().name("TASKLIB").dsn(properties.SASMMOD1).options("shr"))
-		
+
 		// add a copy command to the compile command to copy the SYSPRINT from the temporary dataset to an HFS log file
 		assemble.copy(new CopyToHFS().ddName("SYSPRINT").file(logFile).hfsEncoding(properties.logEncoding).append(true))
-		
+
 		/********************************************************************************
 		 *  Building the LinkEdit step
 		 ********************************************************************************/
@@ -142,10 +142,10 @@ class BMSProcessing {
 				linkedit.dd(new DDStatement().dsn(syslib).options("shr"))
 			}
 		}
-		
+
 		// add a copy command to the linkedit command to append the SYSPRINT from the temporary dataset to the HFS log file
 		linkedit.copy(new CopyToHFS().ddName("SYSPRINT").file(logFile).hfsEncoding(properties.logEncoding).append(true))
-		
+
 		/********************************************************************************
 		 *  Running individual steps
 		 ********************************************************************************/
@@ -153,7 +153,7 @@ class BMSProcessing {
 		try {
 			def job = new MVSJob()
 			job.start()
-			
+
 				copybookGen.validateInputs()
 				rc = copybookGen.execute()
 				copybookGen.validateInputs()
@@ -167,6 +167,30 @@ class BMSProcessing {
 					rc = linkedit.execute()
 					//println(" running LinkEdit completed RC = $rc ")
 					tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+					// Scan the load module to determine LINK dependencies. Impact resolver can use these to determine that
+					// this file gets rebuilt if a LINK dependency changes.
+					if (rc == 0 && !properties.userBuild) {
+						println("* Scanning $loadPDS($member) for load module dependencies.")
+						def scanner = new LinkEditScanner()
+						def scannerLogicalFile = scanner.scan(file, loadPDS)
+
+						// overwrite original logicalDependencies with load module dependencies
+						logicalFile.setLogicalDependencies(scannerLogicalFile.getLogicalDependencies())
+
+						// create the outputs collection if needed.
+						// NOTE: The outputs collection should be separate from properties.collection otherwise these dependencies will
+						//       be overwritten when the source is changed and scanned by source code scanner.
+						// NOTE: The outputs collection must be included in ImpactResolver in Tools.groovy to include these outputs
+						//       during impact analysis.
+						def outputs_collection = "${properties.collection}_outputs"
+						def repositoryClient = tools.getDefaultRepositoryClient()
+						if (!repositoryClient.collectionExists(outputs_collection)) {
+							repositoryClient.createCollection(outputs_collection)
+						}
+
+						// Store logical file and indirect dependencies to the outputs collection
+						repositoryClient.saveLogicalFile( outputs_collection, logicalFile );
+					}
 				}
 			job.stop()
 		} catch (Exception e) {
@@ -174,10 +198,10 @@ class BMSProcessing {
 			copybookGen.properties
 			assemble.properties
 			linkedit.properties
-		}	
+		}
 		// execute a simple MVSJob to handle passed temporary DDs between MVSExec commands
 		//def rc = new MVSJob().executable(copybookGen).executable(assemble).executable(linkedit).maxRC(0).execute()
-		
+
 		// update build result
 		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
 	}

@@ -79,7 +79,6 @@ class ZosAppBuild {
 
 		// create build list from input build file
 		def buildList = tools.getBuildList(opts.arguments())
-		println("buildList = $buildList")
 
 
 		// scan all the files in the process list for dependency data (team build only)
@@ -89,17 +88,17 @@ class ZosAppBuild {
 			if (!repositoryClient.collectionExists(properties.collection))
 				repositoryClient.createCollection(properties.collection)
 
-			//println("** Scan the build list to collect dependency data")
+			println("** Scan the build list to collect dependency data")
 			def scanner = new DependencyScanner()
 			def logicalFiles = [] as List<LogicalFile>
-			//println("logicalFiles = $logicalFiles")
-			//println("buildList = $buildList")
+			println("logicalFiles = $logicalFiles")
+			println("buildList = $buildList")
 
 			buildList.each { file ->
 				def scanFile = "${properties.'src.zOS.dir'}/$file"
-				//println("Scanning $scanFile for $file")
+				println("Scanning $scanFile for ${properties.'src.zOS.dir'}/$file")
 				def logicalFile = scanner.scan(scanFile, properties.workDir)
-				//println("logicalFile = $logicalFile")
+				println("logicalFile = $logicalFile")
 				logicalFiles.add(logicalFile)
 
 				if (logicalFiles.size() == 500) {
@@ -145,13 +144,13 @@ class ZosAppBuild {
 			def buildFile
 			def tempFile
 
-			println("** Invoking build scripts according to build order: ${buildOrder[1..-1].join(', ')}")
+			//println("** Invoking build scripts according to build order: ${buildOrder[1..-1].join(', ')}")
 			buildOrder.each { script ->
 		    	// Use the ScriptMappings class to get the files mapped to the build script
 				def buildFiles = ScriptMappings.getMappedList(script, buildList)
 				//println("buildList = $buildList, buildFiles = $buildFiles, script = $script")
 				buildFiles.each { file ->
-					//println("---- file = $file ----")
+					println("---- file = ${properties.'src.zOS.dir'}/$file ----")
 					buildFile = "${properties.'src.zOS.dir'}/$file"
 					numLines = 0
 					tempFile = new File(buildFile)
