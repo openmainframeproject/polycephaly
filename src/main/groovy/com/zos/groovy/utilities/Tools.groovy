@@ -13,7 +13,7 @@ import groovy.transform.Field
 * @version v4.0.0
 * Date 12/24/2018
 *
-* SPDX-License-Identifier: Apache-2.0 
+* SPDX-License-Identifier: Apache-2.0
 */
 
 /**
@@ -58,7 +58,7 @@ class Tools {
 
 	static main(args) {
 	}
-	
+
 	def parseArgs(String[] cliArgs, String usage) {
 		def cli = new CliBuilder(usage: usage)
 		cli.b(longOpt:'buildHash', args:1, argName:'hash', 'Git commit hash for the build')
@@ -79,23 +79,23 @@ class Tools {
 		cli.u(longOpt:'userBuild', 'Flag indicating running a user build')
 		cli.w(longOpt:'workDir', args:1, argName:'dir', 'Absolute path to the build output directory')
 		cli.X(longOpt:'confDir', args:1, argName:'dir', 'directory path to the polycephaly configuration directory')
-		
+
 		def opts = cli.parse(cliArgs)
 		if (opts.h) { // if help option used, print usage and exit
 		 	cli.usage()
 			System.exit(0)
 		}
-	
+
 	    return opts
 	}
-	
+
 	def loadProperties(OptionAccessor opts) {
 		// check to see if there is a ./build.properties to load
 		//println("*** running in loadProperties ***")
-		
+
 		// check to see if there is a ./build.properties to load
 		def properties = BuildProperties.getInstance()
-	
+
 		// set command line arguments
 		if (opts.s) properties.sourceDir = opts.s
 		if (opts.w) properties.workDir = opts.w
@@ -106,7 +106,7 @@ class Tools {
 		if (opts.e) properties.logEncoding = opts.e
 		if (opts.E) properties.errPrefix = opts.E
 		if (opts.u) properties.userBuild = "true"
-		
+
 		// override new default properties
 		if (opts.r) properties.'dbb.RepositoryClient.url' = opts.r
 		if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
@@ -115,36 +115,24 @@ class Tools {
 		if (opts.B) properties.buildDir = opts.B
 		if (opts.X) properties.confDir = opts.X
 		if (opts.Z) properties.projectConfDir = opts.D
-		
-		// handle --clean option
-		if (opts.C)  {
-			println("** Clean up option selected")
-			def repo = getDefaultRepositoryClient()
-			
-			println("* Deleting dependency collection ${properties.collection}")
-			repo.deleteCollection(properties.collection)
-	
-			println("* Deleting build result group ${properties.collection}Build")
-			repo.deleteBuildResults("${properties.collection}Build")
-			
-			System.exit(0)
-		}
-		
+
+
+
 		// add build hash if not specific
 		//if (!opts.b && !properties.userBuild) {
 		//	properties.buildHash = getCurrentGitHash() as String
 		//}
-		
+
 		println("java.version="+System.getProperty("java.runtime.version"))
 		println("java.home="+System.getProperty("java.home"))
 		println("user.dir="+System.getProperty("user.dir"))
-		
+
 		// One may also use YAML files as an alternative to properties files (DBB 1.0.6 and later):
 		//     def buildPropFile = new File("${getScriptDir()}/build.yaml")
 		// def buildPropFile = new File("${getScriptDir()}/build.properties")
 		//if (buildPropFile.exists())
 		//	   BuildProperties.load(buildPropFile)
-		
+
 		if (properties.buildDir == null) properties.buildDir = '/build'
 		if (properties.confDir == null) properties.confDir = '/conf'
 		if (properties.workDir == null) properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
@@ -153,38 +141,38 @@ class Tools {
 		println("properties.workDir = $properties.workDir")
 		def workDir = new File("$properties.workDir")
 		println("workDir = $workDir")
-		
+
 		def projectConfDir = null
 		if (properties.projectConfDir == null) {
-			projectConfDir = new File("$properties.workDir/conf") 
+			projectConfDir = new File("$properties.workDir/conf")
 		} else {
 			projectConfDir = new File("$properties.projectConfDir")
 		}
 		println("projectConfDir = $projectConfDir")
-		
+
 		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
 		properties.scriptDir = scriptDir
 		println("scriptDir = $scriptDir")
-		
+
 		def confDir = new File(scriptDir).getParent() + properties.confDir
 		properties.confDir = confDir
 		println("confDir = $confDir")
-		
+
 		properties.'dbb.RepositoryClient.passwordFile' = properties.confDir + '/ADMIN.pw'
 		//println("dbb.RepositoryClient.passwordFile = $properties.'dbb.RepositoryClient.passwordFile'")
-		
+
 		def buildDir = new File(scriptDir).getParent() + properties.buildDir
 		properties.buildDir = buildDir
 		println("buildDir = $buildDir")
-		
+
 		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
 		//println("buildPropFile = $buildPropFile")
 		if (buildPropFile.exists()) {
 		   properties.load(new File("${buildPropFile}"))
 	   }
-	   
+
 	   def propsFiles = Eval.me(properties.PropsFiles)
-	   
+
 	   if (propsFiles == null) {
 			 println("Script text to compile cannot be null!")
 			 throw new IllegalArgumentException("Script text to compile cannot be null!")
@@ -195,11 +183,11 @@ class Tools {
 		       properties.load(new File("$confDir/${file}"))
 		   }
 		}
-		
+
 		println("loading $projectConfDir/${properties.collection}.properties")
 		properties.load(new File("$projectConfDir/${properties.collection}.properties"))
 		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
-		
+
 		if(properties.devHLQ == null) {
 			properties.devHLQ = "${properties.datasetPrefix}.${properties.ProjectName}.${properties.buildNodeName}".toString()
 			//println("setting ddioName = default ${properties.ddioName}")
@@ -217,17 +205,31 @@ class Tools {
 		//	println it
 		//}
 		//println("************************************************************************************************")
-	
+
 		if (properties.collection == null) {
 			properties.collection = System.getenv(Zconstants.BASENAME).trim()
 			println (" Running $properties.collection Collection")
 		} else {
 			println (" Running $properties.collection Collection")
 		}
-		
+
+		// handle --clean option
+		if (opts.C)  {
+			println("** Clean up option selected")
+			def repo = getDefaultRepositoryClient()
+
+			println("* Deleting dependency collection ${properties.collection}")
+			repo.deleteCollection(properties.collection)
+
+			println("* Deleting build result group ${properties.collection}Build")
+			repo.deleteBuildResults("${properties.collection}Build")
+
+			System.exit(0)
+		}
+
 		return properties
 	}
-	
+
 	def validateRequiredProperties(List<String> props) {
 		def properties = BuildProperties.getInstance()
 		props.each { prop ->
@@ -243,7 +245,7 @@ class Tools {
 			}
 		}
 	}
-	
+
 	def getBuildList(List<String> args) {
 		//println("*** running in getBuildList ***")
 	    def properties = BuildProperties.getInstance()
@@ -261,21 +263,21 @@ class Tools {
 		    else {
 				properties.buildFile = buildFile
 		    }
-		}    
-		
+		}
+
 		if (properties.buildFile) {
 			files = [properties.buildFile]
 		}
 		// else check to see if a build list file was passed in
-		else if (properties.buildListFile) { 
+		else if (properties.buildListFile) {
 		    files = new File(properties.buildListFile) as List<String>
-		}   
-		else { 
-	    	files = new File("$properties.workDir/$properties.BuildList") 
+		}
+		else {
+	    	files = new File("$properties.workDir/$properties.BuildList")
 		//	files = new File("$properties.sourceDir/$properties.BuildList")
 		}
 		println("*** properties.buildFile = ${properties.buildFile} ***")
-		
+
 		def tempFileList = new File("${properties.workDir}/tempFileList.txt")
         def GenericFileListFound = false
 		//println("*** files = $files ***")
@@ -302,19 +304,19 @@ class Tools {
         }
 
 		/*
-        *   if No Generic entries  
+        *   if No Generic entries
         *       files = /usr/lpp/tools/jenkins/workspace/zTech/conf/package.txt
-        *   Else 
+        *   Else
         *       files = /usr/lpp/tools/jenkins/workspace/zTech/tempFileList.txt
-        *   
+        *
         */
         if (GenericFileListFound) {
             files = tempFileList
-        } 
+        }
 		//println("returning files = $files")
 		return files
 	}
-	
+
 	def createDatasets(Map args) {
 		//println("*** running in createDatasets ***")
 	    def properties = BuildProperties.getInstance()
@@ -326,20 +328,20 @@ class Tools {
 			//println("creating $dataset assigned properties.${LLQ}PDS ")
 			new CreatePDS().dataset("$dataset").options(args.suffixOpts).create()
 		}
-	
+
 		if (properties.errPrefix) {
 	    	new CreatePDS().dataset("${properties.devHLQ}.${properties.errPrefix}.${properties.xmlPDSsuffix}").options(properties.xmlOptions).create()
 		}
-	
+
 	}
-	
+
 	def getDefaultRepositoryClient() {
 		//println("*** running in getDefaultRepositoryClient ***")
 		def properties = BuildProperties.getInstance()
 		def repositoryClient = new RepositoryClient().forceSSLTrusted(true)
 		return repositoryClient
 	}
-	
+
 	def initializeBuildArtifacts() {
 		println("*** running in initializeBuildArtifacts ***")
 	    BuildReportFactory.createDefaultReport()
@@ -348,7 +350,7 @@ class Tools {
 	        def repo = getDefaultRepositoryClient()
 	        properties.buildGroup = "${properties.collection}" as String
 	        properties.buildLabel = "build.${properties.startTime}" as String
-	        def buildResult = repo.createBuildResult(properties.buildGroup, properties.buildLabel) 
+	        def buildResult = repo.createBuildResult(properties.buildGroup, properties.buildLabel)
 	        buildResult.setState(buildResult.PROCESSING)
 	        if (properties.buildHash)
 	            buildResult.setProperty("buildHash", properties.buildHash)
@@ -356,39 +358,39 @@ class Tools {
 	        println("** Build result created at ${buildResult.getUrl()}")
 	    }
 	}
-	
+
 	def getBuildResult() {
 		//println("*** running in getBuildResult ***")
 	    def properties = BuildProperties.getInstance()
 	    def buildResult = null
 	    if (!properties.userBuild) {
 	        def repo = getDefaultRepositoryClient()
-	        buildResult = repo.getBuildResult(properties.buildGroup, properties.buildLabel)           
+	        buildResult = repo.getBuildResult(properties.buildGroup, properties.buildLabel)
 	    }
 	    return buildResult
 	}
-	
+
 	def generateBuildReport() {
 		//println("*** running in generateBuildReport ***")
 	    def properties = BuildProperties.getInstance()
 	    def jsonOutputFile = new File("${properties.workDir}/BuildReport.json")
 	    def htmlOutputFile = new File("${properties.workDir}/BuildReport.html")
-	
+
 		// create build report data file
 		def buildReportEncoding = "UTF-8"
 		def buildReport = BuildReportFactory.getBuildReport()
 		buildReport.save(jsonOutputFile, buildReportEncoding)
-	
+
 		// create build report html file
 		def htmlTemplate = null  // Use default HTML template.
 		def css = null       // Use default theme.
-		def renderScript = null  // Use default rendering.                       
+		def renderScript = null  // Use default rendering.
 		def transformer = HtmlTransformer.getInstance()
-		transformer.transform(jsonOutputFile, htmlTemplate, css, renderScript, htmlOutputFile, buildReportEncoding)   
-		
-		return [ jsonOutputFile, htmlOutputFile ]                      
+		transformer.transform(jsonOutputFile, htmlTemplate, css, renderScript, htmlOutputFile, buildReportEncoding)
+
+		return [ jsonOutputFile, htmlOutputFile ]
 	}
-	
+
 	def getDefaultDependencyResolver(String file) {
 		//println("*** running in getDefaultDependencyResolver ***")
 	    def properties = BuildProperties.getInstance()
@@ -405,7 +407,7 @@ class Tools {
 	    }
 	    return resolver
 	}
-	
+
 	def getDefaultImpactResolver(String file) {
 		//println("*** running in getDefaultImpactResolver ***")
 		def properties = BuildProperties.getInstance()
@@ -414,7 +416,7 @@ class Tools {
 	   	def resolver = new ImpactResolver().repositoryClient(getDefaultRepositoryClient()).collection(properties.collection).rule(rule).file(file)
 	   	return resolver
 	}
-	
+
 	def updateBuildResult(Map args) {
 		//println("*** running in updateBuildResult ***")
 	    def properties = BuildProperties.getInstance()
@@ -425,7 +427,7 @@ class Tools {
 	    	println(errorMsg)
 	    	properties.error = "true"
 	    }
-	    	
+
 	    if (!properties.userBuild) {
 	    	def buildResult = getBuildResult()
 	    	def member =  CopyToPDS.createMemberName(args.file)
@@ -435,10 +437,10 @@ class Tools {
 				if (args.log != null)
 					buildResult.addAttachment("${member}.${properties.logFileSuffix}", new FileInputStream(args.log))
 			}
-			buildResult.save()   
-		}                                      
+			buildResult.save()
+		}
 	}
-	
+
 	def finalizeBuildResult(Map args) {
 		//println("*** running in finalizeBuildResult ***")
 		def properties = BuildProperties.getInstance()
@@ -448,7 +450,7 @@ class Tools {
 			buildResult.setBuildReportData(new FileInputStream(args.jsonReport))
 			buildResult.setProperty("filesProcessed", String.valueOf(args.filesProcessed))
 			buildResult.setState(buildResult.COMPLETE)
-			buildResult.save() 
+			buildResult.save()
 		}
 	}
 }
