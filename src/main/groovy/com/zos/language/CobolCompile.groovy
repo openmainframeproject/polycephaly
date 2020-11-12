@@ -137,7 +137,7 @@ class CobolCompile {
 		compile.dd(new DDStatement().name("SYSUT2").options(properties.tempCreateOptions))
 		compile.dd(new DDStatement().name("SYSUT3").options(properties.tempCreateOptions))
 		compile.dd(new DDStatement().name("SYSUT4").options(properties.tempCreateOptions))
-		//compile.dd(new DDStatement().name("SYSUT5").options(properties.tempCreateOptions))
+		compile.dd(new DDStatement().name("SYSUT5").options(properties.tempCreateOptions))
 		//compile.dd(new DDStatement().name("SYSUT6").options(properties.tempCreateOptions))
 		//compile.dd(new DDStatement().name("SYSUT7").options(properties.tempCreateOptions))
 		//compile.dd(new DDStatement().name("SYSUT8").options(properties.tempCreateOptions))

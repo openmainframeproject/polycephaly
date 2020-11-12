@@ -1,1 +1,1 @@
-org/omp/asm/hello.asm
+org/omp/asm/hellowa.asm

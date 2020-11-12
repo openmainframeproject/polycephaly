@@ -4,10 +4,10 @@ pipeline {
     options {
         timestamps()
     }
-    
-    environment {	
+
+    environment {
     	libDir				= 'lib'
-    	classesDir			= 'classes'	
+    	classesDir			= 'classes'
 		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
 		srcJavaZosUtil		= 'src/main/java/com/zos/java/utilities'
 		srcZosResbiuld		= 'src/main/zOS/com.zos.resbuild'
@@ -26,7 +26,7 @@ pipeline {
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
 		polyRuntime			= '/u/jerrye'
-		
+
     }
 
     stages {
@@ -49,7 +49,7 @@ pipeline {
     	stage("CheckOut")  {
     		steps {
     			checkout scm
-    		}	 
+    		}
 		}
 		stage('Create Directories'){
             steps {
@@ -107,7 +107,7 @@ pipeline {
             steps {
             	sh "export DBB_HOME=/opt/lpp/IBM/dbb"
             	sh "export export DBB_CONF=$WORKSPACE/conf"
-                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --sourceDir $WORKSPACE/conf/package.txt"
+                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --sourceDir $WORKSPACE/conf/package2.txt"
             }
         }
         stage("Deploy") {
@@ -115,10 +115,10 @@ pipeline {
                 timeout(time: 2, unit: "MINUTES")
             }
             steps {
-                sh "cp -Rf ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/${env.libDir}/" 
+                sh "cp -Rf ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/${env.libDir}/"
                 sh "cp -Rf ${WORKSPACE}/conf/*.properties ${env.polyRuntime}/conf/"
-                sh "cp -Rf ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/" 
-                sh "cp -Rf ${WORKSPACE}/conf/process_definitions.xml ${env.polyRuntime}/conf/"   
+                sh "cp -Rf ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/"
+                sh "cp -Rf ${WORKSPACE}/conf/process_definitions.xml ${env.polyRuntime}/conf/"
             }
         }
     }
@@ -131,7 +131,7 @@ pipeline {
      			recipientProviders: [developers(), requestor()],
 	        )
 	    }
-	
+
 	    failure {
 	          emailext (
 	          	attachLog: true, attachmentsPattern: '*.log',
@@ -142,4 +142,3 @@ pipeline {
 	    }
     }
 }
-  
