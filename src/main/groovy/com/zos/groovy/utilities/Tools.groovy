@@ -109,9 +109,9 @@ class Tools {
 
 		// override new default properties
 		if (opts.r) properties.'dbb.RepositoryClient.url' = opts.r
-		if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
-		if (opts.p) properties.'dbb.RepositoryClient.password' = opts.p
-		if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
+		//if (opts.i) properties.'dbb.RepositoryClient.userId' = opts.i
+		//if (opts.p) properties.'dbb.RepositoryClient.password' = opts.p
+		//if (opts.P) properties.'dbb.RepositoryClient.passwordFile' = opts.P
 		if (opts.B) properties.buildDir = opts.B
 		if (opts.X) properties.confDir = opts.X
 		if (opts.Z) properties.projectConfDir = opts.D
