@@ -44,7 +44,7 @@ class CobolCompile {
 		def logFile = new File("${properties.workDir}/${member}.log")
 		def xpedParms
 		def xpedCheck = properties.getFileProperty("Xpediter", fileName)
-		//println("Xpediter check = $xpedCheck for file = $fileName")
+		if (properties.debug) println("Xpediter check = $xpedCheck for file = $fileName")
 		if (xpedCheck != null) {
 			xpedParms = properties.DefaultXpediterCompileOpts
 			AddXpediter = true
@@ -54,11 +54,11 @@ class CobolCompile {
 			}
 		}
 
-		//println("Copying ${properties.workDir}/$file to ${properties.cobolPDS}($member)")
+		if (properties.debug) println("Copying ${properties.workDir}/$file to ${properties.cobolPDS}($member)")
 		new CopyToPDS().file(new File("${properties.workDir}/$file")).dataset(properties.cobolPDS).member(member).execute()
 
 		//resolve program dependencies and copy to PDS
-		//println("Resolving dependencies for file $file and copying to ${properties.copybookPDS}")
+		if (properties.debug) println("Resolving dependencies for file $file and copying to ${properties.copybookPDS}")
 		def resolver = tools.getDefaultDependencyResolver(file)
 		def deps = resolver.resolve()
 		new CopyToPDS().dependencies(deps).dataset(properties.copybookPDS).execute()
@@ -71,28 +71,28 @@ class CobolCompile {
 		if (compileV4Parms != null) {
 			compileParms = compileV4Parms
 			compilerLibrary = properties.SIGYCOMPV4
-			println("running with Cobol v4.2 for program $member and opts = $compileParms")
+			if (properties.debug) println("running with Cobol v4.2 for program $member and opts = $compileParms")
 		} else {
 			if (compileV6Parms != null) {
 				compileParms = compileV6Parms
 				compilerLibrary = properties.SIGYCOMPV6
-				println("running with Cobol v6 for program $member and opts = $compileParms")
+				if (properties.debug) println("running with Cobol v6 for program $member and opts = $compileParms")
 			} else {
 				compileParms = properties.DefaultCobolCompileOpts
 				compilerLibrary = properties.SIGYCOMPV6
-				println("running with Cobol v6 for program $member and default opts = $compileParms")
+				if (properties.debug) println("running with Cobol v6 for program $member and default opts = $compileParms")
 			}
 		}
 		if (logicalFile.isCICS()) {
-			//println("Adding CICS to Compile")
+			if (properties.debug) println("Adding CICS to Compile")
 			compileParms = "$compileParms,CICS"
 		}
 		if (logicalFile.isSQL()) {
-			//println("Adding SQL to Compile")
+			if (properties.debug) println("Adding SQL to Compile")
 			compileParms = "$compileParms,SQL"
 		}
 		if (properties.errPrefix) {
-			//println("Adding errPrefix with ADATA,EX(ADX(ELAXMGUX)")
+			if (properties.debug) println("Adding errPrefix with ADATA,EX(ADX(ELAXMGUX)")
 			compileParms = "$compileParms,ADATA,EX(ADX(ELAXMGUX))"
 		}
 
@@ -101,7 +101,7 @@ class CobolCompile {
 			/********************************************************************************
 			 *  Run Xpediter Utility to intialize the DDIO file, only once
 			 ********************************************************************************/
-			//println("properties.XPED_DELDEF_DDIO = ${properties.XPED_DELDEF_DDIO} for fileName = $fileName")
+			if (properties.debug) println("properties.XPED_DELDEF_DDIO = ${properties.XPED_DELDEF_DDIO} for fileName = $fileName")
 			if (properties.XPED_DELDEF_DDIO.toBoolean()) {
 				zProgs.idcams(["${properties.ddiofile}"])
 				def xpedutil = new MVSExec().file(file).pgm(properties.xpediterUtilProgram)
@@ -113,9 +113,9 @@ class CobolCompile {
 				xpedutil.copy(new CopyToHFS().ddName("ABNLREPT").file(logFile).hfsEncoding(properties.logEncoding).append(true))
 				def rc = xpedutil.execute()
 				tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
-				//properties.XPED_DELDEF_DDIO.toBoolean().FALSE
+				if (properties.debug) properties.XPED_DELDEF_DDIO.toBoolean().FALSE
 				properties.XPED_DELDEF_DDIO = 'false'
-				//println("finished Xpediter format should be FALSE ${properties.XPED_DELDEF_DDIO} for fileName = $fileName")
+				if (properties.debug) println("finished Xpediter format should be FALSE ${properties.XPED_DELDEF_DDIO} for fileName = $fileName")
 			}
 		}
 
@@ -124,10 +124,10 @@ class CobolCompile {
 		 ********************************************************************************/
 		// define the MVSExec command to compile the program
 		if (AddXpediter) {
-			println("** Running Xpediter Compiler for Cobol program $member and options = $compileParms **")
+			if (properties.debug) println("** Running Xpediter Compiler for Cobol program $member and options = $compileParms **")
 			compile = new MVSExec().file(file).pgm(properties.xpediterMainProgram).parm(xpedParms)
 		} else {
-			println("** ** Running Cobol Compiler for Cobol program $member and options = $compileParms **")
+			if (properties.debug) println("** ** Running Cobol Compiler for Cobol program $member and options = $compileParms **")
 			compile = new MVSExec().file(file).pgm(properties.cobolCompiler).parm(compileParms)
 		}
 		compile.dd(new DDStatement().name("SYSIN").dsn("${properties.cobolPDS}($member)").options("shr").report(true))
@@ -169,7 +169,7 @@ class CobolCompile {
 			// for user builds concatenate the team build copbook pds
 			def copylibs = Eval.me(properties.appCopylibs)
 			copylibs.each { copylib ->
-				//println(" Adding $copylib to compile.SYSLIB")
+				if (properties.debug) println(" Adding $copylib to compile.SYSLIB")
 				compile.dd(new DDStatement().dsn(copylib).options("shr"))
 			}
 		}
@@ -219,7 +219,7 @@ class CobolCompile {
 		def lkedMember
 		if (lkedcntl != null) {
 			lkedMember = CopyToPDS.createMemberName(lkedcntl)
-			//println("with $fileName - copying ${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl to ${properties.linkPDS}($lkedMember)")
+			if (properties.debug) println("with $fileName - copying ${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl to ${properties.linkPDS}($lkedMember)")
 			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl")).dataset(properties.linkPDS).member(lkedMember).execute()
 		}
 
@@ -229,17 +229,17 @@ class CobolCompile {
 		if (linkOpts == null) {
 			linkOpts = properties.DefaultLinkEditOpts
 		}
-		println("** LinkEditing Cobol program $member with LinkEdit Parms = $linkOpts")
+		if (properties.debug) println("** LinkEditing Cobol program $member with LinkEdit Parms = $linkOpts")
 		def linkedit = new MVSExec().file(file).pgm(properties.linkEditProgram).parm(linkOpts)
 
 		// add DD statements to the linkedit command
 		linkedit.dd(new DDStatement().name("SYSLIN").dsn("${properties.objectPDS}($member)").options("shr"))
 		if (lkedcntl != null) {
-			//println("Using linkedit datasets = ${properties.linkPDS}($lkedMember)")
+			if (properties.debug) println("Using linkedit datasets = ${properties.linkPDS}($lkedMember)")
 			linkedit.dd(new DDStatement().dsn("${properties.linkPDS}($lkedMember)").options("shr"))
 		}
 		if (logicalFile.isCICS()) {
-			//println("Adding CICS to Compile")
+			if (properties.debug) println("Adding CICS to Compile")
 			linkedit.dd(new DDStatement().name("SYSLMOD").dsn("${properties.onlinePDS}($member)").options("old").output(true).deployType("LOAD"))
 		} else {
 			linkedit.dd(new DDStatement().name("SYSLMOD").dsn("${properties.loadlibPDS}($member)").options("old").output(true).deployType("LOAD"))

@@ -59,11 +59,13 @@ class ZosAppBuild {
 			tools.validateRequiredProperties(["dbb.RepositoryClient.url", "dbb.RepositoryClient.userId", "password", "collection"])
 
 		println("******************* system properties loaded *********************************************************")
-		//println(properties.list())
-		//def env = System.getenv()
-		//	env.each{
-		//	println it
-		//}
+		if (properties.debug) {
+			println(properties.list())
+			def env = System.getenv()
+				env.each{
+				println it
+			}
+		}
 		println("******************************************************************************************************")
 		tools.validateRequiredProperties(["BuildList"])
 
@@ -75,7 +77,7 @@ class ZosAppBuild {
 
 		// create workdir (if necessary)
 		new File(properties.workDir).mkdirs()
-		//println("** Build output will be in $properties.workDir")
+		if (properties.debug) println("** Build output will be in $properties.workDir")
 
 		// create build list from input build file
 		def buildList = tools.getBuildList(opts.arguments())
@@ -91,20 +93,20 @@ class ZosAppBuild {
 			println("** Scan the build list to collect dependency data")
 			def scanner = new DependencyScanner()
 			def logicalFiles = [] as List<LogicalFile>
-			println("logicalFiles = $logicalFiles")
-			println("buildList = $buildList")
+			if (properties.debug) println("logicalFiles = $logicalFiles")
+			if (properties.debug) println("buildList = $buildList")
 
 			buildList.each { file ->
 				def scanFile = "${properties.'src.zOS.dir'}/$file"
-				println("Scanning $scanFile for ${properties.'src.zOS.dir'}/$file")
+				if (properties.debug) println("Scanning $scanFile for ${properties.'src.zOS.dir'}/$file")
 				def logicalFile = scanner.scan(scanFile, properties.workDir)
-				println("logicalFile = $logicalFile")
+				if (properties.debug) println("logicalFile = $logicalFile")
 				logicalFiles.add(logicalFile)
 
 				if (logicalFiles.size() == 500) {
-					println("** Storing ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
+					if (properties.debug) println("** Storing ${logicalFiles.size()} logical files in repository collection '$properties.collection'")
 					 repositoryClient.saveLogicalFiles(properties.collection, logicalFiles);
-					println(repositoryClient.getLastStatus())
+					if (properties.debug) println(repositoryClient.getLastStatus())
 					logicalFiles.clear()
 				}
 			}
@@ -121,7 +123,7 @@ class ZosAppBuild {
 		else {
 			// build programs by invoking the appropriate build script
 			def buildOrder = Eval.me(properties.buildOrder)
-			//println("buildOrder = $buildOrder")
+			if (properties.debug) println("buildOrder = $buildOrder")
 			// optionally execute IMS MFS builds
 			if (properties.BUILD_MFS.toBoolean())
 				buildOrder << "MFSGenUtility"
@@ -144,11 +146,11 @@ class ZosAppBuild {
 			def buildFile
 			def tempFile
 
-			//println("** Invoking build scripts according to build order: ${buildOrder[1..-1].join(', ')}")
+			if (properties.debug) println("** Invoking build scripts according to build order: ${buildOrder[1..-1].join(', ')}")
 			buildOrder.each { script ->
 		    	// Use the ScriptMappings class to get the files mapped to the build script
 				def buildFiles = ScriptMappings.getMappedList(script, buildList)
-				//println("buildList = $buildList, buildFiles = $buildFiles, script = $script")
+				if (properties.debug) println("buildList = $buildList, buildFiles = $buildFiles, script = $script")
 				buildFiles.each { file ->
 					println("---- file = ${properties.'src.zOS.dir'}/$file ----")
 					buildFile = "${properties.'src.zOS.dir'}/$file"
@@ -196,7 +198,7 @@ class ZosAppBuild {
 							mfs.run([buildFile] as String[])
 							break
 					}
-					//println("**** Finished running for file $file ****")
+					if (properties.debug) println("**** Finished running for file $file ****")
 					processCounter++
 				}
 			}

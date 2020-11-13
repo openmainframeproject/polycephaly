@@ -26,6 +26,7 @@ pipeline {
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
 		polyRuntime			= '/u/jerrye'
+		debug				= 'true'
 
     }
 
@@ -107,7 +108,7 @@ pipeline {
             steps {
             	sh "export DBB_HOME=/opt/lpp/IBM/dbb"
             	sh "export export DBB_CONF=$WORKSPACE/conf"
-                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --sourceDir $WORKSPACE/conf/package2.txt"
+                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --debug true --sourceDir $WORKSPACE/conf/package2.txt"
             }
         }
         stage("Deploy") {
