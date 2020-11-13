@@ -58,7 +58,7 @@ class ZosAppBuild {
 		if (!properties.userBuild)
 			tools.validateRequiredProperties(["dbb.RepositoryClient.url", "dbb.RepositoryClient.userId", "password", "collection"])
 
-		println("******************* system properties loaded *********************************************************")
+		if (properties.debug) println("******************* system properties loaded *********************************************************")
 		if (properties.debug) {
 			println(properties.list())
 			def env = System.getenv()
@@ -66,7 +66,7 @@ class ZosAppBuild {
 				println it
 			}
 		}
-		println("******************************************************************************************************")
+		if (properties.debug) println("******************************************************************************************************")
 		tools.validateRequiredProperties(["BuildList"])
 
 		properties.startTime = startTime.format("yyyyMMdd.hhmmss.mmm")
