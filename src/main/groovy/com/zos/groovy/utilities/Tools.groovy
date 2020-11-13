@@ -322,8 +322,8 @@ class Tools {
 	}
 
 	def createDatasets(Map args) {
-		if (properties.debug) println("*** running in createDatasets ***")
 	    def properties = BuildProperties.getInstance()
+		if (properties.debug) println("*** running in createDatasets ***")
 		args.suffixList.each { LLQ ->
 			def dataset = "${properties.devHLQ}.$LLQ"
 			LLQ = LLQ.toLowerCase().trim()
@@ -340,16 +340,16 @@ class Tools {
 	}
 
 	def getDefaultRepositoryClient() {
-		if (properties.debug) println("*** running in getDefaultRepositoryClient ***")
 		def properties = BuildProperties.getInstance()
+		if (properties.debug) println("*** running in getDefaultRepositoryClient ***")
 		def repositoryClient = new RepositoryClient().forceSSLTrusted(true)
 		return repositoryClient
 	}
 
 	def initializeBuildArtifacts() {
-		if (properties.debug) println("*** running in initializeBuildArtifacts ***")
 	    BuildReportFactory.createDefaultReport()
 	    def properties = BuildProperties.getInstance()
+		if (properties.debug) println("*** running in initializeBuildArtifacts ***")
 	    if (!properties.userBuild) {
 	        def repo = getDefaultRepositoryClient()
 	        properties.buildGroup = "${properties.collection}" as String
@@ -364,8 +364,8 @@ class Tools {
 	}
 
 	def getBuildResult() {
-		if (properties.debug) println("*** running in getBuildResult ***")
 	    def properties = BuildProperties.getInstance()
+		if (properties.debug) println("*** running in getBuildResult ***")
 	    def buildResult = null
 	    if (!properties.userBuild) {
 	        def repo = getDefaultRepositoryClient()
@@ -375,8 +375,8 @@ class Tools {
 	}
 
 	def generateBuildReport() {
-		if (properties.debug) println("*** running in generateBuildReport ***")
 	    def properties = BuildProperties.getInstance()
+		if (properties.debug) println("*** running in generateBuildReport ***")
 	    def jsonOutputFile = new File("${properties.workDir}/BuildReport.json")
 	    def htmlOutputFile = new File("${properties.workDir}/BuildReport.html")
 
@@ -396,8 +396,8 @@ class Tools {
 	}
 
 	def getDefaultDependencyResolver(String file) {
-		if (properties.debug) println("*** running in getDefaultDependencyResolver ***")
 	    def properties = BuildProperties.getInstance()
+		if (properties.debug) println("*** running in getDefaultDependencyResolver ***")
 		def path = new DependencyPath().sourceDir(properties.workDir).directory("${properties.sourceDir}/${properties.copybookPackage}")
 		def rule = new ResolutionRule().library("SYSLIB").path(path)
 		//def resolver = new DependencyResolver().sourceDir(properties.sourceDir).file(file).rule(rule)
@@ -413,8 +413,8 @@ class Tools {
 	}
 
 	def getDefaultImpactResolver(String file) {
-		if (properties.debug) println("*** running in getDefaultImpactResolver ***")
 		def properties = BuildProperties.getInstance()
+		if (properties.debug) println("*** running in getDefaultImpactResolver ***")
 	   	def path = new DependencyPath().sourceDir(properties.workDir).directory("${properties.sourceDir}/${properties.copybookPackage}")
 	   	def rule = new ResolutionRule().library("SYSLIB").path(path)
 	   	def resolver = new ImpactResolver().repositoryClient(getDefaultRepositoryClient()).collection(properties.collection).rule(rule).file(file)
@@ -422,8 +422,8 @@ class Tools {
 	}
 
 	def updateBuildResult(Map args) {
-		if (properties.debug) println("*** running in updateBuildResult ***")
 	    def properties = BuildProperties.getInstance()
+		if (properties.debug) println("*** running in updateBuildResult ***")
 	    def error = args.rc > args.maxRC
 	    def errorMsg = null
 	    if (error) {
@@ -446,8 +446,8 @@ class Tools {
 	}
 
 	def finalizeBuildResult(Map args) {
-		if (properties.debug) println("*** running in finalizeBuildResult ***")
 		def properties = BuildProperties.getInstance()
+		if (properties.debug) println("*** running in finalizeBuildResult ***")
 		if (!properties.userBuild) {
 			def buildResult = getBuildResult()
 			buildResult.setBuildReport(new FileInputStream(args.htmlReport))

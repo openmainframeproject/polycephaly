@@ -22,18 +22,16 @@ class CobolCompile {
 		def file = args[0]
 		def fileName = new File(file).getName().toString()
 		//* Building src/main/zOS/com/zos/cobol/App1/k164baco.cbl using com.zos.groovy.utilities.CobolCompile.groovy script
-		 println("* Building $file using ${this.class.getName()}.groovy script")
-
 		def AddXpediter = false
 		def compile
 		def compileParms
 		def compilerLibrary
-
-		//GroovyObject zProgs = (GroovyObject) Zprograms.newInstance()
-		//GroovyObject tools = (GroovyObject) Tools.newInstance()
 		def tools = new Tools()
 		def zProgs = new Zprograms()
+
 		def properties = BuildProperties.getInstance()
+		if (properties.debug) println("* Building $file using ${this.class.getName()}.groovy script")
+
 		def datasets
 		datasets = Eval.me(properties.CobolCompilesrcFiles)
 		tools.createDatasets(suffixList:datasets, suffixOpts:"${properties.srcOptions}")

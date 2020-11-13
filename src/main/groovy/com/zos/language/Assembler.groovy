@@ -63,12 +63,10 @@ class Assembler {
 		// receive passed arguments
 		def file = args[0]
 		def fileName = new File(file).getName().toString()
-		println("* Building $file using ${this.class.getName()}.groovy script")
-
-		//GroovyObject tools = (GroovyObject) Tools.newInstance()
 		def tools = new Tools()
-
 		def properties = BuildProperties.getInstance()
+		if (properties.debug) println("* Building $file using ${this.class.getName()}.groovy script")
+
 		def datasets
 		datasets = Eval.me(properties.AssemblerSrcFiles)
 		tools.createDatasets(suffixList:datasets, suffixOpts:"${properties.srcOptions}")
@@ -79,11 +77,11 @@ class Assembler {
 		def logFile = new File("${properties.workDir}/${member}.log")
 
 		// copy program to PDS
-		//println("Copying ${properties.workDir}/$file to ${properties.asmPDS}($member)")
+		if (properties.debug) println("Copying ${properties.workDir}/$file to ${properties.asmPDS}($member)")
 		new CopyToPDS().file(new File("${properties.workDir}/$file")).dataset(properties.asmPDS).member(member).execute()
 
 		//resolve program dependencies and copy to PDS
-		//println("Resolving dependencies for file $file and copying to ${properties.maclibPDS}")
+		if (properties.debug) println("Resolving dependencies for file $file and copying to ${properties.maclibPDS}")
 		def resolver = tools.getDefaultDependencyResolver(file)
 		def deps = resolver.resolve()
 		new CopyToPDS().dependencies(deps).dataset(properties.maclibPDS).execute()
@@ -117,7 +115,7 @@ class Assembler {
 			// for user builds concatenate the team build copbook pds
 			def maclibs = Eval.me(properties.appMaclibs)
 			maclibs.each { maclib ->
-				//println(" Adding $maclib to assemble.SYSLIB")
+				if (properties.debug) println(" Adding $maclib to assemble.SYSLIB")
 				assemble.dd(new DDStatement().dsn(maclib).options("shr"))
 			}
 		}
@@ -140,9 +138,9 @@ class Assembler {
 		linkedit.dd(new DDStatement().name("SYSLIN").dsn("&&TEMPOBJ").options("shr"))
 		if (lkedcntl != null) {
 			def lkedMember = CopyToPDS.createMemberName(lkedcntl)
-			//println("with $fileName - copying ${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl to ${properties.linkPDS}($lkedMember)")
+			if (properties.debug) println("with $fileName - copying ${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl to ${properties.linkPDS}($lkedMember)")
 			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl")).dataset(properties.linkPDS).member(lkedMember).execute()
-			//println("Using linkedit datasets = ${properties.linkPDS}($lkedMember)")
+			if (properties.debug) println("Using linkedit datasets = ${properties.linkPDS}($lkedMember)")
 			linkedit.dd(new DDStatement().dsn("${properties.linkPDS}($lkedMember)").options("shr"))
 		}
 		linkedit.dd(new DDStatement().name("SYSLMOD").dsn("${properties.loadlibPDS}($member)").options("old").output(true).deployType("LOAD"))
@@ -156,7 +154,7 @@ class Assembler {
 			// for user builds concatenate the team build copbook pds
 			def syslibs = Eval.me(properties.appSyslibs)
 			syslibs.each { syslib ->
-				//println(" Adding $syslib to SYSLIB")
+				if (properties.debug) println(" Adding $syslib to SYSLIB")
 				linkedit.dd(new DDStatement().dsn(syslib).options("shr"))
 			}
 		}
