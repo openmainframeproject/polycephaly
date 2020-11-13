@@ -24,11 +24,12 @@ class BMSProcessing {
 		// receive passed arguments
 		def file = args[0]
 		def fileName = new File(file).getName().toString()
-		println("* Building $file using ${this.class.getName()}.groovy script")
+
 
 		//GroovyObject tools = (GroovyObject) Tools.newInstance()
 		def tools = new Tools()
 		def properties = BuildProperties.getInstance()
+		if (properties.debug) println("* Building $file using ${this.class.getName()}.groovy script")
 
 		def datasets
 		datasets = Eval.me(properties.BMSsrcFiles)
@@ -40,7 +41,7 @@ class BMSProcessing {
 		def logFile = new File("${properties.workDir}/${member}.log")
 
 		// copy program to PDS
-		//println("Copying ${properties.workDir}/$file to $bmsPDS($member)")
+		if (properties.debug) println("Copying ${properties.workDir}/$file to $bmsPDS($member)")
 		new CopyToPDS().file(new File("${properties.workDir}/$file")).dataset(properties.bmsPDS).member(member).execute()
 
 		/********************************************************************************
@@ -66,7 +67,7 @@ class BMSProcessing {
 			// for user builds concatenate the team build copbook pds
 			def maclibs = Eval.me(properties.appMaclibs)
 			maclibs.each { maclib ->
-				//println(" Adding $syslib to SYSLIB")
+				if (properties.debug) println(" Adding $syslib to SYSLIB")
 				copybookGen.dd(new DDStatement().dsn(maclib).options("shr"))
 			}
 		}
@@ -101,7 +102,7 @@ class BMSProcessing {
 			// for user builds concatenate the team build copbook pds
 			def maclibs = Eval.me(properties.appMaclibs)
 			maclibs.each { maclib ->
-				//println(" Adding $syslib to SYSLIB")
+				if (properties.debug) println(" Adding $syslib to SYSLIB")
 				assemble.dd(new DDStatement().dsn(maclib).options("shr"))
 			}
 		}
@@ -117,7 +118,7 @@ class BMSProcessing {
 		def lkedMember
 		if (lkedcntl != null) {
 			lkedMember = CopyToPDS.createMemberName(lkedcntl)
-			//println("with $fileName - copying ${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl to ${properties.linkPDS}($lkedMember)")
+			if (properties.debug) println("with $fileName - copying ${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl to ${properties.linkPDS}($lkedMember)")
 			new CopyToPDS().file(new File("${properties.workDir}/${properties.'src.zOS.dir'}$lkedcntl")).dataset(properties.linkPDS).member(lkedMember).execute()
 		}
 		def linkOpts = properties.getFileProperty("LinkOpts", fileName)
@@ -128,7 +129,7 @@ class BMSProcessing {
 		def linkedit = new MVSExec().file(file).pgm(properties.linkEditProgram).parm(linkOpts)
 		linkedit.dd(new DDStatement().name("SYSLIN").dsn("&&TEMPOBJ").options("shr"))
 		if (lkedcntl != null) {
-			//println("Using linkedit datasets = ${properties.linkPDS}($lkedMember)")
+			if (properties.debug) println("Using linkedit datasets = ${properties.linkPDS}($lkedMember)")
 			linkedit.dd(new DDStatement().dsn("${properties.linkPDS}($lkedMember)").options("shr"))
 		}
 		linkedit.dd(new DDStatement().name("SYSLMOD").dsn("${properties.onlinePDS}($member)").options("old").output(true).deployType("MAPLOAD"))
@@ -165,7 +166,7 @@ class BMSProcessing {
 				if (rc <= 4) {
 					//println(" running LinkEdit ")
 					rc = linkedit.execute()
-					//println(" running LinkEdit completed RC = $rc ")
+					println(" running LinkEdit completed RC = $rc ")
 					tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 					// Scan the load module to determine LINK dependencies. Impact resolver can use these to determine that
 					// this file gets rebuilt if a LINK dependency changes.
@@ -200,10 +201,10 @@ class BMSProcessing {
 			linkedit.properties
 		}
 		// execute a simple MVSJob to handle passed temporary DDs between MVSExec commands
-		//def rc = new MVSJob().executable(copybookGen).executable(assemble).executable(linkedit).maxRC(0).execute()
+		def rc = new MVSJob().executable(copybookGen).executable(assemble).executable(linkedit).maxRC(0).execute()
 
 		// update build result
-		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
+		tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
 	}
 
 }
