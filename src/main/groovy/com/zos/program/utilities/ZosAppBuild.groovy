@@ -52,7 +52,7 @@ class ZosAppBuild {
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
 
 		def opts = tools.parseArgs(executeArgs, usage)
-		println("opts = $opts")
+		if (properties.debug) println("opts = $opts")
 		def properties = tools.loadProperties(opts)
 
 		if (!properties.userBuild)

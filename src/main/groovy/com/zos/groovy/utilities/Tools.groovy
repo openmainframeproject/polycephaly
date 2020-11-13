@@ -125,9 +125,9 @@ class Tools {
 		//	properties.buildHash = getCurrentGitHash() as String
 		//}
 
-		println("java.version="+System.getProperty("java.runtime.version"))
-		println("java.home="+System.getProperty("java.home"))
-		println("user.dir="+System.getProperty("user.dir"))
+		if (properties.debug) println("java.version="+System.getProperty("java.runtime.version"))
+		if (properties.debug) println("java.home="+System.getProperty("java.home"))
+		if (properties.debug) println("user.dir="+System.getProperty("user.dir"))
 
 		// One may also use YAML files as an alternative to properties files (DBB 1.0.6 and later):
 		//     def buildPropFile = new File("${getScriptDir()}/build.yaml")
