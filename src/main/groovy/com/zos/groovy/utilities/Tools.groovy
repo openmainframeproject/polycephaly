@@ -79,7 +79,7 @@ class Tools {
 		cli.u(longOpt:'userBuild', 'Flag indicating running a user build')
 		cli.w(longOpt:'workDir', args:1, argName:'dir', 'Absolute path to the build output directory')
 		cli.X(longOpt:'confDir', args:1, argName:'dir', 'directory path to the polycephaly configuration directory')
-		cli.Z(longOpt:'debug', args:1, argName:'debug', 'turn on Debugging')
+		cli.Z(longOpt:'debug', 'turn on Debugging'
 
 		def opts = cli.parse(cliArgs)
 		if (opts.h) { // if help option used, print usage and exit
@@ -116,7 +116,7 @@ class Tools {
 		if (opts.B) properties.buildDir = opts.B
 		if (opts.X) properties.confDir = opts.X
 		if (opts.D) properties.projectConfDir = opts.D
-		if (opts.Z) properties.debug = "true".toBoolean()
+		if (opts.Z) properties.debug = "true"
 
 
 
