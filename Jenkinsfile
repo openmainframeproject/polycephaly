@@ -104,7 +104,7 @@ pipeline {
             steps {
             	sh "export DBB_HOME=/opt/lpp/IBM/dbb"
             	sh "export export DBB_CONF=$WORKSPACE/conf"
-                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --debug"
+                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --debug --sourceDir $WORKSPACE/conf/package.txt"
             }
         }
         stage("Deploy") {

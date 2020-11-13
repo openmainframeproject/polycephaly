@@ -69,9 +69,6 @@ class ZosAppBuild {
 		if (properties.debug) println("******************************************************************************************************")
 		tools.validateRequiredProperties(["BuildList"])
 
-		properties.startTime = startTime.format("yyyyMMdd.hhmmss.mmm")
-		println("** Build start at $properties.startTime")
-
 		// initialize build artifacts
 		tools.initializeBuildArtifacts()
 
