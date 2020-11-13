@@ -154,7 +154,6 @@ class BMSProcessing {
 		try {
 			def job = new MVSJob()
 			job.start()
-
 				copybookGen.validateInputs()
 				rc = copybookGen.execute()
 				copybookGen.validateInputs()
@@ -169,7 +168,6 @@ class BMSProcessing {
 					println(" running LinkEdit completed RC = $rc ")
 					tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 					}
-				}
 			job.stop()
 		} catch (Exception e) {
 			e.printStackTrace()
