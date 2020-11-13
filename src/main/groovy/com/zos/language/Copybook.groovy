@@ -9,37 +9,38 @@ import com.zos.groovy.utilities.*
 * @version v4.0.0
 * Date 12/24/2018
 *
-* SPDX-License-Identifier: Apache-2.0 
+* SPDX-License-Identifier: Apache-2.0
 */
 class Copybook {
 
 
 	static main(args) {
 	}
-	
+
 	public void run(args) {
-	
+
 	// receive passed arguments
 	def file = args[0]
-	println("* Building $file using ${this.class.getName()}.groovy script")
-	
+
 	//GroovyObject tools = (GroovyObject) Tools.newInstance()
 	def tools = new Tools()
 	def properties = BuildProperties.getInstance()
+	if (properties.debug) println("* Building $file using ${this.class.getName()}.groovy script")
+
 	def datasets
 	datasets = Eval.me(properties.CopybookSrcFiles)
 	tools.createDatasets(suffixList:datasets, suffixOpts:"${properties.srcOptions}")
-	
+
 	def member = CopyToPDS.createMemberName(file)
 	def logFile = new File("${properties.workDir}/${member}.${properties.logFileSuffix}")
-	
+
 	// copy program to PDS
-	//println("Copying ${properties.workDir}/$file to ${properties.copybookPDS}($member)")
+	if (properties.debug) println("Copying ${properties.workDir}/$file to ${properties.copybookPDS}($member)")
 	def rc = new CopyToPDS().file(new File("${properties.workDir}/$file")).dataset(properties.copybookPDS).member(member).execute()
-	
+
 	// update build result
-	//tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
+	tools.updateBuildResult(file:"$file", rc:rc, maxRC:0, log:logFile)
 	}
-	
+
 }
 

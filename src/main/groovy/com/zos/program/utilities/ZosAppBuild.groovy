@@ -152,7 +152,7 @@ class ZosAppBuild {
 				def buildFiles = ScriptMappings.getMappedList(script, buildList)
 				if (properties.debug) println("buildList = $buildList, buildFiles = $buildFiles, script = $script")
 				buildFiles.each { file ->
-					println("---- file = ${properties.'src.zOS.dir'}/$file ----")
+					if (properties.debug) println("---- file = ${properties.'src.zOS.dir'}/$file ----")
 					buildFile = "${properties.'src.zOS.dir'}/$file"
 					numLines = 0
 					tempFile = new File(buildFile)
