@@ -26,7 +26,6 @@ pipeline {
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
 		polyRuntime			= '/u/jerrye'
-		debug				= 'true'
 
     }
 
@@ -102,9 +101,6 @@ pipeline {
             }
         }
         stage("Test") {
-            options {
-                timeout(time: 2, unit: "MINUTES")
-            }
             steps {
             	sh "export DBB_HOME=/opt/lpp/IBM/dbb"
             	sh "export export DBB_CONF=$WORKSPACE/conf"
@@ -112,9 +108,6 @@ pipeline {
             }
         }
         stage("Deploy") {
-            options {
-                timeout(time: 2, unit: "MINUTES")
-            }
             steps {
                 sh "cp -Rf ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/${env.libDir}/"
                 sh "cp -Rf ${WORKSPACE}/conf/*.properties ${env.polyRuntime}/conf/"
