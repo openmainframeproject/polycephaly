@@ -6,26 +6,11 @@ pipeline {
     }
 
     environment {
-    	libDir				= 'lib'
-    	classesDir			= 'classes'
-		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
-		srcJavaZosUtil		= 'src/main/java/com/zos/java/utilities'
-		srcZosResbiuld		= 'src/main/zOS/com.zos.resbuild'
-		srcGroovyZosLang	= 'src/main/groovy/com/zos/language'
-		srcGrovoyZosUtil	= 'src/main/groovy/com/zos/groovy/utilities'
-		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
-		javaHome			= '/usr/lpp/java/J8.0_64/bin'
-		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
-		groovyzHome			= '/opt/lpp/IBM/dbb/bin'
-		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
-		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
-		dbbhtml				= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
-		dbbJNI 				= '/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so'
-		polycephalyJar		= "${env.libDir}/polycephaly.jar"
-		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}:${env.dbbhtml}"
-		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
-		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
-		polyRuntime			= '/u/jerrye'
+		PolycephalyProps	= '${WORKSPACE}/conf/pipeline.properties'
+        projectClean		= 'true'
+        DBBClean			= 'false'
+        projectDelete		= 'false'
+        CollectionName		= 'SampleApplication'
 
     }
 
@@ -35,6 +20,14 @@ pipeline {
                 cleanWs()
             }
         }
+        stage ('Load Props') {
+	      steps {
+	      	properties = new Properties()
+        	File propertiesFile = new File("${env.PolycephalyProps}")
+       		properties.load(propertiesFile.newDataInputStream())
+     		echo "Immediate one ${properties.repo}"
+	      }
+	    }
 	    stage ('Start') {
 	      steps {
 	        // send to email
