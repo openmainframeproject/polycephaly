@@ -22,8 +22,8 @@ pipeline {
         }
         stage ('Load Props') {
 	      steps {
-	      	properties = new Properties()
-        	File propertiesFile = new File("${env.PolycephalyProps}")
+	      	def properties = new Properties()
+        	def File propertiesFile = new File("${env.PolycephalyProps}")
        		properties.load(propertiesFile.newDataInputStream())
      		echo "Immediate one ${properties.repo}"
 	      }
