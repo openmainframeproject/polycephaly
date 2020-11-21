@@ -46,10 +46,6 @@ pipeline {
                 cleanWs()
             }
         }
-        stage ('Load Props') {
-	      steps {
-	      }
-	    }
 	    stage ('Start') {
 	      steps {
 	        // send to email
