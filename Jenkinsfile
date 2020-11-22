@@ -19,7 +19,6 @@ pipeline {
 		ibmjzosJar			= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		DBBcoreJar			= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		DBBhtmlJar			= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
-		polyClassPath		= "${env.polyJarFile}:${env.ibmjzosJar}:${env.DBBLib}"
 		libDir				= 'lib'
 		classesDir			= 'classes'
 		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
@@ -36,6 +35,7 @@ pipeline {
 		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}:${env.dbbhtml}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
+		polyClassPath		= "${env.polyJarFile}:${env.ibmjzosJar}:${env.DBBLib}"
 		polyRuntime			= '/u/jerrye'
 
     }
