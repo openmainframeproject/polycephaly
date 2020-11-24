@@ -37,15 +37,13 @@ pipeline {
 		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
 		polyClassPath		= "${env.polyJarFile}:${env.ibmjzosJar}:${env.DBBLib}"
 		polyRuntime			= '/u/jerrye'
+		projectClean		= 'true'
+        DBBClean			= 'true'
+        projectDelete		= 'false'
 
     }
 
     stages {
-        stage('Clean workspace') {
-            steps {
-                cleanWs()
-            }
-        }
 	    stage ('Start') {
 	      steps {
 	        // send to email
@@ -57,11 +55,36 @@ pipeline {
 	          )
 	        }
 	    }
+        stage('Clean workspace') {
+            when {
+            	expression {
+                	env.projectClean.toBoolean()
+           		}
+        	}
+            steps {
+            	sh 'printf "running conditional clean of workspace"'
+                cleanWs()
+            }
+        }
+
     	stage("CheckOut")  {
     		steps {
     			checkout scm
     		}
 		}
+		stage('DBB clean collection') {
+            when {
+            	expression {
+                	env.DBBClean.toBoolean()
+           		}
+        	}
+            steps {
+            	sh 'printf "running DBB delete collection"'
+            	sh "export DBB_HOME=${env.DBB_HOME}"
+            	sh "export DBB_CONF=${env.DBB_CONF}"
+            	sh "${env.groovyzHome}/groovyz --classpath .:${env.polyClassPath} $WORKSPACE/build/build.groovy --clean --collection MortgageApplication"
+            }
+        }
 		stage('Create Directories'){
             steps {
                 sh "mkdir ${env.libDir}"
