@@ -10,7 +10,7 @@ pipeline {
         projectClean		= 'true'
         DBBClean			= 'true'
         projectDelete		= 'false'
-        CollectionName		= 'SampleApplication'
+        CollectionName		= 'Polycephaly'
         groovyzHome			= '/opt/lpp/IBM/dbb/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
 		DBB_CONF			= '/u/jerrye/conf'
@@ -63,7 +63,6 @@ pipeline {
                 cleanWs()
             }
         }
-
     	stage("CheckOut")  {
     		steps {
     			checkout scm
@@ -79,7 +78,7 @@ pipeline {
             	sh 'printf "running DBB delete collection"'
             	sh "export DBB_HOME=${env.DBB_HOME}"
             	sh "export DBB_CONF=${env.DBB_CONF}"
-            	sh "${env.groovyzHome}/groovyz --classpath .:${env.polyClassPath} $WORKSPACE/build/build.groovy --clean --collection MortgageApplication"
+            	sh "${env.groovyzHome}/groovyz --classpath .:${env.polyClassPath} $WORKSPACE/build/build.groovy --clean --collection ${env.CollectionName}"
             }
         }
 		stage('Create Directories'){
@@ -135,7 +134,7 @@ pipeline {
             steps {
             	sh "export DBB_HOME=/opt/lpp/IBM/dbb"
             	sh "export export DBB_CONF=$WORKSPACE/conf"
-                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --debug --sourceDir $WORKSPACE/conf/package.txt"
+                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection ${env.CollectionName} --debug --sourceDir $WORKSPACE/conf/package.txt"
             }
         }
         stage("Deploy") {
