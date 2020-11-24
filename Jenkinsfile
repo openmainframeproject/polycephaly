@@ -8,7 +8,7 @@ pipeline {
     environment {
 		PolycephalyProps	= '${WORKSPACE}/conf/pipeline.properties'
         projectClean		= 'true'
-        DBBClean			= 'false'
+        DBBClean			= 'true'
         projectDelete		= 'false'
         CollectionName		= 'SampleApplication'
         groovyzHome			= '/opt/lpp/IBM/dbb/bin'
@@ -37,9 +37,6 @@ pipeline {
 		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
 		polyClassPath		= "${env.polyJarFile}:${env.ibmjzosJar}:${env.DBBLib}"
 		polyRuntime			= '/u/jerrye'
-		projectClean		= 'true'
-        DBBClean			= 'true'
-        projectDelete		= 'false'
 
     }
 
