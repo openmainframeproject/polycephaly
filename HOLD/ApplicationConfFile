@@ -1,0 +1,36 @@
+#
+BUILD_MFS=false
+#
+devHLQ=JERRYE.SAMPLE
+#ddioName=HLQ.xped.ddio
+SDSNLOAD=SYS1.LINKLIB
+SFELLOAD=SYS1.LINKLIB
+SDFSRESL=SYS1.SDFSREL
+SDFSMAC=SYS1.MACLIB
+#
+appCopylibs=['CEE.SCEESAMP']
+appSyslibs=['CEE.SCEELKED']
+appMaclibs=['CEE.SCEESAMP','CEE.SCEELKED']
+
+#LKEDCNTL = /com/ibm/link/EPSMLIST.lnk :: EPSMLIST.cbl
+#
+#Cobolv40pts = RENT ::  hello.cbl
+Cobolv40pts = RENT, SSRANGE, FLAGMIG4, NOOPT
+#Cobolv6Opts = RENT :: *.cbl
+#Cobolv6Opts = SSRANGE, NUMCHECK, PARMCHECK, OPT(0) :: hello2.cbl
+#Cobolv6Opts = NOSSRANGE, NONUMCHECK, NOPARMCHECK, OPT(2) : hello2.cbl
+#Cobolv6Opts =  NODYNAM,ARITH(EXTEND),OPT :: EPSCSMRD.cbl
+#Cobolv6Opts =  NUMPROC(MIG),FLAG(I,W),RENT,LIB :: EPSCSMRT.cbl
+#Cobolv6Opts =  FLAG(I,W),RENT,LIB :: EPSMLIST.cbl
+#Cobolv6Opts =  NUMPROC(MIG),FLAG(I,W),RENT,LIB :: EPSMPMT.cbl
+#Cobolv6Opts =  NUMPROC(MIG),FLAG(I,W) :: *.cbl
+#
+#LinkOpts = MAP,RENT,COMPAT(PM5) :: *.bms
+#AssemblerOpts = SYSPARM(MAP),DECK,NOOBJECT :: *.bms
+AssemblerOpts = SYSPARM(MAP),DECK,NOOBJECT :: *.asm
+#
+#Xpediter = invoke Xpediter Compile for all Cobol programs :: *.cbl
+#Xpediter = anything different from other Xpediter parms ::  awixmp.cbl
+#Xpediter = awixmp ::  awixmp.cbl
+#Xpediter = hello2 ::  hello2.cbl
+#
