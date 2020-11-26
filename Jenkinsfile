@@ -1,10 +1,6 @@
 pipeline {
     agent { node { label 'zOS' } }
 
-    options {
-        timestamps()
-    }
-
     environment {
 		PolycephalyProps	= '${WORKSPACE}/conf/pipeline.properties'
         projectClean		= 'true'
