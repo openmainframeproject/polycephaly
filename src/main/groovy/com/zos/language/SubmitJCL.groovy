@@ -29,12 +29,13 @@ class SubmitJCL {
 
 		// Execute JCL from a file on HFS
 		JCLExec jclExec = new JCLExec()
-		jclExec.file(new File("${properties.workDir}/$file")).execute()
+		jclExec.file(new File("${properties.workDir}/$file")).confDir(properties.confDir).execute()
 		def maxRC = jclExec.getMaxRC()
 		def jobID = jclExec.getSubmittedJobId()
 		def jobName = jclExec.getSubmittedJobName()
-		jclExec.saveOutput('SYSPRINT',  new File("/u/usr1/output/sysprint.out"), "UTF-8")
-		jclExec.saveOutput(new CopyToHFS().ddName("SYSPRINT").file(logFile).hfsEncoding(properties.logEncoding))
+		jclExec.saveOutput(new CopyToHFS().ddName("JESMSGLG").file(logFile).hfsEncoding(properties.logEncoding))
+		jclExec.saveOutput(new CopyToHFS().ddName("JESJCL").file(logFile).hfsEncoding(properties.logEncoding))
+		jclExec.saveOutput(new CopyToHFS().ddName("JESYSMSG").file(logFile).hfsEncoding(properties.logEncoding))
 
 		println("rc = $rc")
 
