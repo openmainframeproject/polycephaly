@@ -141,6 +141,7 @@ class ZosAppBuild {
 			def lnkEdit = new LinkEdit()
 			def mfs = new MFSGenUtility()
 			def sdf = new SDFGenUtility()
+			def jcl = new runJCL()
 			def lines = null
 			def numLines = 0
 			def buildFile
@@ -196,6 +197,9 @@ class ZosAppBuild {
 							break
 						case "MFSGenUtility":
 							mfs.run([buildFile] as String[])
+							break
+						case "runJCL":
+							jcl.run([buildFile] as String[])
 							break
 					}
 					if (properties.debug) println("**** Finished running for file $file ****")

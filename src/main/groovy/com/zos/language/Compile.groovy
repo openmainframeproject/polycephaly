@@ -9,12 +9,12 @@ import com.zos.groovy.utilities.*
 * @version v4.0.0
 * Date 12/24/2018
 *
-* SPDX-License-Identifier: Apache-2.0 
+* SPDX-License-Identifier: Apache-2.0
 */
 class Compile {
 
 	static void main(args) {
-	
+
 	}
 	/**
 	 *
@@ -27,13 +27,13 @@ class Compile {
 	 * @since version 1.00
 	 */
 	public void run(args) {
-		
-		
+
+
 		// receive passed arguments
 		def file = args[0]
 		def fileName = new File(file).getName().toString()
 		println("* Building $file using ${this.class.getName()}.groovy script")
-		
+
 		def tools = new Tools()
 		// define local properties
 		def properties = BuildProperties.getInstance()
@@ -54,23 +54,23 @@ class Compile {
 				properties.XPED_BUILD_PARMS = 'false'
 			}
 		}
-		
+
 		// copy program to PDS
 		//println("Copying ${properties.workDir}/$file to ${properties.cobolPDS}($member)")
 		new CopyToPDS().file(new File("${properties.workDir}/$file")).dataset(properties.cobolPDS).member(member).execute()
-		
+
 		//resolve program dependencies and copy to PDS
 		//println("Resolving dependencies for file $file and copying to $copybookPDS")
 		def resolver = tools.getDefaultDependencyResolver(file)
 		def deps = resolver.resolve()
 		new CopyToPDS().dependencies(deps).dataset(properties.copybookPDS).execute()
-		
+
 		// compile the build file
 		//println("Compiling build file $file")
 		def logicalFile = resolver.getLogicalFile()
-		
+
 		// create the appropriate compile parm list
-		
+
 		def compileV4Parms = properties.getFileProperty("Cobolv4Opts", fileName)
 		def compileV6Parms = properties.getFileProperty("Cobolv6Opts", fileName)
 		if (compileV4Parms != null) {
@@ -100,7 +100,7 @@ class Compile {
 			//println("Adding errPrefix with ADATA,EX(ADX(ELAXMGUX)")
 			compileParms = "$compileParms,ADATA,EX(ADX(ELAXMGUX))"
 		}
-		
+
 		if (AddXpediter) {
 			/********************************************************************************
 			 *  Run Xpediter Utility to intialize the DDIO file, only once
@@ -122,7 +122,7 @@ class Compile {
 				//println("finished Xpediter format should be FALSE ${properties.XPED_DELDEF_DDIO} for fileName = $fileName")
 			}
 		}
-		
+
 		/********************************************************************************
 		 *  Building the Compile step
 		 ********************************************************************************/
@@ -134,7 +134,7 @@ class Compile {
 			println("** ** Running Cobol Compiler for Cobol program $member and options = $compileParms **")
 			compile = new MVSExec().file(file).pgm(properties.cobolCompiler).parm(compileParms)
 		}
-		
+
 		// add DD statements to the MVSExec command
 		compile.dd(new DDStatement().name("SYSIN").dsn("${properties.cobolPDS}($member)").options("shr").report(true))
 		compile.dd(new DDStatement().name("SYSLIN").dsn("${properties.objectPDS}($member)").options("old").output(true))
@@ -157,12 +157,12 @@ class Compile {
 		compile.dd(new DDStatement().name("SYSUT16").options(properties.tempCreateOptions))
 		compile.dd(new DDStatement().name("SYSUT17").options(properties.tempCreateOptions))
 		compile.dd(new DDStatement().name("SYSMDECK").options(properties.tempCreateOptions))
-		
+
 		// add a syslib to the MVSExec command with optional CICS concatenation
 		compile.dd(new DDStatement().name("SYSLIB").dsn(properties.copybookPDS).options("shr"))
 		compile.dd(new DDStatement().dsn(properties.SCEESAMP).options("shr"))
-		
-		
+
+
 		if (properties.team) {
 			// for user builds concatenate the team build copbook pds
 			compile.dd(new DDStatement().dsn("${properties.team}.${properties.copybookPDS}").options("shr"))
@@ -170,20 +170,20 @@ class Compile {
 		if (properties.appCopylibs != null) {
 			// for user builds concatenate the team build copbook pds
 			def copylibs = Eval.me(properties.appCopylibs)
-			
+
 			copylibs.each { copylib ->
 				compile.dd(new DDStatement().dsn(copylib).options("shr"))
 			}
 		}
-		
+
 		if (logicalFile.isCICS()) {
 			// create a DD statement without a name to concatenate to the last named DD added to the MVSExec
 			compile.dd(new DDStatement().dsn(properties.SDFHCOB).options("shr"))
 		}
-		
+
 		// add a tasklib to the compile command with optional CICS, DB2, and IDz concatenations
 		compile.dd(new DDStatement().name("TASKLIB").dsn(compilerLibrary).options("shr"))
-		
+
 		if (logicalFile.isCICS()) {
 			// create a DD statement without a name to concatenate to the last named DD added to the MVSExec
 			compile.dd(new DDStatement().dsn(properties.SDFHLOAD).options("shr"))
@@ -191,16 +191,16 @@ class Compile {
 		if (properties.SFELLOAD) {
 			compile.dd(new DDStatement().dsn(properties.SFELLOAD).options("shr"))
 		}
-		
+
 		// add IDz User Build Error Feedback DDs
 		if (properties.errPrefix) {
 			compile.dd(new DDStatement().name("SYSADATA").options("DUMMY"))
 			compile.dd(new DDStatement().name("SYSXMLSD").dsn("${properties.devHLQ}.${properties.errPrefix}.${properties.xmlPDSsuffix}").options("mod keep"))
 		}
-		
+
 		// add a copy command to the MVSExec command to copy the SYSPRINT from the temporary dataset to an HFS log file
 		compile.copy(new CopyToHFS().ddName("SYSPRINT").file(logFile).hfsEncoding(properties.logEncoding))
-		
+
 		/********************************************************************************
 		 *  Running individual steps
 		 ********************************************************************************/
@@ -210,9 +210,9 @@ class Compile {
 			def rc = compile.execute()
 			println(" ran Compile completed RC = $rc ")
 		// update build result
-		//tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
+		tools.updateBuildResult(file:"$file", rc:rc, maxRC:4, log:logFile)
 		job.stop()
-		
+
 	}
 
 }
