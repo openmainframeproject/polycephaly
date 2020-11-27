@@ -4,7 +4,7 @@ pipeline {
     environment {
 		PolycephalyProps	= '${WORKSPACE}/conf/pipeline.properties'
         projectClean		= 'true'
-        DBBClean			= 'true'
+        DBBClean			= 'false'
         projectDelete		= 'false'
         CollectionName		= 'Polycephaly'
         groovyzHome			= '/opt/lpp/IBM/dbb/bin'
