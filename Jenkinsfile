@@ -36,7 +36,7 @@ pipeline {
 		polyClassPath		= "${env.polycephalyJar}:${env.ibmjzosJar}:${env.DBBLib}"
 		polyBuildGroovy  	= "$WORKSPACE/build/build.groovy"
 		polySrcPackage		= "$WORKSPACE/conf/package.txt"
-		polyRuntime			= "u/jerrye/"
+		polyRuntime			= "/u/jerrye"
 
     }
 
