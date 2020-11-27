@@ -219,7 +219,11 @@ class Tools {
 
 		// handle --clean option
 		if (opts.C)  {
-			println("** Clean up option selected")
+			def startTime = new Date()
+			println()
+			println("*****************************************************************************************************")
+			println("                    Project clean started at $startTime ")
+			println("*****************************************************************************************************")
 			def repo = getDefaultRepositoryClient()
 
 			println("* Deleting dependency collection ${properties.collection}")
@@ -227,6 +231,15 @@ class Tools {
 
 			println("* Deleting build result group ${properties.collection}Build")
 			repo.deleteBuildResults("${properties.collection}Build")
+
+			def endTime = new Date()
+			def duration = TimeCategory.minus(endTime, startTime)
+
+			println()
+			println("*****************************************************************************************************")
+			println("                    Project clean finished at $endTime  ")
+			println("*****************************************************************************************************")
+
 
 			System.exit(0)
 		}

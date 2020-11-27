@@ -43,17 +43,18 @@ class ZosAppBuild {
 
 	}
 	public void execute(String[] executeArgs, String usage) {
-		def startTime = new Date()
-		println()
-		println("*****************************************************************************************************")
-		println("                    Project build started at $startTime ")
-		println("*****************************************************************************************************")
 
 		GroovyObject tools = (GroovyObject) Tools.newInstance()
 
 		def opts = tools.parseArgs(executeArgs, usage)
 		if (properties.debug) println("opts = $opts")
 		def properties = tools.loadProperties(opts)
+
+		def startTime = new Date()
+		println()
+		println("*****************************************************************************************************")
+		println("                    Project build started at $startTime ")
+		println("*****************************************************************************************************")
 
 		if (!properties.userBuild)
 			tools.validateRequiredProperties(["dbb.RepositoryClient.url", "dbb.RepositoryClient.userId", "password", "collection"])

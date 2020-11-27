@@ -65,7 +65,9 @@ class CobolCompile {
 		// determine Compiler Options and Library version
 
 		def compileV4Parms = properties.getFileProperty("Cobolv4Opts", fileName)
+			if (properties.debug) println("Cobolv4Opts = ${properties.Cobolv4Opts}")
 		def compileV6Parms = properties.getFileProperty("Cobolv6Opts", fileName)
+			if (properties.debug) println("Cobolv6Opts = ${properties.Cobolv6Opts}")
 		if (compileV4Parms != null) {
 			compileParms = compileV4Parms
 			compilerLibrary = properties.SIGYCOMPV4
