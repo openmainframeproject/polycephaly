@@ -27,12 +27,13 @@ pipeline {
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbJNI 				= '/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so'
-		polycephalyJar		= "${env.libDir}/polycephaly.jar"
+		polyRuntime			= '/u/jerrye'
+		polycephalyJar		= "${env.polyRuntime}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.DBBcoreJar}:${env.DBBhtmlJar}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
 		polyClassPath		= "${env.polyJarFile}:${env.ibmjzosJar}:${env.DBBLib}"
-		polyRuntime			= '/u/jerrye'
+
 
     }
 
