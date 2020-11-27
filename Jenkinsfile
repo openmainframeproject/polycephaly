@@ -124,11 +124,9 @@ pipeline {
                 sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath} ${env.polyBuildGroovy}  --collection ${env.CollectionName} --debug --sourceDir ${env.polySrcPackage}"
             }
         }
-
-
         stage("Deploy") {
             steps {
-                sh "cp -Rf ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/${env.libDir}/"
+                sh "cp -Rf ${env.polycephalyJar} ${env.polyRuntime}/${env.libDir}/"
                 sh "cp -Rf ${WORKSPACE}/conf/*.properties ${env.polyRuntime}/conf/"
                 sh "cp -Rf ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/"
                 sh "cp -Rf ${WORKSPACE}/conf/process_definitions.xml ${env.polyRuntime}/conf/"
