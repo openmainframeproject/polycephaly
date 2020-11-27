@@ -65,19 +65,6 @@ pipeline {
     			checkout scm
     		}
 		}
-		stage('DBB clean collection') {
-            when {
-            	expression {
-                	env.DBBClean.toBoolean()
-           		}
-        	}
-            steps {
-            	sh 'printf "running DBB delete collection"'
-            	sh "export DBB_HOME=${env.DBB_HOME}"
-            	sh "export DBB_CONF=${env.DBB_CONF}"
-            	sh "${env.groovyzHome}/groovyz --classpath .:${env.polyClassPath} $WORKSPACE/build/build.groovy --clean --collection ${env.CollectionName}"
-            }
-        }
 		stage('Create Directories'){
             steps {
                 sh "mkdir ${env.libDir}"
@@ -140,6 +127,19 @@ pipeline {
                 sh "cp -Rf ${WORKSPACE}/conf/*.properties ${env.polyRuntime}/conf/"
                 sh "cp -Rf ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/"
                 sh "cp -Rf ${WORKSPACE}/conf/process_definitions.xml ${env.polyRuntime}/conf/"
+            }
+        }
+        stage('DBB clean collection') {
+            when {
+            	expression {
+                	env.DBBClean.toBoolean()
+           		}
+        	}
+            steps {
+            	sh 'printf "running DBB delete collection"'
+            	sh "export DBB_HOME=${env.DBB_HOME}"
+            	sh "export DBB_CONF=${env.DBB_CONF}"
+            	sh "${env.groovyzHome}/groovyz --classpath .:${env.polyClassPath} $WORKSPACE/build/build.groovy --clean --collection ${env.CollectionName}"
             }
         }
     }
