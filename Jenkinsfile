@@ -36,6 +36,7 @@ pipeline {
 		polyClassPath		= "${env.polycephalyJar}:${env.ibmjzosJar}:${env.DBBLib}"
 		polyBuildGroovy  	= "$WORKSPACE/build/build.groovy"
 		polySrcPackage		= "$WORKSPACE/conf/package.txt"
+		polyRuntime			= "u/jerrye/"
 
     }
 
@@ -123,6 +124,8 @@ pipeline {
                 sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath} ${env.polyBuildGroovy}  --collection ${env.CollectionName} --debug --sourceDir ${env.polySrcPackage}"
             }
         }
+
+
         stage("Deploy") {
             steps {
                 sh "cp -Rf ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/${env.libDir}/"

@@ -241,8 +241,6 @@ class Tools {
 			println("                    Project clean finished at $endTime  ")
 			println("*****************************************************************************************************")
 
-
-			System.exit(0)
 		}
 
 		return properties
