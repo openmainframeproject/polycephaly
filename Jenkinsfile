@@ -2,16 +2,14 @@ pipeline {
     agent { node { label 'zOS' } }
 
     environment {
-		PolycephalyProps	= '${WORKSPACE}/conf/pipeline.properties'
         projectClean		= 'true'
         DBBClean			= 'false'
         projectDelete		= 'false'
         CollectionName		= 'Polycephaly'
         groovyzHome			= '/opt/lpp/IBM/dbb/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
-		DBB_CONF			= '/u/jerrye/conf'
+		DBB_CONF			= "${WORKSPACE}/conf"
 		DBBLib				= '/opt/lpp/IBM/dbb/lib/*'
-		polyJarFile			= '/u/jerrye/lib/polycephaly.jar'
 		ibmjzosJar			= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		DBBcoreJar			= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
 		DBBhtmlJar			= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
@@ -27,12 +25,11 @@ pipeline {
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbJNI 				= '/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so'
-		polyRuntime			= '/u/jerrye'
-		polycephalyJar		= "${env.polyRuntime}/polycephaly.jar"
+		polycephalyJar		= "${WORKSPACE}/${env.libDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.DBBcoreJar}:${env.DBBhtmlJar}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
-		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
-		polyClassPath		= "${env.polyJarFile}:${env.ibmjzosJar}:${env.DBBLib}"
+		groovyLibPath		= "${env.DBBLib}:${env.dbbJNI}:${env.groovyClassPath}"
+		polyClassPath		= "${env.polycephalyJar}:${env.ibmjzosJar}:${env.DBBLib}"
 
 
     }
