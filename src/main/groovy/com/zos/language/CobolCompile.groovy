@@ -122,10 +122,10 @@ class CobolCompile {
 		 ********************************************************************************/
 		// define the MVSExec command to compile the program
 		if (AddXpediter) {
-			if (properties.debug) println("** Running Xpediter Compiler for Cobol program $member and options = $compileParms **")
+			println("** Running Xpediter Compiler for Cobol program $member and options = $compileParms **")
 			compile = new MVSExec().file(file).pgm(properties.xpediterMainProgram).parm(xpedParms)
 		} else {
-			if (properties.debug) println("** ** Running Cobol Compiler for Cobol program $member and options = $compileParms **")
+			println("** ** Running Cobol Compiler for Cobol program $member and options = $compileParms **")
 			compile = new MVSExec().file(file).pgm(properties.cobolCompiler).parm(compileParms)
 		}
 		compile.dd(new DDStatement().name("SYSIN").dsn("${properties.cobolPDS}($member)").options("shr").report(true))
@@ -227,7 +227,7 @@ class CobolCompile {
 		if (linkOpts == null) {
 			linkOpts = properties.DefaultLinkEditOpts
 		}
-		if (properties.debug) println("** LinkEditing Cobol program $member with LinkEdit Parms = $linkOpts")
+		println("** LinkEditing Cobol program $member with LinkEdit Parms = $linkOpts")
 		def linkedit = new MVSExec().file(file).pgm(properties.linkEditProgram).parm(linkOpts)
 
 		// add DD statements to the linkedit command
