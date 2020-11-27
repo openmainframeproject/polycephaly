@@ -1,40 +1,46 @@
 pipeline {
     agent { node { label 'zOS' } }
 
-    options {
-        timestamps()
-    }
-    
-    environment {	
-    	libDir				= 'lib'
-    	classesDir			= 'classes'	
-		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
+    environment {
+        projectClean		= 'true'
+        DBBClean			= 'false'
+        projectDelete		= 'false'
+        CollectionName		= 'Polycephaly'
+        libDir				= 'lib'
+		classesDir			= 'classes'
+
+ 		srcJavaZosFile		= 'src/main/java/com/jenkins/zos/file'
 		srcJavaZosUtil		= 'src/main/java/com/zos/java/utilities'
 		srcZosResbiuld		= 'src/main/zOS/com.zos.resbuild'
 		srcGroovyZosLang	= 'src/main/groovy/com/zos/language'
 		srcGrovoyZosUtil	= 'src/main/groovy/com/zos/groovy/utilities'
 		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
-		javaHome			= '/usr/lpp/java/J8.0_64/bin'
+
+        javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
-		groovyzHome			= '/opt/lpp/IBM/dbb/bin'
+        groovyzHome			= '/opt/lpp/IBM/dbb/bin'
+		DBB_HOME			= '/opt/lpp/IBM/dbb'
+		DBB_CONF			= "${WORKSPACE}/conf"
+
+		DBBLib				= '/opt/lpp/IBM/dbb/lib/*'
+		ibmjzosJar			= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
+		DBBcoreJar			= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
+		DBBhtmlJar			= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
-		dbbcore				= '/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar'
-		dbbhtml				= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
 		dbbJNI 				= '/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so'
-		polycephalyJar		= "${env.libDir}/polycephaly.jar"
-		javaClassPath		= "${env.ibmjzos}:${env.dbbcore}:${env.dbbhtml}"
+
+		polycephalyJar		= "${WORKSPACE}/${env.libDir}/polycephaly.jar"
+		javaClassPath		= "${env.ibmjzos}:${env.DBBcoreJar}:${env.DBBhtmlJar}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
-		groovyLibPath		= "/opt/lpp/IBM/dbb/lib/*:${env.dbbJNI}:${env.groovyClassPath}"
-		polyRuntime			= '/u/jerrye'
-		
+		groovyLibPath		= "${env.DBBLib}:${env.dbbJNI}:${env.groovyClassPath}"
+		polyClassPath		= "${env.polycephalyJar}:${env.ibmjzosJar}:${env.DBBLib}"
+		polyBuildGroovy  	= "$WORKSPACE/build/build.groovy"
+		polySrcPackage		= "$WORKSPACE/conf/package.txt"
+		polyRuntime			= "/u/jerrye"
+
     }
 
     stages {
-        stage('Clean workspace') {
-            steps {
-                cleanWs()
-            }
-        }
 	    stage ('Start') {
 	      steps {
 	        // send to email
@@ -46,10 +52,21 @@ pipeline {
 	          )
 	        }
 	    }
+        stage('Clean workspace') {
+            when {
+            	expression {
+                	env.projectClean.toBoolean()
+           		}
+        	}
+            steps {
+            	sh 'printf "running conditional clean of workspace"'
+                cleanWs()
+            }
+        }
     	stage("CheckOut")  {
     		steps {
     			checkout scm
-    		}	 
+    		}
 		}
 		stage('Create Directories'){
             steps {
@@ -101,24 +118,31 @@ pipeline {
             }
         }
         stage("Test") {
-            options {
-                timeout(time: 2, unit: "MINUTES")
-            }
             steps {
-            	sh "export DBB_HOME=/opt/lpp/IBM/dbb"
-            	sh "export export DBB_CONF=$WORKSPACE/conf"
-                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath}:$WORKSPACE/${env.polycephalyJar} $WORKSPACE/build/build.groovy --collection Polycephaly --sourceDir $WORKSPACE/conf/package.txt"
+            	sh "export DBB_HOME=${env.DBB_HOME}"
+            	sh "export DBB_CONF=${env.DBB_CONF}"
+                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath} ${env.polyBuildGroovy}  --collection ${env.CollectionName} --debug --sourceDir ${env.polySrcPackage}"
             }
         }
         stage("Deploy") {
-            options {
-                timeout(time: 2, unit: "MINUTES")
-            }
             steps {
-                sh "cp -Rf ${WORKSPACE}/${env.polycephalyJar} ${env.polyRuntime}/${env.libDir}/" 
+                sh "cp -Rf ${env.polycephalyJar} ${env.polyRuntime}/${env.libDir}/"
                 sh "cp -Rf ${WORKSPACE}/conf/*.properties ${env.polyRuntime}/conf/"
-                sh "cp -Rf ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/" 
-                sh "cp -Rf ${WORKSPACE}/conf/process_definitions.xml ${env.polyRuntime}/conf/"   
+                sh "cp -Rf ${WORKSPACE}/conf/*.pw ${env.polyRuntime}/conf/"
+                sh "cp -Rf ${WORKSPACE}/conf/process_definitions.xml ${env.polyRuntime}/conf/"
+            }
+        }
+        stage('DBB clean collection') {
+            when {
+            	expression {
+                	env.DBBClean.toBoolean()
+           		}
+        	}
+            steps {
+            	sh 'printf "running DBB delete collection"'
+            	sh "export DBB_HOME=${env.DBB_HOME}"
+            	sh "export DBB_CONF=${env.DBB_CONF}"
+            	sh "${env.groovyzHome}/groovyz --classpath .:${env.polyClassPath} ${env.polyBuildGroovy} --clean --collection ${env.CollectionName}"
             }
         }
     }
@@ -131,7 +155,7 @@ pipeline {
      			recipientProviders: [developers(), requestor()],
 	        )
 	    }
-	
+
 	    failure {
 	          emailext (
 	          	attachLog: true, attachmentsPattern: '*.log',
@@ -142,4 +166,3 @@ pipeline {
 	    }
     }
 }
-  
