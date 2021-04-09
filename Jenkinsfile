@@ -5,6 +5,7 @@ pipeline {
         projectClean		= 'true'
         DBBClean			= 'false'
         projectDelete		= 'false'
+        Debug				= 'false'
         CollectionName		= 'Polycephaly'
         libDir				= 'lib'
 		classesDir			= 'classes'
@@ -117,11 +118,24 @@ pipeline {
                 sh "chmod 766 ${env.polycephalyJar}"
             }
         }
-        stage("Test") {
+        stage("Test-Debug") {
+        	when {
+				expression { env.Debug.toBoolean()}
+	        }
             steps {
             	sh "export DBB_HOME=${env.DBB_HOME}"
             	sh "export DBB_CONF=${env.DBB_CONF}"
                 sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath} ${env.polyBuildGroovy}  --collection ${env.CollectionName} --debug --sourceDir ${env.polySrcPackage}"
+            }
+        }
+        stage("Test") {
+        	when {
+				expression { !env.Debug.toBoolean()}
+	        }
+            steps {
+            	sh "export DBB_HOME=${env.DBB_HOME}"
+            	sh "export DBB_CONF=${env.DBB_CONF}"
+                sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath} ${env.polyBuildGroovy}  --collection ${env.CollectionName} --sourceDir ${env.polySrcPackage}"
             }
         }
         stage("Deploy") {
