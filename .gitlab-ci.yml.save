@@ -1,0 +1,195 @@
+
+# Disable the Gradle daemon for Continuous Integration servers as correctness
+# is usually a priority over speed in CI environments. Using a fresh
+# runtime for each build is more reliable since the runtime is completely
+# isolated from any previous builds.
+
+variables:
+  CI_DEBUG_TRACE:  "false"
+  projectClean:    "true"
+  DBBClean:        "false"
+  projectDelete:   "false"
+  Debug:           "false"
+  CollectionName:  "Polycephaly"
+  libDir:          "lib"
+  classDir:        "classes"
+  srcJavaZosFile:    "./src/main/java/com/jenkins/zos/file"
+  srcJavaZosUtil:    "./src/main/java/com/zos/java/utilities"
+  srcZosResbiuld:    "./src/main/zOS/com.zos.resbuild"
+  srcGroovyZosLang:  "./src/main/groovy/com/zos/language"
+  srcGrovoyZosUtil:  "./src/main/groovy/com/zos/groovy/utilities"
+  srcGroovyPrgUtil:  "./src/main/groovy/com/zos/program/utilities"
+  javaHome:          "/usr/lpp/java/J8.0_64/bin"
+  groovyHome:        "/u/jerrye/jenkins/groovy/bin"
+  groovyzHome:       "/opt/lpp/IBM/dbb/bin"
+  DBB_HOME:          "/opt/lpp/IBM/dbb"
+  DBB_CONF:          "./conf"
+  DBBLib:            "/opt/lpp/IBM/dbb/lib/*"
+  ibmjzosJar:        "/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar"
+  DBBcoreJar:        "/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar"
+  DBBhtmlJar:        "/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar"
+  ibmjzos:           "/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar"
+  dbbJNI:            "/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so"
+  polycephalyJar:    "./$libDir/polycephaly.jar"
+  javaClassPath:     "$ibmjzos:$DBBcoreJar:$DBBhtmlJar"
+  groovyClassPath:   "$javaClassPath:$polycephalyJar"
+  groovyLibPath:     "$DBBLib:$dbbJNI:$groovyClassPath"
+  polyClassPath:     "$polycephalyJar:$ibmjzosJar:$DBBLib"
+  polyBuildGroovy:   "./build/build.groovy"
+  polySrcPackage:    "./conf/package.txt"
+  polyRuntime:       "/u/jerrye" 
+
+stages:
+   - Start Job
+   - Checkout
+   - Create Directories
+   - Build zOS Utilities
+   - Create Java Jar file
+   - Build Groovy zOS Utilities
+   - Add Groozy zOS Utilities to Jar
+   - Build Groovy Language Utilities
+   - Add Groovy Language Utilities to JAR
+   - Build Groovy Program Utilities
+   - Add Groovy Program Utilities to Jar
+   - Test-Debug
+   - Test
+   - Deploy
+   - DBB Clean Collection
+   - Build Good Email
+   - Build Bad Email
+
+
+Start Job: 
+   stage: Start Job
+   script:
+      - echo $CI_PROJECT_NAME
+      - echo $CI_JOB_STARTED_AT
+      - pwd
+      - export 
+
+Create Directories: 
+   stage: Create Directories
+   script:
+      - mkdir "$libDir"
+      - mkdir "$classDir"
+  
+      
+Build zOS Utilities: 
+   stage: Build zOS Utilities
+   script:
+      - pwd
+      - ${env.javaHome}/javac -d ${env.classDir} ${env.srcJavaZosFile}/*.java
+      - "$javaHome/javac -d $classDir $srcJavaZosFile/'*.java'"
+      - "$javaHome/javac -d $classDir $srcJavaZosUtil/'*.java'"
+      - "$javaHome/javac -cp .:$javaClassPath  -d $classDir $srcZosResbiuld/'*.java'"
+
+   variables: 
+      CI_DEBUG_TRACE: "true"
+
+      
+      
+Create Java Jar file: 
+   stage: Create Java Jar file
+   script:
+      - $javaHome/jar cvf $polycephalyJar -C $classesDir .
+      
+      
+Build Groovy zOS Utilities: 
+   stage: Build Groovy zOS Utilities
+   script:
+       - $groovyHome/groovyc-1047 -cp .:$groovyClassPath  -d $classDir $srcGrovoyZosUtil/*.groovy"
+      
+      
+Add Groozy zOS Utilities to Jar: 
+   stage: Add Groozy zOS Utilities to Jar
+   script:
+       - $javaHome/jar uf $polycephalyJar -C $classDir . 
+   
+    
+Build Groovy Language Utilities: 
+   stage: Build Groovy Language Utilities
+   script:
+      - $groovyHome/groovyc-1047 -cp .:$groovyClassPath  -d $classDir $srcGroovyZosLang/*.groovy
+
+
+Add Groovy Language Utilities to JAR: 
+   stage: Add Groovy Language Utilities to JAR
+   script:
+       -  $javaHome/jar uf $polycephalyJar}] -C $classDir .  
+
+
+Build Groovy Program Utilities: 
+   stage: Build Groovy Program Utilities
+   script:
+       -  $groovyHome/groovyc-1047 -cp .:$groovyClassPath  -d $classDir $srcGroovyPrgUtil/*.groovy 
+  
+      
+Add Groovy Program Utilities to Jar: 
+   stage: Add Groovy Program Utilities to Jar
+   script:
+       -  $javaHome/jar uf $polycephalyJar -C $classDir . 
+       -  chmod 766 $polycephalyJar
+      
+Test-Debug: 
+   stage: Test-Debug
+   script:
+       -  export DBB_HOME=$DBB_HOME
+       -  export DBB_CONF=$DBB_CONF
+       - $groovyzHome/groovyz --classpath .:$groovyLibPath $polyBuildGroovy  --collection $CollectionName --debug --sourceDir $polySrcPackage
+
+   rules:
+    - if: '$Debug == "false"'      
+      
+Test: 
+   stage: Test
+   script:
+       - export DBB_HOME=$DBB_HOME
+       - export DBB_CONF=$DBB_CONF
+       - $groovyzHome/groovyz --classpath .:$groovyLibPath $polyBuildGroovy  --collection $CollectionName --sourceDir $polySrcPackage
+   
+   rules:
+    - if: $Debug == "false"
+      
+Deploy: 
+   stage: Deploy
+   script:
+        - cp -Rf $polycephalyJar $polyRuntime/$libDir/
+        - cp -Rf $CI_CONFIG_PATH/conf/*.properties $polyRuntime/conf/
+        - cp -Rf $CI_CONFIG_PATH/conf/*.pw $polyRuntime/conf/"
+        - cp -Rf $CI_CONFIG_PATH/conf/process_definitions.xml $polyRuntime/conf/"
+      
+     
+DBB Clean Collection: 
+   stage: DBB Clean Collection
+   script:
+       - printf "running DBB delete collection"
+       -  export DBB_HOME=$DBB_HOME
+       -  export DBB_CONF=$DBB_CONF
+       -  $groovyzHome/groovyz --classpath .:$polyClassPath $polyBuildGroovy --clean --collection $CollectionName
+   
+   rules:
+    - if: $DBBClean == "true"
+      
+Build Good Email: 
+   stage: Build Good Email
+   script:
+       echo "Send good completion email"
+       
+   when: on_success
+       
+Build Bad Email: 
+   stage: Build Bad Email
+   script:
+       echo "Send bad completion email"
+         
+   when: on_failure
+   
+
+
+       
+
+
+
+    
+
+     

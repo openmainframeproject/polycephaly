@@ -12,7 +12,7 @@ class Zconstants {
      * @see n/a
      * @deprecated
      * @since version 1.00
-     */
+
 	static final String BUILDPROPS = 'build.properties'
 	static final String BASENAME = 'JOB_NAME'
 	static final String WORKSPACE = 'WORKSPACE'
@@ -21,4 +21,5 @@ class Zconstants {
 	static final String BUILDNUM = 'BUILD_NUMBER'
 	static final String BUILDTAG = 'BUILD_TAG'
 	static final String NODENAME = 'NODE_NAME'
+     */
 }

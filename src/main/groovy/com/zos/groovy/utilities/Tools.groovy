@@ -119,7 +119,9 @@ class Tools {
 		if (opts.D) properties.projectConfDir = opts.D
 		if (opts.Z) properties.debug = "true"
 
-
+		if (properties.debug) {
+			System.getenv().each { property, value -> println "$property = $value"}
+		}
 
 		// add build hash if not specific
 		//if (!opts.b && !properties.userBuild) {
@@ -135,12 +137,56 @@ class Tools {
 		// def buildPropFile = new File("${getScriptDir()}/build.properties")
 		//if (buildPropFile.exists())
 		//	   BuildProperties.load(buildPropFile)
+			
+		/* 
+		 * get the Polcephaly Build Directory and File location
+		 * Load Polycephaly properties
+		 */
+		def properties.PolycephalyBuildDirectory = System.getenv("PolycephalyBuildDirectory")
+		if (properties.PolycephalyBuildDirectory == null) 
+			new exception('Polycephaly Build Directory missing')
+			
+		def properties.PolycephalyBuildFile = System.getenv("PolycephalyBuildFile")
+		if (properties.PolycephalyBuildFile == null)
+			new exception('Polycephaly Build File missing')
+			
+		def buildPolycephalyPropFile = new File("properties.PolycephalyBuildDirectory/properties.PolycephalyBuildFile")
+		if (properties.debug) println("buildPolycephalyPropFile = $buildPolycephalyPropFile")
+		if (buildPolycephalyPropFile.exists()) {
+		   properties.load(new File("${buildPolycephalyPropFile}"))
+	    }
 
-		if (properties.buildDir == null) properties.buildDir = '/build'
-		if (properties.confDir == null) properties.confDir = '/conf'
-		if (properties.workDir == null) properties.workDir = System.getenv(Zconstants.WORKSPACE).trim()
-		if (properties.collection == null) properties.collection = System.getenv(Zconstants.BASENAME).trim()
+		if (properties.debug) {
+			System.getenv().each { property, value -> println "$property = $value"}
+		}
+		
+		/*
+		 * get the Project Build Directory and File location
+		 * Load Project properties
+		 */
+		def properties.ProjectBuildDirectory = System.getenv("ProjectBuildDirectory")
+		if (properties.ProjectBuildDirectory == null)
+			new exception('Project Build Directory missing')
+			
+		def properties.ProjectBuildFile = System.getenv("ProjectBuildFile")
+		if (properties.ProjectBuildFile == null)
+			new exception('Project Build File missing')
+			
+		def buildProjectPropFile = new File("properties.ProjectBuildDirectory/properties.ProjectBuildFile")
+		if (properties.debug) println("buildProjectPropFile = $buildProjectPropFile")
+		if (buildProjectPropFile.exists()) {
+		   properties.load(new File("${buildProjectPropFile}"))
+		}
 
+		if (properties.debug) {
+			System.getenv().each { property, value -> println "$property = $value"}
+		}
+		/*
+		 * 
+		 */
+		
+		exit 1
+		
 		if (properties.debug) println("properties.workDir = $properties.workDir")
 		def workDir = new File("$properties.workDir")
 		if (properties.debug) println("workDir = $workDir")
@@ -153,26 +199,24 @@ class Tools {
 		}
 		if (properties.debug) println("projectConfDir = $projectConfDir")
 
-		def scriptDir = new File(getClass().protectionDomain.codeSource.location.path).parent
-		properties.scriptDir = scriptDir
-		if (properties.debug) println("scriptDir = $scriptDir")
 
-		def confDir = new File(scriptDir).getParent() + properties.confDir
-		properties.confDir = confDir
-		if (properties.debug) println("confDir = $confDir")
 
 		properties.'dbb.RepositoryClient.passwordFile' = properties.confDir + '/ADMIN.pw'
 		//println("dbb.RepositoryClient.passwordFile = $properties.'dbb.RepositoryClient.passwordFile'")
 
-		def buildDir = new File(scriptDir).getParent() + properties.buildDir
-		properties.buildDir = buildDir
-		if (properties.debug) println("buildDir = $buildDir")
+		// def buildDir = new File(scriptDir).getParent() + properties.buildDir
+		// properties.buildDir = buildDir
+		// if (properties.debug) println("buildDir = $buildDir")
 
-		def buildPropFile = new File("$confDir/${Zconstants.BUILDPROPS}")
+		def buildPropFile = new File("properties.confDir/properties.buildProps.trim()")
 		if (properties.debug) println("buildPropFile = $buildPropFile")
 		if (buildPropFile.exists()) {
 		   properties.load(new File("${buildPropFile}"))
 	   }
+
+		if (properties.debug) {
+			System.getenv().each { property, value -> println "$property = $value"}
+		}
 
 	   def propsFiles = Eval.me(properties.PropsFiles)
 
@@ -189,7 +233,7 @@ class Tools {
 
 		println("loading $projectConfDir/${properties.collection}.properties")
 		properties.load(new File("$projectConfDir/${properties.collection}.properties"))
-		properties.buildNodeName = System.getenv(Zconstants.BUILDNAME).trim()
+		properties.buildNodeName = 'PolycephalyBuildName'
 
 		if(properties.devHLQ == null) {
 			properties.devHLQ = "${properties.datasetPrefix}.${properties.ProjectName}.${properties.buildNodeName}".toString()
@@ -202,17 +246,13 @@ class Tools {
 			properties.ddioName = "${properties.ddioName}".toString().toUpperCase()
 		}
 		if (properties.debug) println("********************** all properties have been loaded  ***************************************")
-		if (properties.debug) println(properties.list())
 		if (properties.debug) {
-			def env = System.getenv()
-				env.each{
-				println it
-			}
+			System.getenv().each { property, value -> println "$property = $value"}
 		}
 		if (properties.debug) println("************************************************************************************************")
 
 		if (properties.collection == null) {
-			properties.collection = System.getenv(Zconstants.BASENAME).trim()
+			properties.collection = 'Polycephaly'
 			println (" Running $properties.collection Collection")
 		} else {
 			println (" Running $properties.collection Collection")

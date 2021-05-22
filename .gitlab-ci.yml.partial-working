@@ -1,0 +1,148 @@
+
+# Disable the Gradle daemon for Continuous Integration servers as correctness
+# is usually a priority over speed in CI environments. Using a fresh
+# runtime for each build is more reliable since the runtime is completely
+# isolated from any previous builds.
+
+variables:
+  CI_DEBUG_TRACE:  "false"
+  projectClean:    "true"
+  DBBClean:        "false"
+  projectDelete:   "false"
+  Debug:           "false"
+  CollectionName:  "Polycephaly"
+  libDir:          "lib"
+  classesDir:        "classes"
+  DBB_CONF:          "conf"
+  javaHome:          "/usr/lpp/java/J8.0_64/bin"
+  srcJavaZosFile:    "src/main/java/com/jenkins/zos/file"
+  srcJavaZosUtil:    "src/main/java/com/zos/java/utilities"
+  srcZosResbiuld:    "src/main/zOS/com.zos.resbuild"
+  srcGroovyZosLang:  "src/main/groovy/com/zos/language"
+  srcGrovoyZosUtil:  "src/main/groovy/com/zos/groovy/utilities"
+  srcGroovyPrgUtil:  "src/main/groovy/com/zos/program/utilities"
+  
+  ibmjzosJar:        "/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar"
+  DBBcoreJar:        "/opt/lpp/IBM/dbb/lib/dbb.core_1.0.6.jar"
+  DBBhtmlJar:        "/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar"
+  ibmjzos:           "/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar"
+  dbbJNI:            "/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so"
+ 
+  groovyChome:       "/u/jerrye/bin"
+  polycephalyHome:   "/u/jerrye/lib"
+  GROOVY_HOME:       "/opt/lpp/IBM/dbb/groovy-2.4.12"
+  DBB_HOME:          "/opt/lpp/IBM/dbb"
+  javaClassPath:     $ibjzosJar:$DBBcoreJar:$DBBhtmlJar
+
+  polyRuntime:			"/u/jerrye/polyRuntime"
+
+stages:
+   - Start Job
+   - Build zOS Utilities
+   - Build Groovy zOS Utilities
+   - Build Groovy Language Utilities
+   - Build Groovy Program Utilities
+   - Test-Debug
+   - Test 
+   - Deploy
+   - Build Good Email
+   - Build Bad Email
+
+Start Job: 
+   stage: Start Job
+   script:
+      - echo $CI_PROJECT_NAME
+      - echo $CI_JOB_STARTED_AT
+
+   variables: 
+      CI_DEBUG_TRACE: "true"
+      
+Build zOS Utilities: 
+   stage: Build zOS Utilities
+   script:
+      - $javaHome/javac -d $PWD/$classesDir $PWD/$srcJavaZosFile/*.java 
+      - $javaHome/javac -d $PWD/$classesDir $PWD/$srcJavaZosUtil/*.java 
+      - $javaHome/javac -cp .$javaClassPath -d $PWD/$classesDir $PWD/$srcZosResbiuld/*.java
+      - $javaHome/jar cvf $polycephalyHome/polycephaly.jar -C $PWD/$classesDir .
+      - $javaHome/jar -tf $polycephalyHome/polycephaly.jar
+   variables: 
+      CI_DEBUG_TRACE: "true"
+   
+
+Build Groovy zOS Utilities: 
+   stage: Build Groovy zOS Utilities
+   script:
+      - echo $GROOVY_HOME
+      - $groovyChome/groovyc -cp .$javaClassPath:$polycephalyHome/polycephaly.jar -d $PWD/$classesDir $PWD/$srcGrovoyZosUtil/*.groovy
+      - $javaHome/jar uf $polycephalyHome/polycephaly.jar -C $PWD/$classesDir .
+      - $javaHome/jar -tf $polycephalyHome/polycephaly.jar
+   variables: 
+      CI_DEBUG_TRACE: "true"
+      
+
+Build Groovy Language Utilities: 
+   stage: Build Groovy Language Utilities
+   script:
+      - echo $GROOVY_HOME
+      - $groovyChome/groovyc -cp .:$javaClassPath:$polycephalyHome/polycephaly.jar -d $PWD/$classesDir $PWD/$srcGroovyZosLang/*.groovy
+      - $javaHome/jar uf $polycephalyHome/polycephaly.jar -C $PWD/$classesDir .
+      - $javaHome/jar -tf $polycephalyHome/polycephaly.jar
+   variables: 
+      CI_DEBUG_TRACE: "true"
+
+Build Groovy Program Utilities: 
+   stage: Build Groovy Program Utilities
+   script:
+      - $groovyChome/groovyc -cp .$javaClassPath:$polycephalyHome/polycephaly.jar -d $PWD/$classesDir $PWD/$srcGroovyPrgUtil/*.groovy
+      - $javaHome/jar uf $polycephalyHome/polycephaly.jar -C $PWD/$classesDir .
+      - $javaHome/jar -tf $polycephalyHome/polycephaly.jar
+   variables: 
+      CI_DEBUG_TRACE: "true"
+
+Test-Debug:
+   stage: Test-Debug
+   script:
+      - export DBB_HOME=$DBB_HOME
+      - export DBB_CONF=$DBB_CONF
+      - $javaHome/jar -tf $polycephalyHome/polycephaly.jar
+      - $DBB_HOME/bin/groovyz -Djava.library.path=/opt/lpp/IBM/dbb/lib:/usr/lib/java_runtime:$polycephalyHome/polycephaly.jar $PWD/build/build.groovy --collection $CollectionName --debug --sourceDir $PWD/conf/package.txt
+   rules:
+    - if: '$Debug == "true"'
+   variables: 
+      CI_DEBUG_TRACE: "true"
+
+Test:
+   stage: Test
+   script:
+      - export DBB_HOME=$DBB_HOME
+      - export DBB_CONF=$DBB_CONF
+      - $javaHome/jar -tf $polycephalyHome/polycephaly.jar
+      - $DBB_HOME/bin/groovyz -Djava.library.path=/opt/lpp/IBM/dbb/lib:/usr/lib/java_runtime:$polycephalyHome/polycephaly.jar $PWD/build/build.groovy --collection $CollectionName --sourceDir $PWD/conf/package.txt
+   rules:
+    - if: '$Debug == "false"'
+   variables: 
+      CI_DEBUG_TRACE: "true"
+
+Deploy:
+   stage: Deploy
+   script: 
+      - cp -Rf $polycephalyHome/polycephaly.jar $polyRuntime/lib/
+      - cp -Rf $PWD/conf/*.properties $polyRuntime/conf/
+      - cp -Rf $PWD/conf/*.pw $polyRuntime/conf/
+      - cp -Rf $pwd/conf/process_definitions.xml $polyRuntime/conf/
+
+Build Good Email: 
+   stage: Build Good Email
+   script:
+       echo "Send good completion email"  
+   when: on_success
+   variables: 
+      CI_DEBUG_TRACE: "true"
+       
+Build Bad Email: 
+   stage: Build Bad Email
+   script:
+       echo "Send bad completion email"     
+   when: on_failure
+   variables: 
+      CI_DEBUG_TRACE: "true"
