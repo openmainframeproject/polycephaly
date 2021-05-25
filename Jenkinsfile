@@ -18,7 +18,7 @@ pipeline {
 		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
 
         javaHome			= '/usr/lpp/java/J8.0_64/bin'
-		groovyHome			= '/u/jerrye/jenkins/groovy/bin'
+		groovyHome			= '/u/jerrye/bin'
         groovyzHome			= '/opt/lpp/IBM/dbb/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
 		DBB_CONF			= "${WORKSPACE}/conf"
@@ -89,7 +89,7 @@ pipeline {
         }
         stage('Build Groovy zOS Utilities') {
             steps {
-                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
+                sh "${env.groovyHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
             }
         }
         stage('Add Groovy ZOS Utilities to JAR') {
@@ -99,7 +99,7 @@ pipeline {
         }
         stage('Build Groovy Language Utilities') {
             steps {
-                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosLang}/*.groovy"
+                sh "${env.groovyHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosLang}/*.groovy"
             }
         }
         stage('Add Groovy Language Utilities to JAR') {
@@ -109,7 +109,7 @@ pipeline {
         }
         stage('Build Groovy Program Utilities') {
             steps {
-                sh "${env.groovyHome}/groovyc-1047 -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyPrgUtil}/*.groovy"
+                sh "${env.groovyHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyPrgUtil}/*.groovy"
             }
         }
         stage('Add Groovy Program Utilities to JAR') {
