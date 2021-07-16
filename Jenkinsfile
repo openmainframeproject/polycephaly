@@ -18,7 +18,7 @@ pipeline {
 		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
 
         javaHome			= '/usr/lpp/java/J8.0_64/bin'
-		groovyHome			= '/u/jerrye/bin'
+		groovyHome			= '/u/jerrye/Jenkins/groovy/bin'
         groovyzHome			= '/opt/lpp/IBM/dbb/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
 		DBB_CONF			= "${WORKSPACE}/conf"
