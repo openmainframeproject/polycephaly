@@ -32,7 +32,7 @@ pipeline {
 		groovyJar			= '/opt/lpp/IBM/dbb/groovy-2.4.12/lib/groovy-2.4.12.jar'
 
 		polycephalyJar		= "${WORKSPACE}/${env.libDir}/polycephaly.jar"
-		javaClassPath		= "${env.ibmjzos}:${env.DBBcoreJar}:${env.DBBhtmlJar}:${env.groovyJar}"
+		javaClassPath		= "${env.ibmjzos}:${env.DBBcoreJar}:${env.DBBhtmlJar}"
 		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		groovyLibPath		= "${env.DBBLib}:${env.dbbJNI}:${env.groovyClassPath}"
 		polyClassPath		= "${env.polycephalyJar}:${env.ibmjzosJar}:${env.DBBLib}"
