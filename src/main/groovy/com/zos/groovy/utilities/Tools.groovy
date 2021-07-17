@@ -164,15 +164,15 @@ class Tools {
 		 * get the Project Build Directory and File location
 		 * Load Project properties
 		 */
-		def properties.ProjectBuildDirectory = System.getenv("ProjectBuildDirectory")
+		properties.ProjectBuildDirectory = System.getenv("ProjectBuildDirectory")
 		if (properties.ProjectBuildDirectory == null)
 			new exception('Project Build Directory missing')
 			
-		def properties.ProjectBuildFile = System.getenv("ProjectBuildFile")
+		properties.ProjectBuildFile = System.getenv("ProjectBuildFile")
 		if (properties.ProjectBuildFile == null)
 			new exception('Project Build File missing')
 			
-		def buildProjectPropFile = new File("properties.ProjectBuildDirectory/properties.ProjectBuildFile")
+		buildProjectPropFile = new File("properties.ProjectBuildDirectory/properties.ProjectBuildFile")
 		if (properties.debug) println("buildProjectPropFile = $buildProjectPropFile")
 		if (buildProjectPropFile.exists()) {
 		   properties.load(new File("${buildProjectPropFile}"))
