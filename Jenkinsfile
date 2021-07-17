@@ -19,6 +19,7 @@ pipeline {
 
         javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/opt/lpp/IBM/dbb/groovy-2.4.12/'
+		GROOVY_HOME         = '/opt/lpp/IBM/dbb/groovy-2.4.12/'
         groovyzHome			= '/u/jerrye/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
 		DBB_CONF			= "${WORKSPACE}/conf"
@@ -90,7 +91,6 @@ pipeline {
         }
         stage('Build Groovy zOS Utilities') {
             steps {
-            	sh "export GROOVY_HOME=/opt/lpp/IBM/dbb/groovy-2.4.12/"
             	sh "env"
                 sh "${env.groovyzHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
             }
