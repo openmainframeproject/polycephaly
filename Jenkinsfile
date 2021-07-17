@@ -18,7 +18,7 @@ pipeline {
 		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
 
         javaHome			= '/usr/lpp/java/J8.0_64/bin'
-		groovyHome			= '/u/jerrye/bin'
+		groovyHome			= '/opt/lpp/IBM/dbb/groovy-2.4.12'
         groovyzHome			= '/opt/lpp/IBM/dbb/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
 		DBB_CONF			= "${WORKSPACE}/conf"
@@ -33,7 +33,7 @@ pipeline {
 
 		polycephalyJar		= "${WORKSPACE}/${env.libDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.DBBcoreJar}:${env.DBBhtmlJar}"
-		groovyClassPath		= "${env.javaClassPath}:${env.groovyJar}:${env.polycephalyJar}"
+		groovyClassPath		= "${env.javaClassPath}:${env.polycephalyJar}"
 		groovyLibPath		= "${env.DBBLib}:${env.dbbJNI}:${env.groovyClassPath}"
 		polyClassPath		= "${env.polycephalyJar}:${env.ibmjzosJar}:${env.DBBLib}"
 		polyBuildGroovy  	= "$WORKSPACE/build/build.groovy"
