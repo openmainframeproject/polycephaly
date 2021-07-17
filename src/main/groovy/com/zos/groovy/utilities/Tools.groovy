@@ -142,15 +142,15 @@ class Tools {
 		 * get the Polcephaly Build Directory and File location
 		 * Load Polycephaly properties
 		 */
-		def properties.PolycephalyBuildDirectory = System.getenv("PolycephalyBuildDirectory")
+		properties.PolycephalyBuildDirectory = System.getenv("PolycephalyBuildDirectory")
 		if (properties.PolycephalyBuildDirectory == null) 
 			new exception('Polycephaly Build Directory missing')
 			
-		def properties.PolycephalyBuildFile = System.getenv("PolycephalyBuildFile")
+		properties.PolycephalyBuildFile = System.getenv("PolycephalyBuildFile")
 		if (properties.PolycephalyBuildFile == null)
 			new exception('Polycephaly Build File missing')
 			
-		def buildPolycephalyPropFile = new File("properties.PolycephalyBuildDirectory/properties.PolycephalyBuildFile")
+		buildPolycephalyPropFile = new File("properties.PolycephalyBuildDirectory/properties.PolycephalyBuildFile")
 		if (properties.debug) println("buildPolycephalyPropFile = $buildPolycephalyPropFile")
 		if (buildPolycephalyPropFile.exists()) {
 		   properties.load(new File("${buildPolycephalyPropFile}"))
