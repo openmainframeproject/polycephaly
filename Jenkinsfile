@@ -91,6 +91,7 @@ pipeline {
         stage('Build Groovy zOS Utilities') {
             steps {
             	sh "export GROOVY_HOME=/opt/lpp/IBM/dbb/groovy-2.4.12/"
+            	sh "env"
                 sh "${env.groovyzHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
             }
         }
