@@ -20,7 +20,7 @@ pipeline {
         javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/opt/lpp/IBM/dbb/groovy-2.4.12/'
 	    	GROOVY_HOME		='/opt/lpp/IBM/dbb/groovy-2.4.12/'
-        //groovyzHome			= '/opt/lpp/IBM/dbb/bin'
+        groovyzHome			= '/opt/lpp/IBM/dbb/bin'
 	  groovyzhome			='/u/jerrye/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
 		DBB_CONF			= "${WORKSPACE}/conf"
