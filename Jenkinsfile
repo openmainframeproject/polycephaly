@@ -128,6 +128,7 @@ pipeline {
             steps {
             	sh "export DBB_HOME=${env.DBB_HOME}"
             	sh "export DBB_CONF=${env.DBB_CONF}"
+            	sh "export GROOVY_HOME=${env.GROOVY_HOME}"
                 sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath} ${env.polyBuildGroovy}  --collection ${env.CollectionName} --debug --sourceDir ${env.polySrcPackage}"
             }
         }
@@ -138,6 +139,7 @@ pipeline {
             steps {
             	sh "export DBB_HOME=${env.DBB_HOME}"
             	sh "export DBB_CONF=${env.DBB_CONF}"
+            	sh "export GROOVY_HOME=${env.GROOVY_HOME}"
                 sh "${env.groovyzHome}/groovyz --classpath .:${env.groovyLibPath} ${env.polyBuildGroovy}  --collection ${env.CollectionName} --sourceDir ${env.polySrcPackage}"
             }
         }
@@ -159,6 +161,7 @@ pipeline {
             	sh 'printf "running DBB delete collection"'
             	sh "export DBB_HOME=${env.DBB_HOME}"
             	sh "export DBB_CONF=${env.DBB_CONF}"
+            	sh "export GROOVY_HOME=${env.GROOVY_HOME}"
             	sh "${env.groovyzHome}/groovyz --classpath .:${env.polyClassPath} ${env.polyBuildGroovy} --clean --collection ${env.CollectionName}"
             }
         }
