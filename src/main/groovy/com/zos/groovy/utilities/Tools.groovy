@@ -144,11 +144,11 @@ class Tools {
 		 */
 		def properties.PolycephalyBuildDirectory = System.getenv("PolycephalyBuildDirectory")
 		if (properties.PolycephalyBuildDirectory == null) 
-			new exception('Polycephaly Build Directory missing')
+			println('Polycephaly Build Directory missing')
 			
 		def properties.PolycephalyBuildFile = System.getenv("PolycephalyBuildFile")
 		if (properties.PolycephalyBuildFile == null)
-			new exception('Polycephaly Build File missing')
+			println('Polycephaly Build File missing')
 			
 		def buildPolycephalyPropFile = new File("properties.PolycephalyBuildDirectory/properties.PolycephalyBuildFile")
 		if (properties.debug) println("buildPolycephalyPropFile = $buildPolycephalyPropFile")
@@ -166,11 +166,11 @@ class Tools {
 		 */
 		properties.ProjectBuildDirectory = System.getenv("ProjectBuildDirectory")
 		if (properties.ProjectBuildDirectory == null)
-			new exception('Project Build Directory missing')
+			println('Project Build Directory missing')
 			
 		properties.ProjectBuildFile = System.getenv("ProjectBuildFile")
 		if (properties.ProjectBuildFile == null)
-			new exception('Project Build File missing')
+			println('Project Build File missing')
 			
 		buildProjectPropFile = new File("properties.ProjectBuildDirectory/properties.ProjectBuildFile")
 		if (properties.debug) println("buildProjectPropFile = $buildProjectPropFile")
