@@ -5,7 +5,7 @@ pipeline {
         projectClean		= 'true'
         DBBClean			= 'false'
         projectDelete		= 'false'
-        Debug				= 'true'
+        Debug				= 'false'
         CollectionName		= 'Polycephaly'
         libDir				= 'lib'
 		classesDir			= 'classes'
@@ -91,7 +91,6 @@ pipeline {
         }
         stage('Build Groovy zOS Utilities') {
             steps {
-		    sh "env"
                 sh "${env.groovyHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosUtil}/*.groovy"
             }
         }
