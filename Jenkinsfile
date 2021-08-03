@@ -20,8 +20,7 @@ pipeline {
         javaHome			= '/usr/lpp/java/J8.0_64/bin'
 		groovyHome			= '/opt/lpp/IBM/dbb/groovy-2.4.12/'
 	    	GROOVY_HOME		='/opt/lpp/IBM/dbb/groovy-2.4.12/'
-        
-	  groovyzhome			='/u/jerrye/bin'
+        groovyzhome			='/u/jerrye/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
 		DBB_CONF			= "${WORKSPACE}/conf"
 
@@ -31,6 +30,7 @@ pipeline {
 		DBBhtmlJar			= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbJNI 				= '/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so'
+	    	groovyJar			= '/opt/lpp/IBM/dbb/groovy-2.4.12/lib/groovy-2.4.12.jar'
 
 		polycephalyJar		= "${WORKSPACE}/${env.libDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.DBBcoreJar}:${env.DBBhtmlJar}"
