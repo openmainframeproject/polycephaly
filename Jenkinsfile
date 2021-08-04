@@ -41,8 +41,8 @@ pipeline {
 		polySrcPackage		= "$WORKSPACE/conf/package.txt"
 		polyRuntime			= "/u/jerrye/polyRuntime"
 		
-		PolycephalyBuildDirectory	= $WORKSPACE/conf/
-		PolycephalyBuildFile 		= package.txt
+		PolycephalyBuildDirectory	= "$WORKSPACE/conf/"
+		PolycephalyBuildFile 		= "package.txt"
 
     }
 
