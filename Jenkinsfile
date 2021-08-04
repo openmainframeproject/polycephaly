@@ -40,6 +40,9 @@ pipeline {
 		polyBuildGroovy  	= "$WORKSPACE/build/build.groovy"
 		polySrcPackage		= "$WORKSPACE/conf/package.txt"
 		polyRuntime			= "/u/jerrye/polyRuntime"
+		
+		PolycephalyBuildDirectory	= $WORKSPACE/conf/
+		PolycephalyBuildFile 		= package.txt
 
     }
 
