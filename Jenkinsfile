@@ -18,7 +18,7 @@ pipeline {
 		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
 
         javaHome			= '/usr/lpp/java/J8.0_64/bin'
-		groovyHome			= '/opt/lpp/IBM/dbb/groovy-2.4.12/'
+		groovyHome			= '/opt/lpp/IBM/dbb/groovy-2.4.12/bin'
 	    	GROOVY_HOME		='/opt/lpp/IBM/dbb/groovy-2.4.12/'
         groovyzhome			='/u/jerrye/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
@@ -91,7 +91,7 @@ pipeline {
         }
         stage('Build Groovy zOS Utilities') {
             steps {
-                sh "${env.groovyzhome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosUtil}/*.groovy"
+                sh "${env.groovyHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosUtil}/*.groovy"
             }
         }
         stage('Add Groovy ZOS Utilities to JAR') {
