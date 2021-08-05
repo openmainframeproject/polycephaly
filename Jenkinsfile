@@ -91,7 +91,7 @@ pipeline {
         }
         stage('Build Groovy zOS Utilities') {
             steps {
-                sh "${env.groovyHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosUtil}/*.groovy"
+                sh "${env.groovyzhome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosUtil}/*.groovy"
             }
         }
         stage('Add Groovy ZOS Utilities to JAR') {
@@ -101,7 +101,7 @@ pipeline {
         }
         stage('Build Groovy Language Utilities') {
             steps {
-                sh "${env.groovyHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosLang}/*.groovy"
+                sh "${env.groovyzhome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosLang}/*.groovy"
             }
         }
         stage('Add Groovy Language Utilities to JAR') {
@@ -111,7 +111,7 @@ pipeline {
         }
         stage('Build Groovy Program Utilities') {
             steps {
-                sh "${env.groovyHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyPrgUtil}/*.groovy"
+                sh "${env.groovyzhome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyPrgUtil}/*.groovy"
             }
         }
         stage('Add Groovy Program Utilities to JAR') {
