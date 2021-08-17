@@ -91,7 +91,7 @@ pipeline {
         }
         stage('Build Groovy zOS Utilities') {
             steps {
-                sh "${env.groovyHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosUtil}/*.groovy"
+                sh "${env.groovyHome}/groovyc -scp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosUtil}/*.groovy"
             }
         }
         stage('Add Groovy ZOS Utilities to JAR') {
