@@ -14,7 +14,7 @@ pipeline {
 		srcJavaZosUtil		= 'src/main/java/com/zos/java/utilities'
 		srcZosResbiuld		= 'src/main/zOS/com.zos.resbuild'
 		srcGroovyZosLang	= 'src/main/groovy/com/zos/language'
-		srcGrovoyZosUtil	= 'src/main/groovy/com/zos/groovy/utilities'
+		srcGroovyZosUtil	= 'src/main/groovy/com/zos/groovy/utilities'
 		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
 
         javaHome			= '/usr/lpp/java/J8.0_64/bin'
