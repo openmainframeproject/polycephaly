@@ -14,13 +14,13 @@ pipeline {
 		srcJavaZosUtil		= 'src/main/java/com/zos/java/utilities'
 		srcZosResbiuld		= 'src/main/zOS/com.zos.resbuild'
 		srcGroovyZosLang	= 'src/main/groovy/com/zos/language'
-		srcGroovyZosUtil	= 'src/main/groovy/com/zos/groovy/utilities'
+		srcGrovoyZosUtil	= 'src/main/groovy/com/zos/groovy/utilities'
 		srcGroovyPrgUtil	= 'src/main/groovy/com/zos/program/utilities'
 
         javaHome			= '/usr/lpp/java/J8.0_64/bin'
-		groovyHome			= '/opt/lpp/IBM/dbb/groovy-2.4.12/bin'
-	    	GROOVY_HOME		='/opt/lpp/IBM/dbb/groovy-2.4.12/'
-        groovyzhome			='/u/jerrye/bin'
+		groovyHome			= '/opt/lpp/IBM/dbb/groovy-2.4.12/'
+		GROOVY_HOME         = '/opt/lpp/IBM/dbb/groovy-2.4.12/'
+        groovyzHome			= '/u/jerrye/bin'
 		DBB_HOME			= '/opt/lpp/IBM/dbb'
 		DBB_CONF			= "${WORKSPACE}/conf"
 
@@ -30,7 +30,7 @@ pipeline {
 		DBBhtmlJar			= '/opt/lpp/IBM/dbb/lib/dbb.html_1.0.6.jar'
 		ibmjzos				= '/usr/lpp/java/J8.0_64/lib/ext/ibmjzos.jar'
 		dbbJNI 				= '/opt/lpp/IBM/dbb/lib/libDBB_JNI64.so'
-	    	groovyJar			= '/opt/lpp/IBM/dbb/groovy-2.4.12/lib/groovy-2.4.12.jar'
+		groovyJar			= '/opt/lpp/IBM/dbb/groovy-2.4.12/lib/groovy-2.4.12.jar'
 
 		polycephalyJar		= "${WORKSPACE}/${env.libDir}/polycephaly.jar"
 		javaClassPath		= "${env.ibmjzos}:${env.DBBcoreJar}:${env.DBBhtmlJar}"
@@ -39,9 +39,9 @@ pipeline {
 		polyClassPath		= "${env.polycephalyJar}:${env.ibmjzosJar}:${env.DBBLib}"
 		polyBuildGroovy  	= "$WORKSPACE/build/build.groovy"
 		polySrcPackage		= "$WORKSPACE/conf/package.txt"
-		polyRuntime			= "/u/jerrye"
-	    
-	    PolycephalyBuildDirectory	= "$WORKSPACE/conf/"
+		polyRuntime			= "/u/jerrye/polyRuntime"
+		
+		PolycephalyBuildDirectory	= "$WORKSPACE/conf/"
 		PolycephalyBuildFile 		= "package.txt"
 
     }
@@ -94,7 +94,8 @@ pipeline {
         }
         stage('Build Groovy zOS Utilities') {
             steps {
-                sh "${env.groovyzhome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosUtil}/*.groovy"
+            	sh "env"
+                sh "${env.groovyzHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
             }
         }
         stage('Add Groovy ZOS Utilities to JAR') {
@@ -104,7 +105,7 @@ pipeline {
         }
         stage('Build Groovy Language Utilities') {
             steps {
-                sh "${env.groovyzhome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosLang}/*.groovy"
+                sh "${env.groovyzHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyZosLang}/*.groovy"
             }
         }
         stage('Add Groovy Language Utilities to JAR') {
@@ -114,7 +115,7 @@ pipeline {
         }
         stage('Build Groovy Program Utilities') {
             steps {
-                sh "${env.groovyzhome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyPrgUtil}/*.groovy"
+                sh "${env.groovyzHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGroovyPrgUtil}/*.groovy"
             }
         }
         stage('Add Groovy Program Utilities to JAR') {
@@ -130,7 +131,7 @@ pipeline {
             steps {
             	sh "export DBB_HOME=${env.DBB_HOME}"
             	sh "export DBB_CONF=${env.DBB_CONF}"
-		sh "export GROOVY_HOME=${env.GROOVY_HOME}"
+            	sh "export GROOVY_HOME=${env.GROOVY_HOME}"
                 sh "${env.groovyzHome}/groovy --classpath .:${env.groovyLibPath} ${env.polyBuildGroovy}  --collection ${env.CollectionName} --debug --sourceDir ${env.polySrcPackage}"
             }
         }
@@ -141,7 +142,7 @@ pipeline {
             steps {
             	sh "export DBB_HOME=${env.DBB_HOME}"
             	sh "export DBB_CONF=${env.DBB_CONF}"
-		sh "export GROOVY_HOME=${env.GROOVY_HOME}"
+            	sh "export GROOVY_HOME=${env.GROOVY_HOME}"
                 sh "${env.groovyzHome}/groovy --classpath .:${env.groovyLibPath} ${env.polyBuildGroovy}  --collection ${env.CollectionName} --sourceDir ${env.polySrcPackage}"
             }
         }
@@ -163,7 +164,8 @@ pipeline {
             	sh 'printf "running DBB delete collection"'
             	sh "export DBB_HOME=${env.DBB_HOME}"
             	sh "export DBB_CONF=${env.DBB_CONF}"
-            	sh "${env.groovyzHome}/groovyz --classpath .:${env.polyClassPath} ${env.polyBuildGroovy} --clean --collection ${env.CollectionName}"
+            	sh "export GROOVY_HOME=${env.GROOVY_HOME}"
+            	sh "${env.groovyzHome}/groovy --classpath .:${env.polyClassPath} ${env.polyBuildGroovy} --clean --collection ${env.CollectionName}"
             }
         }
     }
