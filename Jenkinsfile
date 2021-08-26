@@ -139,7 +139,7 @@ pipeline {
         stage("Test") {
         	when {
 				expression { !env.Debug.toBoolean()}
-	        }
+	        
             steps {
             	sh "export DBB_HOME=${env.DBB_HOME}"
             	sh "export DBB_CONF=${env.DBB_CONF}"
