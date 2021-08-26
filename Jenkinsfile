@@ -94,7 +94,8 @@ pipeline {
         }
         stage('Build Groovy zOS Utilities') {
             steps {
-            	
+            	sh "env"
+		    sh "export_BPXK_AUTOCVT=ON"
                 sh "${env.groovyzHome}/groovyc -cp .:${env.groovyClassPath}  -d ${env.classesDir} ${env.srcGrovoyZosUtil}/*.groovy"
             }
         }
