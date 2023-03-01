@@ -1,4 +1,4 @@
-NOTICE: This project is in Emeritus status and no longer maintained
+**NOTICE: This project is in [Emeritus status](https://tac.openmainframeproject.org/process/lifecycle.html#emeritus-stage) and no longer maintained**
 
 ![](https://github.com/openmainframeproject/artwork/blob/master/projects/polycephaly/polycephaly-color.svg)
 ![GitHub](https://img.shields.io/github/license/openmainframeproject/polycephaly)
